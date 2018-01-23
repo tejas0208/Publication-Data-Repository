@@ -128,8 +128,13 @@ CREATE TABLE IF NOT EXISTS `pubdata`.`record` (
   PRIMARY KEY (`idrecord`),
   INDEX `approved_by_to_mis_idx` (`approved_by_mis` ASC, `submitted_by_mis` ASC),
   CONSTRAINT `approved_by_to_mis`
-    FOREIGN KEY (`approved_by_mis` , `submitted_by_mis`)
-    REFERENCES `pubdata`.`users` (`mis` , `mis`)
+    FOREIGN KEY (`approved_by_mis`)
+    REFERENCES `pubdata`.`users` (`mis`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `submitted_by_to_mis`
+    FOREIGN KEY (`submitted_by_mis`)
+    REFERENCES `pubdata`.`users` (`mis`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -138,6 +143,58 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `pubdata`.`record_id_max`
 -- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pubdata`.`record_id_max` (
+  `id` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pubdata`.`authors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pubdata`.`authors` (
+  `idrecord` INT NOT NULL,
+  `mis` INT NOT NULL,
+  PRIMARY KEY (`idrecord`, `mis`),
+  INDEX `record_to_mis_idx` (`mis` ASC),
+  CONSTRAINT `author_to_mis`
+    FOREIGN KEY (`mis`)
+    REFERENCES `pubdata`.`users` (`mis`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `author_to_record_id`
+    FOREIGN KEY (`idrecord`)
+    REFERENCES `pubdata`.`record` (`idrecord`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pubdata`.`attended_by`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pubdata`.`attended_by` (
+  `recordid` INT NOT NULL,
+  `mis` INT NOT NULL,
+  PRIMARY KEY (`recordid`, `mis`),
+  INDEX `attended_to_mis_idx` (`mis` ASC),
+  CONSTRAINT `attended_to_mis`
+    FOREIGN KEY (`mis`)
+    REFERENCES `pubdata`.`users` (`mis`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `attended_to_record_id`
+    FOREIGN KEY (`recordid`)
+    REFERENCES `pubdata`.`record` (`idrecord`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+-- ---------------------------------------------------
+-- Table `pubdata`.`record_id_max`
+-- ---------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pubdata`.`record_id_max` (
   `id` INT NOT NULL,
   PRIMARY KEY (`id`))
