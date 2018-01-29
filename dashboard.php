@@ -2,15 +2,83 @@
 	include('session.php');
 ?>
 
-<html">
-   
-   <head>
-      <title>Welcome <?php echo $_SESSION['mis'] ?></title>
-   </head>
-   
-   <body>
-      <h1>Welcome <?php echo $login_session; ?></h1> 
-      <h2><a href = "logout.php">Sign Out</a></h2>
-   </body>
-   
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			Dashboard | <?php echo $_SESSION['mis'] ?>
+		</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/menu.css">
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery-3.2.1.slim.min.js"></script>
+	</head>
+	<body>
+		<div class="navbar">
+      <div class="col-md-12">
+				Welcome, <?php echo $_SESSION['mis'] ?>
+				<div class = "logout">
+	        <a href="logout.php" class="btn btn-info btn-lg">
+	        	<span class="glyphicon glyphicon-log-out"></span> Log out
+	        </a>
+				</div>
+        <h1 class="navheader">
+          Publication Data Repository
+        </h1>
+      </div>
+    </div>
+
+
+		<div class="wrapper">
+			<!-- Sidebar Holder -->
+
+			<!-- Page Content Holder -->
+			<div id="content">
+				<div class="row">
+			        <div class="col-sm-6">
+			    		  <a href="new_record.php">
+			    		    <div class="tile one">
+								<h2 class="title">New Record</h2>
+						        <p>Add a new publication record</p>
+			    		    </div>
+			    		  </a>
+			    	  </div>
+
+			        <div class="col-sm-6">
+			      	  <a href="new_application.php">
+			      	     <div class="tile two">
+							 <h2 class="title">New Application</h2>
+						  <p>Add a new application request</p>
+			      	     </div>
+			      	  </a>
+			        </div>
+			      </div>
+				  <div class="row">
+  			        <div class="col-sm-6">
+  			    		  <a href="submissions.php">
+  			    		    <div class="tile three">
+  								<h2 class="title">My Papers</h2>
+  						        <p>View your publication history</p>
+  			    		    </div>
+  			    		  </a>
+  			    	  </div>
+
+  			        <div class="col-sm-6">
+  			    		  <a href="user_account.php">
+  			    		    <div class="tile four">
+  		  				        <h2 class="title">My Account</h2>
+  		  				        <p>Manage your profile details, privileges, etc</p>
+  			    		    </div>
+  			    		  </a>
+  			        </div>
+  			      </div>
+
+			</div>
+		</div>
+	</body>
 </html>
