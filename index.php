@@ -13,7 +13,18 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
 	if(!$entry) {
 		die('Error in authentication');
 	}
-        var_dump($entry);
+	function pvd($var) {
+	echo "<pre style='font-size:16px;'>";
+		var_dump($var);
+	echo "</pre>";
+}
+        pvd($entry);
+				$file = '/tmp/file4';
+			$content = json_encode($entry);
+			file_put_contents($file, $content);
+			$entry = json_decode(file_get_contents($file), TRUE);
+			
+			pvd($entry);
 	$auth = $ad->authenticate($entry['dn'], $password);
 	if(!$auth) {
 		die('Error in authentication');	
