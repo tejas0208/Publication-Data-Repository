@@ -19,6 +19,8 @@
 		<script src="js/jquery-3.2.1.slim.min.js"></script>
 	</head>
 	<body>
+
+
 		<div class="navbar">
       <div class="col-md-12">
 				Welcome, <?php echo $_SESSION['mis'] ?>
@@ -39,6 +41,49 @@
 
 			<!-- Page Content Holder -->
 			<div id="content">
+				<!-- if user is teacher or executive display these options -->
+				<?php if($_SESSION['type'] == 'executive') : ?>
+					<div class="row">
+			        <div class="col-sm-6">
+			    		  <a href="pending_approvals.php">
+			    		    <div class="tile one">
+								<h2 class="title">Pending approvals</h2>
+						        <p>See pending approvals</p>
+			    		    </div>
+			    		  </a>
+			    	  </div>
+
+			        <div class="col-sm-6">
+			      	  <a href="data_report.php">
+			      	     <div class="tile two">
+							 <h2 class="title">Data Report</h2>
+						  <p>See Data Report</p>
+			      	     </div>
+			      	  </a>
+			        </div>
+			      </div>
+			      <div class="row">
+			        <div class="col-sm-6">
+			    		  <a href="pending_applications.php">
+			    		    <div class="tile one">
+								<h2 class="title">Pending Applications</h2>
+						        <p>See pending applications</p>
+			    		    </div>
+			    		  </a>
+			    	  </div>
+
+			        <div class="col-sm-6">
+			      	  <a href="approvals.php">
+			      	     <div class="tile two">
+							 <h2 class="title">My approvals</h2>
+						  <p>See the papers you have approved</p>
+			      	     </div>
+			      	  </a>
+			        </div>
+			      </div>	
+				<?php endif; ?>
+
+
 				<div class="row">
 			        <div class="col-sm-6">
 			    		  <a href="new_record.php">
