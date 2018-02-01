@@ -25,6 +25,11 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attended_by`
 --
+DROP DATABASE if exists pubdata;
+
+CREATE DATABASE pubdata;
+
+USE pubdata;
 
 CREATE TABLE `attended_by` (
   `recordid` int(11) NOT NULL,
@@ -277,3 +282,7 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--INSERT INTO roles VALUE ;
+INSERT INTO `roles` (`roles`) VALUES ('normal'), ('approver'), ('executive'), ('admin');
+INSERT INTO `levels` (`level`) VALUES ('student'), ('faculty'), ('hod'), ('dean'), ('director');

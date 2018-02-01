@@ -52,4 +52,9 @@ $(document).ready(function() {
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
         e.preventDefault(); $(this).parent('div').remove(); x--;
     })
+
+    $('.ask_for_approver').click(function(e){
+    	e.preventDefault();
+    	console.log("Hello!");
+    });
 });
