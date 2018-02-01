@@ -1,187 +1,193 @@
 <?php
-	/*
-		Sample array : 
-			array(15) { ["title"]=> string(11) "Paper title" ["date"]=> string(10) "23/11/1997" ["pages"]=> string(2) "32" ["issueno"]=> string(2) "23" ["volume"]=> string(7) "volume1" ["citations"]=> string(12) "no citations" ["journal_details"]=> array(1) { [0]=> string(2) "on" } ["conference_details"]=> array(2) { [0]=> string(8) "national" [1]=> string(13) "international" } ["funded__by"]=> array(2) { [0]=> string(6) "tequip" [1]=> string(4) "coep" } ["sponsored_by"]=> array(2) { [0]=> string(4) "isea" [1]=> string(6) "tequip" } ["add_facultymis"]=> array(1) { [0]=> string(12) "abhijit.comp" } ["add_facultyname"]=> array(1) { [0]=> string(7) "Abhijit" } ["add_ug_studentmis"]=> array(1) { [0]=> string(9) "111503071" } ["add_ug_studentname"]=> array(1) { [0]=> string(12) "Tarun Wadhwa" } ["add_externalname"]=> array(1) { [0]=> string(18) "External student 1" } }
-
-	*/
+	
 	include('session.php');
 	//var_dump($_POST);
-	$variables = $_POST;
 
 	//TODO avoid sql injection
+	if(isset($_POST["submit"])) {
+		//title
+		if(isset($_POST['title'])) {
+			$title = $_POST['title'];
+			//TODO ensure that title is unique
+		}else {
+			echo "";
+		}
 
-	//title
-	if(isset($_POST['title'])) {
-		$title = $_POST['title'];
-		//TODO ensure that title is unique
-	}else {
-		echo "";
-	}
+		//pages
+		if(isset($_POST['pages'])) {
+			$num_pages = $_POST['num_pages'];
+		}else {
+			echo "";
+		}
 
-	//pages
-	if(isset($_POST['pages'])) {
-		$num_pages = $_POST['num_pages'];
-	}else {
-		echo "";
-	}
+		//issueno
+		if(isset($_POST['issueno'])) {
+			$issueno = $_POST['issueno'];
+		}else {
+			echo "";
+		}
 
-	//issueno
-	if(isset($_POST['issueno'])) {
-		$issueno = $_POST['issueno'];
-	}else {
-		echo "";
-	}
+		//volume
+		if(isset($_POST['volume'])) {
+			$volume = $_POST['volume'];
+		}else {
+			echo "";
+		}
 
-	//volume
-	if(isset($_POST['volume'])) {
-		$volume = $_POST['volume'];
-	}else {
-		echo "";
-	}
+		//citations
+		if(isset($_POST['citations'])) {
+			$citations = $_POST['citations'];
+		}else {
+			echo "";
+		}
 
-	//citations
-	if(isset($_POST['citations'])) {
-		$citations = $_POST['citations'];
-	}else {
-		echo "";
-	}
+		//journal_details
+		if(isset($_POST['journal_details'])) {
+			$journal_details = $_POST['journal_details'];
+			$nat_journal = "F";
+			$int_journal = "F";
+			if(in_array("national", $journal_details)) {
+				$nat_journal = "T";
+			}
+			if(in_array("international", $journal_details)) {
+				$int_journal = "T";
+			}
+		} else {
+			echo "";
+		}
 
-	//journal_details
-	if(isset($_POST['journal_details'])) {
-		$journal_details = $_POST['journal_details'];
-		$nat_journal = "F";
-		$int_journal = "F";
-		if(in_array("national", $journal_details)) {
-			$nat_journal = "T";
-		}
-		if(in_array("international", $journal_details)) {
-			$int_journal = "T";
-		}
-	} else {
-		echo "";
-	}
+		//conference
+		if(isset($_POST['conference_details'])) {
+			$conference_details = $_POST['conference_details'];
+			$nat_journal = "F";
+			$int_journal = "F";
+			if(in_array("national", $conference_details)) {
+				$nat_conf = "T";
+			}
+			if(in_array("international", $conference_details)) {
+				$int_conf = "T";
+			}
+		} else {
+			echo "";
+		}	
 
-	//conference
-	if(isset($_POST['conference_details'])) {
-		$conference_details = $_POST['conference_details'];
-		$nat_journal = "F";
-		$int_journal = "F";
-		if(in_array("national", $conference_details)) {
-			$nat_conf = "T";
+		//funded by
+		if(isset($_POST['funded_by'])) {
+			$funded_by = $_POST['funded_by'];
+			$f_tequip = "F";
+			$f_rsa = "F";
+			$f_isea = "F";
+			$f_aicte = "F";
+			$f_coep = "F";
+			$f_others = "F";
+			if(in_array("tequip", $funded_by)) {
+				$f_tequip = "T";
+			}
+			if(in_array("rsa", $funded_by)) {
+				$f_rsa = "T";
+			}
+			if(in_array("isea", $funded_by)) {
+				$f_isea = "T";
+			}
+			if(in_array("coep", $funded_by)) {
+				$f_coep = "T";
+			}
+			if(in_array("aicte", $funded_by)) {
+				$f_aicte = "T";
+			}
+			if(in_array("others", $funded_by)) {
+				$f_others = "T";
+			}
+		}else {
+			echo "NO funded by";
 		}
-		if(in_array("international", $conference_details)) {
-			$int_conf = "T";
-		}
-	} else {
-		echo "";
-	}	
 
-	//funded by
-	if(isset($_POST['funded_by'])) {
-		$funded_by = $_POST['funded_by'];
-		$f_tequip = "F";
-		$f_rsa = "F";
-		$f_isea = "F";
-		$f_aicte = "F";
-		$f_coep = "F";
-		$f_others = "F";
-		if(in_array("tequip", $funded_by)) {
-			$f_tequip = "T";
+		//sponsored by
+		if(isset($_POST['sponsored_by'])) {
+			$sponsored_by = $_POST['sponsored_by'];
+			$t_tequip = "F";
+			$t_rsa = "F";
+			$t_isea = "F";
+			$t_aicte = "F";
+			$t_coep = "F";
+			$t_others = "F";
+			if(in_array("tequip", $sponsored_by)) {
+				$t_tequip = "T";
+			}
+			if(in_array("rsa", $sponsored_by)) {
+				$t_rsa = "T";
+			}
+			if(in_array("isea", $sponsored_by)) {
+				$t_isea = "T";
+			}
+			if(in_array("coep", $sponsored_by)) {
+				$t_coep = "T";
+			}
+			if(in_array("aicte", $sponsored_by)) {
+				$t_aicte = "T";
+			}
+			if(in_array("others", $sponsored_by)) {
+				$t_others = "T";
+			}
+		}else {
+			echo "NO sponsored by";
 		}
-		if(in_array("rsa", $funded_by)) {
-			$f_rsa = "T";
-		}
-		if(in_array("isea", $funded_by)) {
-			$f_isea = "T";
-		}
-		if(in_array("coep", $funded_by)) {
-			$f_coep = "T";
-		}
-		if(in_array("aicte", $funded_by)) {
-			$f_aicte = "T";
-		}
-		if(in_array("others", $funded_by)) {
-			$f_others = "T";
-		}
-	}else {
-		echo "NO funded by";
-	}
 
-	//sponsored by
-	if(isset($_POST['sponsored_by'])) {
-		$sponsored_by = $_POST['sponsored_by'];
-		$t_tequip = "F";
-		$t_rsa = "F";
-		$t_isea = "F";
-		$t_aicte = "F";
-		$t_coep = "F";
-		$t_others = "F";
-		if(in_array("tequip", $sponsored_by)) {
-			$t_tequip = "T";
+		//pages
+		if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
+			$faculty_mis = $_POST['add_facultymis'];
+			$faculty_name = $_POST['add_facultyname'];
+			foreach (array_combine($faculty_mis, $faculty_name) as $mis => $name) {
+				//TODO add mis
+			}
+		}else {
+			echo "";
 		}
-		if(in_array("rsa", $sponsored_by)) {
-			$t_rsa = "T";
-		}
-		if(in_array("isea", $sponsored_by)) {
-			$t_isea = "T";
-		}
-		if(in_array("coep", $sponsored_by)) {
-			$t_coep = "T";
-		}
-		if(in_array("aicte", $sponsored_by)) {
-			$t_aicte = "T";
-		}
-		if(in_array("others", $sponsored_by)) {
-			$t_others = "T";
-		}
-	}else {
-		echo "NO sponsored by";
-	}
 
-	//pages
-	if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
-		$faculty_mis = $_POST['add_facultymis'];
-		$faculty_name = $_POST['add_facultyname'];
-		foreach (array_combine($faculty_mis, $faculty_name) as $mis => $name) {
-			//TODO add mis
-		}
-	}else {
-		echo "";
-	}
+		if(isset($_FILES["pdffile"]["name"])) {
 
-	if(isset($_FILES["pdffile"]["name"])) {
+			$target_dir = "uploads" . DIRECTORY_SEPARATOR;
+			$destination_path = getcwd().DIRECTORY_SEPARATOR;
+			$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
+			$uploadOk = 1;
+			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			$type = mime_content_type($_FILES["pdffile"]["tmp_name"]);
+			
 
-		$target_dir = "uploads" . DIRECTORY_SEPARATOR;
-		$destination_path = getcwd().DIRECTORY_SEPARATOR;
-		$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
-		$uploadOk = 1;
-		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-		// Check if image file is a actual image or fake image
-		if(isset($_POST["submit"])) {
-		    $type = mime_content_type($_FILES["pdffile"]["tmp_name"]);
-		    var_dump($type);
-		    if($type == "application/pdf") {
+			if($type == "application/pdf") {
 		        $uploadOk = 1;
 		    } else {
 		        echo "File is not an pdf.";
 		        $uploadOk = 0;
 		    }
-		    echo $target_file;
+		    
 		    // Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
 			    echo "Sorry, your file was not uploaded.";
+			
 			// if everything is ok, try to upload file
 			} else {
 			    if (move_uploaded_file($_FILES["pdffile"]["tmp_name"], $target_file)) {
-			        echo "The file ". basename( $_FILES["pdffile"]["name"]). " has been uploaded.";
+			        
 			    } else {
 			        echo "Sorry, there was an error uploading your file.";
 			    }
 			}
+			
+		} else {
+			echo "Please Upload file";
 		}
+
+		//TODO ask for assigner
+		//add all the variables to session
+		$_SESSION['title'] = $title;
+		header("location:assign_approver.php");
+
 	}
 
 ?>
+
+<?php if(!isset($_POST["submit"])) : ?>
 
 <html lang="en">
 	<head>
@@ -347,11 +353,15 @@
 
 				<input id="fileupload" type="file" name="pdffile"><br>&nbsp
 
-				<div class="form-group"> <!-- Submit Button -->
-					<button type="submit" class="btn btn-primary" name="submit">Submit</button>
+				<div class="form-group">
+					<a href="#" class="ask_for_approver btn btn-info">Submit</a>
+				</div>
+				<div class="form-group btn"> <!-- Submit Button -->
+					<button class="btn" name="submit">Submit</button>
 				</div>     
 		
 			</form>
 		</div>
     </body>
 </html>
+<?php endif; ?>
