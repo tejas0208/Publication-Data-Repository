@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 30, 2018 at 04:42 PM
--- Server version: 5.7.20-0ubuntu0.16.04.1
+-- Generation Time: Feb 02, 2018 at 03:08 AM
+-- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -25,15 +25,10 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attended_by`
 --
-DROP DATABASE if exists pubdata;
-
-CREATE DATABASE pubdata;
-
-USE pubdata;
 
 CREATE TABLE `attended_by` (
   `recordid` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL
+  `mis` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -44,7 +39,7 @@ CREATE TABLE `attended_by` (
 
 CREATE TABLE `authors` (
   `idrecord` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL
+  `mis` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -89,6 +84,17 @@ CREATE TABLE `levels` (
   `level` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `levels`
+--
+
+INSERT INTO `levels` (`level`) VALUES
+('dean'),
+('director'),
+('faculty'),
+('hod'),
+('student');
+
 -- --------------------------------------------------------
 
 --
@@ -119,8 +125,8 @@ CREATE TABLE `record` (
   `pages` varchar(45) DEFAULT NULL,
   `citations` varchar(1023) DEFAULT NULL,
   `approved_status` varchar(2) DEFAULT NULL,
-  `approved_by_username` varchar(20) DEFAULT NULL,
-  `submitted_by_username` varchar(20) DEFAULT NULL,
+  `approved_by_mis` int(11) DEFAULT NULL,
+  `submitted_by_mis` int(11) DEFAULT NULL,
   `department` varchar(45) DEFAULT NULL,
   `filename` varchar(1023) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -145,6 +151,16 @@ CREATE TABLE `roles` (
   `roles` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`roles`) VALUES
+('admin'),
+('approver'),
+('executive'),
+('normal');
+
 -- --------------------------------------------------------
 
 --
@@ -153,6 +169,7 @@ CREATE TABLE `roles` (
 
 CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
+  `mis` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `level` varchar(45) DEFAULT NULL,
@@ -170,15 +187,15 @@ CREATE TABLE `users` (
 -- Indexes for table `attended_by`
 --
 ALTER TABLE `attended_by`
-  ADD PRIMARY KEY (`recordid`,`username`),
-  ADD KEY `attended_to_mis_idx` (`username`);
+  ADD PRIMARY KEY (`recordid`,`mis`),
+  ADD KEY `attended_to_mis_idx` (`mis`);
 
 --
 -- Indexes for table `authors`
 --
 ALTER TABLE `authors`
-  ADD PRIMARY KEY (`idrecord`,`username`),
-  ADD KEY `record_to_mis_idx` (`username`);
+  ADD PRIMARY KEY (`idrecord`,`mis`),
+  ADD KEY `record_to_mis_idx` (`mis`);
 
 --
 -- Indexes for table `branches`
@@ -210,8 +227,8 @@ ALTER TABLE `levels`
 --
 ALTER TABLE `record`
   ADD PRIMARY KEY (`idrecord`),
-  ADD KEY `approved_by_to_mis_idx` (`approved_by_username`,`submitted_by_username`),
-  ADD KEY `submitted_by_username` (`submitted_by_username`);
+  ADD KEY `approved_by_to_mis_idx` (`approved_by_mis`,`submitted_by_mis`),
+  ADD KEY `submitted_by_mis` (`submitted_by_mis`);
 
 --
 -- Indexes for table `record_id_max`
@@ -230,6 +247,7 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`username`),
+  ADD UNIQUE KEY `mis_index` (`mis`),
   ADD KEY `user_to_level_idx` (`level`),
   ADD KEY `user_branch_idx` (`branch`),
   ADD KEY `user_roles_idx` (`role`);
@@ -242,7 +260,7 @@ ALTER TABLE `users`
 -- Constraints for table `attended_by`
 --
 ALTER TABLE `attended_by`
-  ADD CONSTRAINT `attended_by_ibfk_3` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `attended_by_ibfk_3` FOREIGN KEY (`mis`) REFERENCES `users` (`mis`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `attended_to_record_id` FOREIGN KEY (`recordid`) REFERENCES `record` (`idrecord`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -250,7 +268,7 @@ ALTER TABLE `attended_by`
 --
 ALTER TABLE `authors`
   ADD CONSTRAINT `author_to_record_id` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `authors_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
+  ADD CONSTRAINT `authors_ibfk_1` FOREIGN KEY (`mis`) REFERENCES `users` (`mis`);
 
 --
 -- Constraints for table `branches`
@@ -268,8 +286,8 @@ ALTER TABLE `external`
 -- Constraints for table `record`
 --
 ALTER TABLE `record`
-  ADD CONSTRAINT `record_ibfk_1` FOREIGN KEY (`approved_by_username`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `record_ibfk_2` FOREIGN KEY (`submitted_by_username`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `record_ibfk_1` FOREIGN KEY (`approved_by_mis`) REFERENCES `users` (`mis`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `record_ibfk_2` FOREIGN KEY (`submitted_by_mis`) REFERENCES `users` (`mis`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `users`
@@ -282,7 +300,3 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
---INSERT INTO roles VALUE ;
-INSERT INTO `roles` (`roles`) VALUES ('normal'), ('approver'), ('executive'), ('admin');
-INSERT INTO `levels` (`level`) VALUES ('student'), ('faculty'), ('hod'), ('dean'), ('director');
