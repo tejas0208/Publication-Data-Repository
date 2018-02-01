@@ -16,7 +16,7 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
     elseif ($mis == "abhijit.comp" && $password == "helloworld") {
         # code...
         $_SESSION['mis'] = $mis;
-        $_SESSION['type'] = "student";
+        $_SESSION['type'] = "executive";
     }
     else {
         echo "Incorrect login credentials";
