@@ -1,3 +1,188 @@
+<?php
+	/*
+		Sample array : 
+			array(15) { ["title"]=> string(11) "Paper title" ["date"]=> string(10) "23/11/1997" ["pages"]=> string(2) "32" ["issueno"]=> string(2) "23" ["volume"]=> string(7) "volume1" ["citations"]=> string(12) "no citations" ["journal_details"]=> array(1) { [0]=> string(2) "on" } ["conference_details"]=> array(2) { [0]=> string(8) "national" [1]=> string(13) "international" } ["funded__by"]=> array(2) { [0]=> string(6) "tequip" [1]=> string(4) "coep" } ["sponsored_by"]=> array(2) { [0]=> string(4) "isea" [1]=> string(6) "tequip" } ["add_facultymis"]=> array(1) { [0]=> string(12) "abhijit.comp" } ["add_facultyname"]=> array(1) { [0]=> string(7) "Abhijit" } ["add_ug_studentmis"]=> array(1) { [0]=> string(9) "111503071" } ["add_ug_studentname"]=> array(1) { [0]=> string(12) "Tarun Wadhwa" } ["add_externalname"]=> array(1) { [0]=> string(18) "External student 1" } }
+
+	*/
+	include('session.php');
+	//var_dump($_POST);
+	$variables = $_POST;
+
+	//TODO avoid sql injection
+
+	//title
+	if(isset($_POST['title'])) {
+		$title = $_POST['title'];
+		//TODO ensure that title is unique
+	}else {
+		echo "";
+	}
+
+	//pages
+	if(isset($_POST['pages'])) {
+		$num_pages = $_POST['num_pages'];
+	}else {
+		echo "";
+	}
+
+	//issueno
+	if(isset($_POST['issueno'])) {
+		$issueno = $_POST['issueno'];
+	}else {
+		echo "";
+	}
+
+	//volume
+	if(isset($_POST['volume'])) {
+		$volume = $_POST['volume'];
+	}else {
+		echo "";
+	}
+
+	//citations
+	if(isset($_POST['citations'])) {
+		$citations = $_POST['citations'];
+	}else {
+		echo "";
+	}
+
+	//journal_details
+	if(isset($_POST['journal_details'])) {
+		$journal_details = $_POST['journal_details'];
+		$nat_journal = "F";
+		$int_journal = "F";
+		if(in_array("national", $journal_details)) {
+			$nat_journal = "T";
+		}
+		if(in_array("international", $journal_details)) {
+			$int_journal = "T";
+		}
+	} else {
+		echo "";
+	}
+
+	//conference
+	if(isset($_POST['conference_details'])) {
+		$conference_details = $_POST['conference_details'];
+		$nat_journal = "F";
+		$int_journal = "F";
+		if(in_array("national", $conference_details)) {
+			$nat_conf = "T";
+		}
+		if(in_array("international", $conference_details)) {
+			$int_conf = "T";
+		}
+	} else {
+		echo "";
+	}	
+
+	//funded by
+	if(isset($_POST['funded_by'])) {
+		$funded_by = $_POST['funded_by'];
+		$f_tequip = "F";
+		$f_rsa = "F";
+		$f_isea = "F";
+		$f_aicte = "F";
+		$f_coep = "F";
+		$f_others = "F";
+		if(in_array("tequip", $funded_by)) {
+			$f_tequip = "T";
+		}
+		if(in_array("rsa", $funded_by)) {
+			$f_rsa = "T";
+		}
+		if(in_array("isea", $funded_by)) {
+			$f_isea = "T";
+		}
+		if(in_array("coep", $funded_by)) {
+			$f_coep = "T";
+		}
+		if(in_array("aicte", $funded_by)) {
+			$f_aicte = "T";
+		}
+		if(in_array("others", $funded_by)) {
+			$f_others = "T";
+		}
+	}else {
+		echo "NO funded by";
+	}
+
+	//sponsored by
+	if(isset($_POST['sponsored_by'])) {
+		$sponsored_by = $_POST['sponsored_by'];
+		$t_tequip = "F";
+		$t_rsa = "F";
+		$t_isea = "F";
+		$t_aicte = "F";
+		$t_coep = "F";
+		$t_others = "F";
+		if(in_array("tequip", $sponsored_by)) {
+			$t_tequip = "T";
+		}
+		if(in_array("rsa", $sponsored_by)) {
+			$t_rsa = "T";
+		}
+		if(in_array("isea", $sponsored_by)) {
+			$t_isea = "T";
+		}
+		if(in_array("coep", $sponsored_by)) {
+			$t_coep = "T";
+		}
+		if(in_array("aicte", $sponsored_by)) {
+			$t_aicte = "T";
+		}
+		if(in_array("others", $sponsored_by)) {
+			$t_others = "T";
+		}
+	}else {
+		echo "NO sponsored by";
+	}
+
+	//pages
+	if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
+		$faculty_mis = $_POST['add_facultymis'];
+		$faculty_name = $_POST['add_facultyname'];
+		foreach (array_combine($faculty_mis, $faculty_name) as $mis => $name) {
+			//TODO add mis
+		}
+	}else {
+		echo "";
+	}
+
+	if(isset($_FILES["pdffile"]["name"])) {
+
+		$target_dir = "uploads" . DIRECTORY_SEPARATOR;
+		$destination_path = getcwd().DIRECTORY_SEPARATOR;
+		$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+		// Check if image file is a actual image or fake image
+		if(isset($_POST["submit"])) {
+		    $type = mime_content_type($_FILES["pdffile"]["tmp_name"]);
+		    var_dump($type);
+		    if($type == "application/pdf") {
+		        $uploadOk = 1;
+		    } else {
+		        echo "File is not an pdf.";
+		        $uploadOk = 0;
+		    }
+		    echo $target_file;
+		    // Check if $uploadOk is set to 0 by an error
+			if ($uploadOk == 0) {
+			    echo "Sorry, your file was not uploaded.";
+			// if everything is ok, try to upload file
+			} else {
+			    if (move_uploaded_file($_FILES["pdffile"]["tmp_name"], $target_file)) {
+			        echo "The file ". basename( $_FILES["pdffile"]["name"]). " has been uploaded.";
+			    } else {
+			        echo "Sorry, there was an error uploading your file.";
+			    }
+			}
+		}
+	}
+
+?>
+
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +201,7 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
-		<script src="js/newEnquiry.js"></script>
+		<script src="js/helpers.js"></script>
 		<script>
 			jQuery(document).ready(function() {
 				jQuery('.tabs .tab-links a').on('click', function(e)  {
@@ -46,11 +231,11 @@
         		</h1>
       		</div>
     	</div>
-	    <div style="width:80%;padding:50" class="register">
-	    	<form>
+	    <div class="register">
+	    	<form method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="title" class="control-label">Title</label>
-					<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+					<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
 				</div>	
 
 				<div class="form-group"> <!-- Street 1 -->
@@ -80,303 +265,93 @@
 				<div class="form-group">
 					<label for="journal_details" class="control-label">Journal Details: </label>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "journal_details" value="national"> National </label>
+						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="national"> National </label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "journal_details" value="international"> International</label>
+						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="international"> International</label>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="conference_details" class="control-label">Conference Details: </label>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "conference_details" value="national"> National</label>
+						<label><input type="checkbox" id = "conference_details" name="conference_details[]" value="national"> National</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "conference_details" value="international"> International</label>
+						<label><input type="checkbox" id = "conference_details" name="conference_details[]" value="international"> International</label>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="funded_by" class="control-label">Funded By</label>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="isea"> ISEA</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="isea"> ISEA</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="tequip"> TEQUIP</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="tequip"> TEQUIP</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="coep"> COEP</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="coep"> COEP</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="rps"> RPS</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="rps"> RPS</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="aicte"> AICTE</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="aicte"> AICTE</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" value="others"> Others</label>
+						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="others"> Others</label>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="sponsored_by" class="control-label">Sponsored By</label>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="isea"> ISEA</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="tequip"> TEQUIP</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"> TEQUIP</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="coep"> COEP</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"> COEP</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="rps"> RPS</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"> RPS</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="aicte"> AICTE</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"> AICTE</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" value="others"> Others</label>
+						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"> Others</label>
 					</div>
 				</div>
 
-										
-				<div class="form-group"> <!-- State Button -->
-					<label for="state_id" class="control-label">State</label>
-					<select class="form-control" id="state_id">
-						<option value="AL">Alabama</option>
-						<option value="AK">Alaska</option>
-						<option value="AZ">Arizona</option>
-						<option value="AR">Arkansas</option>
-						<option value="CA">California</option>
-						<option value="CO">Colorado</option>
-						<option value="CT">Connecticut</option>
-						<option value="DE">Delaware</option>
-						<option value="DC">District Of Columbia</option>
-						<option value="FL">Florida</option>
-						<option value="GA">Georgia</option>
-						<option value="HI">Hawaii</option>
-						<option value="ID">Idaho</option>
-						<option value="IL">Illinois</option>
-						<option value="IN">Indiana</option>
-						<option value="IA">Iowa</option>
-						<option value="KS">Kansas</option>
-						<option value="KY">Kentucky</option>
-						<option value="LA">Louisiana</option>
-						<option value="ME">Maine</option>
-						<option value="MD">Maryland</option>
-						<option value="MA">Massachusetts</option>
-						<option value="MI">Michigan</option>
-						<option value="MN">Minnesota</option>
-						<option value="MS">Mississippi</option>
-						<option value="MO">Missouri</option>
-						<option value="MT">Montana</option>
-						<option value="NE">Nebraska</option>
-						<option value="NV">Nevada</option>
-						<option value="NH">New Hampshire</option>
-						<option value="NJ">New Jersey</option>
-						<option value="NM">New Mexico</option>
-						<option value="NY">New York</option>
-						<option value="NC">North Carolina</option>
-						<option value="ND">North Dakota</option>
-						<option value="OH">Ohio</option>
-						<option value="OK">Oklahoma</option>
-						<option value="OR">Oregon</option>
-						<option value="PA">Pennsylvania</option>
-						<option value="RI">Rhode Island</option>
-						<option value="SC">South Carolina</option>
-						<option value="SD">South Dakota</option>
-						<option value="TN">Tennessee</option>
-						<option value="TX">Texas</option>
-						<option value="UT">Utah</option>
-						<option value="VT">Vermont</option>
-						<option value="VA">Virginia</option>
-						<option value="WA">Washington</option>
-						<option value="WV">West Virginia</option>
-						<option value="WI">Wisconsin</option>
-						<option value="WY">Wyoming</option>
-					</select>					
+
+				<!-- Don't change class and id of this -->
+				<div class="input_fields_wrap form-group">
+				    <button class="add_field_button btn" id="add_faculty">Add Faculty</button>
 				</div>
-				
-				<div class="form-group"> <!-- Zip Code-->
-					<label for="zip_id" class="control-label">Zip Code</label>
-					<input type="text" class="form-control" id="zip_id" name="zip" placeholder="#####">
-				</div>		
-				
+
+				<!-- Don't change class and id of this -->
+				<div class="input_fields_wrap form-group">
+				    <button class="add_field_button btn" id="add_ug_student">Add UG Student</button>
+				</div>
+
+				<!-- Don't change class and id of this -->
+				<div class="input_fields_wrap form-group">
+				    <button class="add_field_button btn" id="add_pg_student">Add PG Student</button>
+				</div>
+
+				<div class="input_fields_wrap form-group">
+				    <button class="add_field_button btn" id="add_external">Add External/Industry Student</button>
+				</div>
+
+				<input id="fileupload" type="file" name="pdffile"><br>&nbsp
+
 				<div class="form-group"> <!-- Submit Button -->
-					<button type="submit" class="btn btn-primary">Buy!</button>
+					<button type="submit" class="btn btn-primary" name="submit">Submit</button>
 				</div>     
 		
 			</form>
-		</div>
-    	<div class="tabs">
-			<ul class="tab-links">
-				<li class="active"><a href="#tab1">General</a></li>
-				<li><a href="#tab2">Items</a></li>
-				<li><a href="#tab3">Submission Dates</a></li>
-				<li><a href="#tab4">Vendors</a></li>
-				<li><a href="#tab5">Terms & Conditions</a></li>
-			</ul>
-			<div class="tab-content" style = "width:100%;">
-				<div id="tab1" class="tab active" >
-					<table align = "center" style = "width:50%;height:60%;padding:10;">
-						<tr>
-							<td>
-								<label for="title">Title : </label>
-							</td>
-							<td>
-								<input type="text" id="title" placeholder="Enter the title" size="25"></input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="date">Date : </label>
-							</td>
-							<td>
-								<input type="text" id="date" placeholder="dd/mm/yyyy" size="15"></input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="pages">Pages : </label>
-							</td>
-							<td>
-								<input type="text" id="pages" placeholder="No. of pages" size="15"></input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="issueno">Issue no</label>
-							</td>
-							<td>
-								<input type="text" id="issueno" placeholder="Enter issue no" size="15"></input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="volume">Volume : </label>
-							</td>
-							<td>
-								<input type="text" id="volume" size="15"></input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="citations">Citations : </label>
-							</td>
-							<td>
-								<input type="text" id="citations" size="15"></input>
-							</td>
-						</tr>
-						
-						<tr>
-							<td>
-								Journal Details:
-							</td>
-							<td>
-								<input type="checkbox" id = "journal_details" value="national">National<br>
-								<input type="checkbox" id = "journal_details" value="international">International<br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Conference Details:
-							</td>
-							<td>
-								<input type="checkbox" id = "conference_details" value="national">National<br>
-								<input type="checkbox" id = "conference_details" value="international">International<br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Funded by:
-							</td>
-							<td>
-								<input type="checkbox" id = "funded_by" value="isea">ISEA<br>
-								<input type="checkbox" id = "funded_by" value="tequip">TEQUIP<br>
-								<input type="checkbox" id = "funded_by" value="coep">COEP<br>
-								<input type="checkbox" id = "funded_by" value="rps">RPS<br>
-								<input type="checkbox" id = "funded_by" value="aicte">AICTE<br>
-								<input type="checkbox" id = "funded_by" value="others">Others<br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Sponsored by:
-							</td>
-							<td>
-								<input type="checkbox" id = "sponsored_by" value="isea">ISEA<br>
-								<input type="checkbox" id = "sponsored_by" value="tequip">TEQUIP<br>
-								<input type="checkbox" id = "sponsored_by" value="coep">COEP<br>
-								<input type="checkbox" id = "sponsored_by" value="rps">RPS<br>
-								<input type="checkbox" id = "sponsored_by" value="aicte">AICTE<br>
-								<input type="checkbox" id = "sponsored_by" value="others">Others<br>
-							</td>
-						</tr>
-						
-						<tr >
-							<td colspan ="2" >
-								<button type="button" style="float:right">Next</button>
-							</td>
-						</tr>
-					</table>
-					
-				</div>
-				<div id="tab2" class="tab">
-					<div align = "center"><h2>Items List</h2>
-					</div>
-					<table id="itemListTable" align = "center" style = "width:85%;padding:10;">
-							<tr>
-								<th style = "text-align:center;">
-									Item No.
-								</th>
-								<th style = "text-align:center;">
-									Item Name
-								</th>
-								<th style = "text-align:center;">
-									Quantity
-								</th>
-								<th style = "text-align:center;">
-									Description
-								</th>
-								<th style = "text-align:center;">
-								</th>
-							</tr>
-							<tr id="item1" >
-								<td style='text-align:center;'>
-									<label >1.</label>
-								</td>
-								<td>
-									<input type="text" id="itemName" placeholder="Item Name" size="10" required></input>
-								</td>
-								<td>
-									<input type="number" id="itemQuantity"  min="0" required></input>
-								</td>
-								<td>
-									<textarea rows="2" cols="20" id="itemDescription" placeholder="Add Details" min="0"></textarea>
-								</td>
-								<td>
-									<button id= "AddButton1" type="button" onclick="addMoreItem()">ADD MORE</button>
-								</td>
-							</tr>
-							<tr >
-								<td colspan ="5" >
-									<button type="button" style="float:left">Prev</button>
-									<button type="button" style="float:right">Next</button>
-								</td>
-							</tr>
-						</table>
-				</div>
-				<div id="tab3" class="tab">
-					
-				</div>
-				<div id="tab4" class="tab">
-
-				</div>
-				<div id="tab5" class="tab">
-
-				</div>
-			</div>
 		</div>
     </body>
 </html>
