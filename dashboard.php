@@ -86,7 +86,7 @@
 
 				<div class="row">
 			        <div class="col-sm-6">
-			    		  <a href="new_record.php">
+			    		  <a href="add_record.php">
 			    		    <div class="tile one">
 								<h2 class="title">New Record</h2>
 						        <p>Add a new publication record</p>
