@@ -1,8 +1,3 @@
-function add_faculty_fun() {
-	//get html of div add_faculty
-	console.log("BUtton clicked!");
-}
-
 $(document).ready(function() {
     var max_fields      = 100; //maximum input boxes allowed
     var wrapper         = $(".input_fields_wrap"); //Fields wrapper
@@ -55,6 +50,24 @@ $(document).ready(function() {
 
     $('.ask_for_approver').click(function(e){
     	e.preventDefault();
-    	console.log("Hello!");
+    	var form = document.
     });
+
+    
+
+	
 });
+
+$(document).ready(function() {
+
+	$(".appr").change(function (e) {
+		// body...
+		e.preventDefault();
+		console.log("CLick0");
+	});
+});
+
+
+
+
+
