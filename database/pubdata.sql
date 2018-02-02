@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 02, 2018 at 03:08 AM
+-- Generation Time: Feb 02, 2018 at 07:28 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -50,8 +50,27 @@ CREATE TABLE `authors` (
 
 CREATE TABLE `branches` (
   `branch` varchar(45) NOT NULL,
-  `department` varchar(45) NOT NULL
+  `department` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `branches`
+--
+
+INSERT INTO `branches` (`branch`, `department`) VALUES
+('Applied Science', 'Applied Science'),
+('Civil Engineering', 'Civil Engineering'),
+('Computer Engineering', 'Computer Engineering and Information Technology'),
+('Information Technology ', 'Computer Engineering and Information Technology'),
+('Electrical Engineering', 'Electrical Engineering'),
+('Electronics and Telecommunication Engineering', 'Electronics and Telecommunication Engineering'),
+('Instrumentation and Control Engineering ', 'Electronics and Telecommunication Engineering'),
+('maths', 'maths'),
+('Mechanical Engineering', 'Mechanical Engineering'),
+('Metallurgical Engineering', 'Mechanical Engineering'),
+('phy', 'phy'),
+('Planning', 'Planning '),
+('Production Engineering (Sandwich)', 'Production Engineering and Industrial Management');
 
 -- --------------------------------------------------------
 
@@ -60,8 +79,26 @@ CREATE TABLE `branches` (
 --
 
 CREATE TABLE `departments` (
-  `department` varchar(45) NOT NULL
+  `department` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `departments`
+--
+
+INSERT INTO `departments` (`department`) VALUES
+('Applied Science'),
+('Civil Engineering '),
+('Computer Engineering and Information Technology'),
+('Electrical Engineering '),
+('Electronics and Telecommunication Engineering '),
+('Instrumentation and Control Engineering '),
+('maths'),
+('Mechanical Engineering '),
+('Metallurgy and Material Science '),
+('phy'),
+('Planning '),
+('Production Engineering and Industrial Management');
 
 -- --------------------------------------------------------
 
@@ -172,10 +209,10 @@ CREATE TABLE `users` (
   `mis` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  `level` varchar(45) DEFAULT NULL,
+  `role` varchar(45) DEFAULT NULL,
   `branch` varchar(45) NOT NULL,
   `year` int(11) DEFAULT NULL,
-  `role` varchar(45) DEFAULT NULL,
+  `level` varchar(45) DEFAULT NULL,
   `department` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -248,9 +285,9 @@ ALTER TABLE `roles`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`username`),
   ADD UNIQUE KEY `mis_index` (`mis`),
-  ADD KEY `user_to_level_idx` (`level`),
+  ADD KEY `user_to_level_idx` (`role`),
   ADD KEY `user_branch_idx` (`branch`),
-  ADD KEY `user_roles_idx` (`role`);
+  ADD KEY `user_roles_idx` (`level`);
 
 --
 -- Constraints for dumped tables
@@ -274,7 +311,7 @@ ALTER TABLE `authors`
 -- Constraints for table `branches`
 --
 ALTER TABLE `branches`
-  ADD CONSTRAINT `department` FOREIGN KEY (`department`) REFERENCES `departments` (`department`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `branches_ibfk_1` FOREIGN KEY (`department`) REFERENCES `departments` (`department`);
 
 --
 -- Constraints for table `external`
@@ -294,8 +331,8 @@ ALTER TABLE `record`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `user_branch` FOREIGN KEY (`branch`) REFERENCES `branches` (`branch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`roles`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`level`) REFERENCES `levels` (`level`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_roles` FOREIGN KEY (`level`) REFERENCES `roles` (`roles`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`role`) REFERENCES `levels` (`level`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
