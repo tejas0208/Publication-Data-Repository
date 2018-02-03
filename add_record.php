@@ -48,9 +48,21 @@
 			$int_journal = "F";
 			if(in_array("national", $journal_details)) {
 				$nat_journal = "T";
+				if(isset($_POST['national_journal_name'])) {
+					$national_journal_name = $_POST['national_journal_name'];
+				}
+				else {
+					echo "Please enter journal name";
+				}
 			}
 			if(in_array("international", $journal_details)) {
 				$int_journal = "T";
+				if(isset($_POST['international_journal_name'])) {
+					$international_journal_name = $_POST['international_journal_name'];
+				}
+				else {
+					echo "Please enter journal name";
+				}
 			}
 		} else {
 			echo "";
@@ -63,9 +75,24 @@
 			$int_journal = "F";
 			if(in_array("national", $conference_details)) {
 				$nat_conf = "T";
+				if(isset($_POST['national_conference_name'])) {
+					$national_conference_name = $_POST['national_conference_name'];
+				}
+				else {
+					echo "Please enter conference name";
+				}
 			}
 			if(in_array("international", $conference_details)) {
 				$int_conf = "T";
+				if(in_array("national", $conference_details)) {
+				$nat_conf = "T";
+				if(isset($_POST['international_conference_name'])) {
+					$international_conference_name = $_POST['international_conference_name'];
+				}
+				else {
+					echo "Please enter conference name";
+				}
+			}
 			}
 		} else {
 			echo "";
@@ -178,7 +205,6 @@
 			echo "Please Upload file";
 		}
 
-		//TODO ask for assigner
 		//add all the variables to session
 		$_SESSION['title'] = $title;
 		header("location:assign_approver.php");
@@ -237,131 +263,132 @@
         		</h1>
       		</div>
     	</div>
-	    <div class="register">
-	    	<form method="POST" enctype="multipart/form-data">
-				<div class="form-group">
-					<label for="title" class="control-label">Title</label>
-					<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
-				</div>	
+    	<div class="wrapper">
+		    <div class="register">
+		    	<form method="POST" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="title" class="control-label">Title</label>
+						<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+					</div>	
 
-				<div class="form-group"> <!-- Street 1 -->
-					<label for="date" class="control-label">Date</label>
-					<input type="text" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy">
-				</div>					
-										
-				<div class="form-group"> <!-- Street 2 -->
-					<label for="pages" class="control-label">Pages</label>
-					<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages">
-				</div>	
+					<div class="form-group"> <!-- Street 1 -->
+						<label for="date" class="control-label">Date</label>
+						<input type="text" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy">
+					</div>					
+											
+					<div class="form-group"> <!-- Street 2 -->
+						<label for="pages" class="control-label">Pages</label>
+						<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages">
+					</div>	
 
-				<div class="form-group"> <!-- City-->
-					<label for="issueno" class="control-label">Issue no</label>
-					<input type="text" class="form-control" id="issueno" name="issueno" placeholder="Enter issue no">
-				</div>
+					<div class="form-group"> <!-- City-->
+						<label for="issueno" class="control-label">Issue no</label>
+						<input type="text" class="form-control" id="issueno" name="issueno" placeholder="Enter issue no">
+					</div>
 
-				<div class="form-group"> <!-- City-->
-					<label for="volume" class="control-label">Volume</label>
-					<input type="text" class="form-control" id="volume" name="volume" placeholder="Enter Volume">
-				</div>
+					<div class="form-group"> <!-- City-->
+						<label for="volume" class="control-label">Volume</label>
+						<input type="text" class="form-control" id="volume" name="volume" placeholder="Enter Volume">
+					</div>
 
-				<div class="form-group"> <!-- City-->
-					<label for="citations" class="control-label">Citations</label>
-					<input type="text" class="form-control" id="citations" name="citations" placeholder="Citations">
-				</div>
-				<div class="form-group">
-					<label for="journal_details" class="control-label">Journal Details: </label>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="national"> National </label>
-						<input type="text" class="form-control" name="national_journal_name" placeholder="Journal name">
+					<div class="form-group"> <!-- City-->
+						<label for="citations" class="control-label">Citations</label>
+						<input type="text" class="form-control" id="citations" name="citations" placeholder="Citations">
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="international"> International</label>
+					<div class="form-group">
+						<label for="journal_details" class="control-label">Journal Details: </label>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national"> National </label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"> International</label>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="conference_details" class="control-label">Conference Details: </label>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "conference_details" name="conference_details[]" value="national"> National</label>
+					<div class="form-group">
+						<label for="conference_details" class="control-label">Conference Details: </label>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "conference_details" name="conference_details[]" value="national"> National</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "conference_details" name="conference_details[]" value="international"> International</label>
+						</div>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "conference_details" name="conference_details[]" value="international"> International</label>
-					</div>
-				</div>
 
-				<div class="form-group">
-					<label for="funded_by" class="control-label">Funded By</label>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="isea"> ISEA</label>
+					<div class="form-group">
+						<label for="funded_by" class="control-label">Funded By</label>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"> ISEA</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="tequip"> TEQUIP</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="coep"> COEP</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="rps"> RPS</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="aicte"> AICTE</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"> Others</label>
+						</div>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="tequip"> TEQUIP</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="coep"> COEP</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="rps"> RPS</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="aicte"> AICTE</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "funded_by" name = "funded_ by[]" value="others"> Others</label>
-					</div>
-				</div>
 
-				<div class="form-group">
-					<label for="sponsored_by" class="control-label">Sponsored By</label>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
+					<div class="form-group">
+						<label for="sponsored_by" class="control-label">Sponsored By</label>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"> TEQUIP</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"> COEP</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"> RPS</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"> AICTE</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"> Others</label>
+						</div>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"> TEQUIP</label>
+
+
+					<!-- Don't change class and id of this -->
+					<div class="input_fields_wrap form-group">
+					    <button class="add_field_button btn" id="add_faculty">Add Faculty</button>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"> COEP</label>
+
+					<!-- Don't change class and id of this -->
+					<div class="input_fields_wrap form-group">
+					    <button class="add_field_button btn" id="add_ug_student">Add UG Student</button>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"> RPS</label>
+
+					<!-- Don't change class and id of this -->
+					<div class="input_fields_wrap form-group">
+					    <button class="add_field_button btn" id="add_pg_student">Add PG Student</button>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"> AICTE</label>
+
+					<div class="input_fields_wrap form-group">
+					    <button class="add_field_button btn" id="add_external">Add External/Industry Student</button>
 					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"> Others</label>
+
+					<div class="form-group">
+						<input id="fileupload" type="file" name="pdffile">
 					</div>
-				</div>
 
-
-				<!-- Don't change class and id of this -->
-				<div class="input_fields_wrap form-group">
-				    <button class="add_field_button btn" id="add_faculty">Add Faculty</button>
-				</div>
-
-				<!-- Don't change class and id of this -->
-				<div class="input_fields_wrap form-group">
-				    <button class="add_field_button btn" id="add_ug_student">Add UG Student</button>
-				</div>
-
-				<!-- Don't change class and id of this -->
-				<div class="input_fields_wrap form-group">
-				    <button class="add_field_button btn" id="add_pg_student">Add PG Student</button>
-				</div>
-
-				<div class="input_fields_wrap form-group">
-				    <button class="add_field_button btn" id="add_external">Add External/Industry Student</button>
-				</div>
-
-				<div class="form-group">
-					<input id="fileupload" type="file" name="pdffile">
-				</div>
-
-				<div class="form-group"> <!-- Submit Button -->
-					<button class="btn btn-primary" name="submit">Next</button>
-				</div>     
-		
-			</form>
-		</div>
+					<div class="form-group"> <!-- Submit Button -->
+						<button class="btn btn-primary" name="submit">Next</button>
+					</div>     
+			
+				</form>
+			</div>
+		</div>	
     </body>
 </html>
 <?php endif; ?>
