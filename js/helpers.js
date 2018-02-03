@@ -48,9 +48,29 @@ $(document).ready(function() {
         e.preventDefault(); $(this).parent('div').remove(); x--;
     })
 
-    $('.ask_for_approver').click(function(e){
-    	e.preventDefault();
-    	var form = document.
+
+    $('.journal_details').change(function() {
+    	var c = this.checked;
+    	var value = this.value;
+    	var html = '<input type="text" class="form-control" name="' + value + '_journal_name" placeholder="Journal name"><br>';
+    	if(c) {
+    		$(this.parentElement.parentElement).append(html);
+    	}
+    	else {
+    		$(this.parentElement.nextSibling.nextSibling).remove();
+    	}
+    });
+
+    $('.conference_details').change(function() {
+    	var c = this.checked;
+    	var value = this.value;
+    	var html = '<input type="text" class="form-control" name="' + value + '_conference_name" placeholder="Journal name"><br>';
+    	if(c) {
+    		$(this.parentElement.parentElement).append(html);
+    	}
+    	else {
+    		$(this.parentElement.nextSibling.nextSibling).remove();
+    	}
     });
 
     
@@ -58,14 +78,14 @@ $(document).ready(function() {
 	
 });
 
-$(document).ready(function() {
+// $(document).ready(function() {
 
-	$(".appr").change(function (e) {
-		// body...
-		e.preventDefault();
-		console.log("CLick0");
-	});
-});
+// 	$(".appr").change(function (e) {
+// 		// body...
+// 		e.preventDefault();
+// 		console.log("CLick0");
+// 	});
+// });
 
 
 
