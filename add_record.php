@@ -272,6 +272,7 @@
 					<label for="journal_details" class="control-label">Journal Details: </label>
 					<div class="checkbox">
 						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="national"> National </label>
+						<input type="text" class="form-control" name="national_journal_name" placeholder="Journal name">
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" id = "journal_details" name="journal_details[]" value="international"> International</label>
@@ -351,13 +352,12 @@
 				    <button class="add_field_button btn" id="add_external">Add External/Industry Student</button>
 				</div>
 
-				<input id="fileupload" type="file" name="pdffile"><br>&nbsp
-
 				<div class="form-group">
-					<a href="#" class="ask_for_approver btn btn-info">Submit</a>
+					<input id="fileupload" type="file" name="pdffile">
 				</div>
-				<div class="form-group btn"> <!-- Submit Button -->
-					<button class="btn" name="submit">Submit</button>
+
+				<div class="form-group"> <!-- Submit Button -->
+					<button class="btn btn-primary" name="submit">Next</button>
 				</div>     
 		
 			</form>
