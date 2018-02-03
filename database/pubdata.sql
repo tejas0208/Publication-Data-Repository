@@ -117,20 +117,10 @@ CREATE TABLE `external` (
 -- Table structure for table `levels`
 --
 
-CREATE TABLE `levels` (
-  `level` varchar(45) NOT NULL
+CREATE TABLE `roles` (
+  `roles` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `levels`
---
-
-INSERT INTO `levels` (`level`) VALUES
-('dean'),
-('director'),
-('faculty'),
-('hod'),
-('student');
 
 -- --------------------------------------------------------
 
@@ -184,19 +174,31 @@ CREATE TABLE `record_id_max` (
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
-  `roles` varchar(45) NOT NULL
+CREATE TABLE `levels` (
+  `level` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `roles`
 --
 
-INSERT INTO `roles` (`roles`) VALUES
+INSERT INTO `levels` (`level`) VALUES
 ('admin'),
 ('approver'),
 ('executive'),
 ('normal');
+
+--
+-- Dumping data for table `levels`
+--
+
+INSERT INTO `roles` (`roles`) VALUES
+('dean'),
+('director'),
+('faculty'),
+('hod'),
+('student');
+
 
 -- --------------------------------------------------------
 
