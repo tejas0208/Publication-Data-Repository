@@ -1,7 +1,9 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+require_once "db.php";
 
 session_start();
-
 
 if(isset($_POST['mis']) && isset($_POST['password'])){
 
@@ -12,17 +14,38 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
     if ($mis == "111503071" && $password == "helloworld") {
         $_SESSION['mis'] = $mis;
         $_SESSION['type'] = "student";
+        
+        $db = new DB();
+        $query = "SELECT * from users where username = '$mis'";
+        $result = $db->run_query($query);
+        if(mysqli_num_rows($result) == 0) {
+          header("location:register.php");
+        }
+        else {
+          header("location:dashboard.php");
+        }
+
     }
     elseif ($mis == "abhijit.comp" && $password == "helloworld") {
         # code...
         $_SESSION['mis'] = $mis;
         $_SESSION['type'] = "executive";
+        
+        $db = new DB();
+        $query = "SELECT * from users where username = '$mis'";
+        $result = $db->run_query($query);
+        if(mysqli_num_rows($result) == 0) {
+          header("location:register.php");
+        }
+        else {
+          header("location:dashboard.php");
+        }
+
     }
     else {
         echo "Incorrect login credentials";
     }
-
-    header("location:dashboard.php");
+    
     
     // $ad = new adLDAP();
     // $entry = $ad->searchDn($mis);
@@ -57,7 +80,7 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="css/login.css" />
     <title>Publication Data Repository</title>
   </head>
   <body>
@@ -73,7 +96,6 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
     
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.2.1.slim.min.js"></script>
