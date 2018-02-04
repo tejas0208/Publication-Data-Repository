@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 02, 2018 at 07:28 PM
+-- Generation Time: Feb 05, 2018 at 01:51 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -117,10 +117,19 @@ CREATE TABLE `external` (
 -- Table structure for table `levels`
 --
 
-CREATE TABLE `roles` (
-  `roles` varchar(45) NOT NULL
+CREATE TABLE `levels` (
+  `level` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `levels`
+--
+
+INSERT INTO `levels` (`level`) VALUES
+('admin'),
+('approver'),
+('executive'),
+('normal');
 
 -- --------------------------------------------------------
 
@@ -174,22 +183,12 @@ CREATE TABLE `record_id_max` (
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `levels` (
-  `level` varchar(45) NOT NULL
+CREATE TABLE `roles` (
+  `roles` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `roles`
---
-
-INSERT INTO `levels` (`level`) VALUES
-('admin'),
-('approver'),
-('executive'),
-('normal');
-
---
--- Dumping data for table `levels`
 --
 
 INSERT INTO `roles` (`roles`) VALUES
@@ -198,7 +197,6 @@ INSERT INTO `roles` (`roles`) VALUES
 ('faculty'),
 ('hod'),
 ('student');
-
 
 -- --------------------------------------------------------
 
@@ -215,8 +213,15 @@ CREATE TABLE `users` (
   `branch` varchar(45) NOT NULL,
   `year` int(11) DEFAULT NULL,
   `level` varchar(45) DEFAULT NULL,
-  `department` varchar(45) DEFAULT NULL
+  `department` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `year`, `level`, `department`) VALUES
+('111508053', 111508053, 'NAYAK TEJAS UDAY', 'tejasunayak@gmail.com', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology');
 
 --
 -- Indexes for dumped tables
@@ -289,7 +294,8 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `mis_index` (`mis`),
   ADD KEY `user_to_level_idx` (`role`),
   ADD KEY `user_branch_idx` (`branch`),
-  ADD KEY `user_roles_idx` (`level`);
+  ADD KEY `user_roles_idx` (`level`),
+  ADD KEY `department` (`department`);
 
 --
 -- Constraints for dumped tables
@@ -333,8 +339,9 @@ ALTER TABLE `record`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `user_branch` FOREIGN KEY (`branch`) REFERENCES `branches` (`branch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_roles` FOREIGN KEY (`level`) REFERENCES `roles` (`roles`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`role`) REFERENCES `levels` (`level`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_department` FOREIGN KEY (`department`) REFERENCES `departments` (`department`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`roles`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`level`) REFERENCES `levels` (`level`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
