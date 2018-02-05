@@ -4,14 +4,30 @@
 	//var_dump($_POST);
 
 	//TODO avoid sql injection
+	$title = $num_pages = $issueno = $volume = "";
+	$citations = $date = "";
+	$nat_journal = $int_journal = $nat_conf = $int_conf = "F";
+	$national_journal_name = $international_journal_name = "";
+	$national_conference_name = $international_conference_name = "";
+	$f_tequip = $f_rsa = $f_isea = $f_aicte = $f_coep = $f_others = "F";
+	$t_tequip = $t_rsa = $t_isea = $t_aicte = $t_coep = $t_others = "F";
+	$faculty_mis= $ug_student_mis = $pg_student_mis = $external_names = [];
+
 	if(isset($_POST["submit"])) {
 		//title
 		if(isset($_POST['title'])) {
 			$title = $_POST['title'];
 			//TODO ensure that title is unique
+			echo $title;
+
 		}else {
-			echo "";
+			echo "Please Enter title";
+			return;
 		}
+
+		if(isset($_POST['date'])) {
+			$date = $_POST['date'];
+		})
 
 		//pages
 		if(isset($_POST['pages'])) {
@@ -44,8 +60,6 @@
 		//journal_details
 		if(isset($_POST['journal_details'])) {
 			$journal_details = $_POST['journal_details'];
-			$nat_journal = "F";
-			$int_journal = "F";
 			if(in_array("national", $journal_details)) {
 				$nat_journal = "T";
 				if(isset($_POST['national_journal_name'])) {
@@ -71,8 +85,6 @@
 		//conference
 		if(isset($_POST['conference_details'])) {
 			$conference_details = $_POST['conference_details'];
-			$nat_journal = "F";
-			$int_journal = "F";
 			if(in_array("national", $conference_details)) {
 				$nat_conf = "T";
 				if(isset($_POST['national_conference_name'])) {
@@ -101,12 +113,7 @@
 		//funded by
 		if(isset($_POST['funded_by'])) {
 			$funded_by = $_POST['funded_by'];
-			$f_tequip = "F";
-			$f_rsa = "F";
-			$f_isea = "F";
-			$f_aicte = "F";
-			$f_coep = "F";
-			$f_others = "F";
+			
 			if(in_array("tequip", $funded_by)) {
 				$f_tequip = "T";
 			}
@@ -132,12 +139,7 @@
 		//sponsored by
 		if(isset($_POST['sponsored_by'])) {
 			$sponsored_by = $_POST['sponsored_by'];
-			$t_tequip = "F";
-			$t_rsa = "F";
-			$t_isea = "F";
-			$t_aicte = "F";
-			$t_coep = "F";
-			$t_others = "F";
+			
 			if(in_array("tequip", $sponsored_by)) {
 				$t_tequip = "T";
 			}
@@ -157,22 +159,32 @@
 				$t_others = "T";
 			}
 		}else {
-			echo "NO sponsored by";
-		}
-
-		//pages
-		if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
-			$faculty_mis = $_POST['add_facultymis'];
-			$faculty_name = $_POST['add_facultyname'];
-			foreach (array_combine($faculty_mis, $faculty_name) as $mis => $name) {
-				//TODO add mis
-			}
-		}else {
 			echo "";
 		}
 
-		if(isset($_FILES["pdffile"]["name"])) {
+		//get list of faculty mis
+		if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
+			$faculty_mis = $_POST['add_facultymis'];
+			$faculty_name = $_POST['add_facultyname'];
+		}
 
+		if(isset($_POST['add_ug_studentmis']) and isset($_POST['add_ug_studentname'])) {
+			$ug_student_mis = $_POST['add_ug_studentmis'];
+			$ug_student_name = $_POST['add_ug_studentname'];
+			
+		}
+
+		if(isset($_POST['add_pg_studentmis']) and isset($_POST['add_pg_studentname'])) {
+			$pg_student_mis = $_POST['add_pg_studentmis'];
+			$pg_student_name = $_POST['add_pg_studentname'];
+		}
+
+		if(isset($_POST['add_externalname'])) {
+			$external_names = $_POST['add_externalname'];
+		}
+
+		if(isset($_FILES["pdffile"]["name"])) {
+			$pdffilename = $_FILES["pdffile"]["name"];
 			$target_dir = "uploads" . DIRECTORY_SEPARATOR;
 			$destination_path = getcwd().DIRECTORY_SEPARATOR;
 			$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
@@ -190,7 +202,8 @@
 		    
 		    // Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-			    echo "Sorry, your file was not uploaded.";
+			    echo "Sorry, your file was not uploaded. Please try again";
+			    return;
 			
 			// if everything is ok, try to upload file
 			} else {
@@ -198,15 +211,51 @@
 			        
 			    } else {
 			        echo "Sorry, there was an error uploading your file.";
+			        return;
 			    }
 			}
 			
 		} else {
 			echo "Please Upload file";
+			return;
 		}
 
 		//add all the variables to session
+
 		$_SESSION['title'] = $title;
+		$_SESSION['num_pages'] = $num_pages;
+		$_SESSION['issueno'] = $issueno;
+		$_SESSION['volume'] = $volume;
+		$_SESSION['citations'] = $citations;
+		$_SESSION['date'] = $date;
+		
+		$_SESSION['nat_journal'] = $nat_journal;
+		$_SESSION['int_journal'] = $int_journal;
+		$_SESSION['nat_conf'] = $nat_conf;
+		$_SESSION['int_conf'] = $int_conf;
+		$_SESSION['national_journal_name'] = $national_journal_name;
+		$_SESSION['international_journal_name'] = $international_journal_name;
+		$_SESSION['national_conference_name'] = $national_conference_name;
+		$_SESSION['international_conference_name'] = $international_conference_name;
+		
+		$_SESSION['f_tequip'] = $f_tequip;
+		$_SESSION['f_rsa'] = $f_rsa;
+		$_SESSION['f_isea'] = $f_isea;
+		$_SESSION['f_aicte'] = $f_aicte;
+		$_SESSION['f_coep'] = $f_coep;
+		$_SESSION['f_others'] = $f_others;
+		$_SESSION['t_tequip'] = $t_tequip;
+		$_SESSION['t_rsa'] = $t_rsa;
+		$_SESSION['t_isea'] = $t_isea;
+		$_SESSION['t_aicte'] = $t_aicte;
+		$_SESSION['t_coep'] = $t_coep;
+		$_SESSION['t_others'] = $t_others;
+		
+		$_SESSION['faculty_mis'] = $faculty_mis;
+		$_SESSION['ug_student_mis'] = $ug_student_mis;
+		$_SESSION['pg_student_mis'] = $pg_student_mis;
+		$_SESSION['external_names'] = $external_names;
+		$_SESSION['pdffilename'] = $pdffilename;
 		header("location:assign_approver.php");
 
 	}
