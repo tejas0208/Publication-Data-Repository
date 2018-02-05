@@ -1,19 +1,107 @@
 <?php
 
 	include('session.php');
+	require_once "db.php";
 
 	//check if form data exists
 	//https://stackoverflow.com/questions/32405077/show-second-dropdown-options-based-on-first-dropdown-selection-jquery
-	//maths physics meta prod
-	if(isset($_SESSION['title'])) {
-		$title = $_SESSION['title'];
-	}
-	else {
-		header("location:add_record.php");
+	
+	//returns the max id and updates the id in the database
+	function get_max_record_id($dbclient) {
+		$query = 'SELECT * FROM `record_id_max` LIMIT 1';
+		$result = $dbclient->run_query($query);
+		$row = mysqli_fetch_row($result);
+		$id = $row[0];
+		$query = "DELETE FROM `record_id_max`";
+		$dbclient->run_query($query);
+		$query = "INSERT INTO `record_id_max` VALUES ('" . ($id+1) . "')";
+		$db->run_query($query);
+		return $id;
 	}
 
-	if(isset($_POST['submit'])) {
-		echo "Successfully submitted";
+	if(isset($_POST['submit']) and isset($_POST['branch']) and isset($_POST['approver'])) {
+		
+		if(!isset($_SESSION['title'])) {
+			header("location:add_record.php");
+		}
+
+		$db = new DB();
+
+		$branch = $_POST['branch'];
+		$approver = $_POST['approver'];
+
+		$title = $_SESSION['title'];
+		$num_pages = $_SESSION['num_pages'];
+		$issueno = $_SESSION['issueno'];
+		$volume = $_SESSION['volume'];
+		$citations = $_SESSION['citations'];
+		$nat_journal = $_SESSION['nat_journal'];
+		$int_journal = $_SESSION['int_journal'];
+		$nat_conf = $_SESSION['nat_conf'];
+		$int_conf = $_SESSION['int_conf'];
+		$national_journal_name = $_SESSION['national_journal_name'];
+		$international_journal_name = $_SESSION['international_journal_name'];
+		$national_conference_name = $_SESSION['national_conference_name'];
+		$international_conference_name = $_SESSION['international_conference_name'];
+		$f_tequip = $_SESSION['f_tequip'];
+		$f_rsa = $_SESSION['f_rsa'];
+		$f_isea = $_SESSION['f_isea'];
+		$f_aicte = $_SESSION['f_aicte'];
+		$f_coep = $_SESSION['f_coep'];
+		$f_others = $_SESSION['f_others'];
+		$t_tequip = $_SESSION['t_tequip'];
+		$t_rsa = $_SESSION['t_rsa'];
+		$t_isea = $_SESSION['t_isea'];
+		$t_aicte = $_SESSION['t_aicte'];
+		$t_coep = $_SESSION['t_coep'];
+		$t_others = $_SESSION['t_others'];
+		$faculty_mis = $_SESSION['faculty_mis'];
+		$ug_student_mis = $_SESSION['ug_student_mis'];
+		$pg_student_mis = $_SESSION['pg_student_mis'];
+		$external_names = $_SESSION['external_names'];
+		$pdffilename = $_SESSION['pdffilename'];
+		$date = $_SESSION['date'];
+
+		unset($_SESSION['title']);
+		unset($_SESSION['num_pages']);
+		unset($_SESSION['issueno']);
+		unset($_SESSION['volume']);
+		unset($_SESSION['citations']);
+		unset($_SESSION['nat_journal']);
+		unset($_SESSION['int_journal']);
+		unset($_SESSION['nat_conf']);
+		unset($_SESSION['int_conf']);
+		unset($_SESSION['national_journal_name']);
+		unset($_SESSION['international_journal_name']);
+		unset($_SESSION['national_conference_name']);
+		unset($_SESSION['international_conference_name']);
+		unset($_SESSION['f_tequip']);
+		unset($_SESSION['f_rsa']);
+		unset($_SESSION['f_isea']);
+		unset($_SESSION['f_aicte']);
+		unset($_SESSION['f_coep']);
+		unset($_SESSION['f_others']);
+		unset($_SESSION['t_tequip']);
+		unset($_SESSION['t_rsa']);
+		unset($_SESSION['t_isea']);
+		unset($_SESSION['t_aicte']);
+		unset($_SESSION['t_coep']);
+		unset($_SESSION['t_others']);
+		unset($_SESSION['faculty_mis']);
+		unset($_SESSION['ug_student_mis']);
+		unset($_SESSION['pg_student_mis']);
+		unset($_SESSION['external_names']);
+		unset($_SESSION['pdffilename']);
+		unset($_SESSION['date']);
+		
+
+		//fetch the row id
+		$id = get_max_record_id($db);
+
+		//$query = "INSERT INTO `record` VALUES ('" . $id . "', " .  
+
+		//STR_TO_DATE('$date', '%m/%d/%Y')	
+		
 	}
 	
 
@@ -55,37 +143,40 @@
         		</h1>
       		</div>
     	</div>
-	    <div class="register">
-	    	<form method="POST">
-	    		<div class="form-group"> <!-- State Button -->
-		      		<label for="dept_id" class="control-label">Select Department of Approver</label>
-		      		<select class="form-control" id="appr_dept_id">
-		      			<option value="appsci">Department of Applied Science</option>
-		      			<option value="civil">Department of Civil Engineering</option>
-		      			<option value="compit">Department of Computer Engineering & IT</option>
-		      			<option value="elec">Department of Electrical Engineering</option>
-		      			<option value="entc">Department of Electronics and Telecommunication Engineering</option>    		
-		      			<option value="instru">Department of Instrumentation and Control Engineering</option>
-		      			<option value="maths">Department of Mathematics</option>
-		      			<option value="mech">Department of Mechanical Engineering</option>
-		      			<option value="meta">Department of Metallurgy and Materials Science</option>
-		      			<option value="phy">Department of Physics</option>
-		      		</select>
-		      	</div>
+    	<div class="wrapper">
+		    <div class="register">
+		    	<form method="POST">
+		    		<div class="form-group"> <!-- State Button -->
+			      		<label for="dept_id" class="control-label">Select Department of Approver</label>
+			      		<select class="form-control" id="appr_dept_id" name="branch" required>
+			      			<option value="Applied Science">Department of Applied Science</option>
+			            	<option value="Civil Engineering ">Department of Civil Engineering</option>
+			            	<option value="Computer Engineering and Information Technology">Department of Computer Engineering & IT</option>
+			            	<option value="Electrical Engineering ">Department of Electrical Engineering</option>
+			            	<option value="Electronics and Telecommunication Engineering ">Department of Electronics and Telecommunication Engineering</option>
+			            	<option value="Instrumentation and Control Engineering ">Department of Instrumentation and Control Engineering</option>
+			            	<option value="maths">Department of Mathematics</option>
+			            	<option value="Mechanical Engineering ">Department of Mechanical Engineering</option>
+			            	<option value="Metallurgy and Material Science ">Department of Metallurgy and Materials Science</option>
+			            	<option value="phy">Department of Physics</option>
+			            	<option value = "Planning ">B.Tech Planning</option>
+			            	<option value = "Production Engineering and Industrial Management">Department of Production Engineering and Industrial Management</option>
+			      		</select>
+			      	</div>
 
-				<div class="form-group">
-					<label for="select approver" class="control-label">Select Approver</label>
-					<select class="form-control" id="approver_name">
-		      			<option value="abhijit">Abhijit</option>
-		      			<option value="tarun">Tarun</option>
-		      		</select>
-				</div>
+					<div class="form-group">
+						<label for="select approver" class="control-label">Select Approver</label>
+						<select class="form-control" id="approver_name" name="approver" required="">
+			      	
+			      		</select>
+					</div>
 
-				<div class="form-group btn"> <!-- Submit Button -->
-					<button class="btn" name="submit">Next</button>
-				</div>	
-			</form>
-		</div>
+					<div class="form-group btn"> <!-- Submit Button -->
+						<button class="btn" name="submit">Next</button>
+					</div>	
+				</form>
+			</div>
+		</div>	
 	</body>
 </html>
 <?php endif; ?>					
