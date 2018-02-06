@@ -27,11 +27,11 @@
 
 		if(isset($_POST['date'])) {
 			$date = $_POST['date'];
-		})
+		}
 
 		//pages
 		if(isset($_POST['pages'])) {
-			$num_pages = $_POST['num_pages'];
+			$num_pages = $_POST['pages'];
 		}else {
 			echo "";
 		}
@@ -322,7 +322,7 @@
 
 					<div class="form-group"> <!-- Street 1 -->
 						<label for="date" class="control-label">Date</label>
-						<input type="text" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy">
+						<input type="text" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
 					</div>					
 											
 					<div class="form-group"> <!-- Street 2 -->
