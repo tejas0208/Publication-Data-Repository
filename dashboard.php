@@ -43,7 +43,7 @@
 			<!-- Page Content Holder -->
 			<div id="content">
 				<!-- if user is teacher or executive display these options -->
-				<?php if($_SESSION['type'] == 'executive') : ?>
+				<?php if($_SESSION['level'] != 'student') : ?>
 					<div class="row">
 			        <div class="col-sm-6">
 			    		  <a href="pending_approvals.php">
