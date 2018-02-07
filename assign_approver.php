@@ -26,7 +26,7 @@
     	return $data;
   	}
 
-	if(isset($_POST['submit']) and isset($_POST['branch']) and isset($_POST['approver'])) {
+	if(isset($_POST['submit']) and isset($_POST['department']) and isset($_POST['approver'])) {
 		
 		if(!isset($_SESSION['title'])) {
 			header("location:add_record.php");
@@ -34,7 +34,7 @@
 
 		$db = new DB();
 
-		$branch = $_POST['branch'];
+		$department = $_POST['department'];
 		$approver = $_POST['approver'];
 
 		$title = $_SESSION['title'];
@@ -69,37 +69,37 @@
 		$pdffilename = $_SESSION['pdffilename'];
 		$date = $_SESSION['date'];
 
-		// unset($_SESSION['title']);
-		// unset($_SESSION['num_pages']);
-		// unset($_SESSION['issueno']);
-		// unset($_SESSION['volume']);
-		// unset($_SESSION['citations']);
-		// unset($_SESSION['nat_journal']);
-		// unset($_SESSION['int_journal']);
-		// unset($_SESSION['nat_conf']);
-		// unset($_SESSION['int_conf']);
-		// unset($_SESSION['national_journal_name']);
-		// unset($_SESSION['international_journal_name']);
-		// unset($_SESSION['national_conference_name']);
-		// unset($_SESSION['international_conference_name']);
-		// unset($_SESSION['f_tequip']);
-		// unset($_SESSION['f_rsa']);
-		// unset($_SESSION['f_isea']);
-		// unset($_SESSION['f_aicte']);
-		// unset($_SESSION['f_coep']);
-		// unset($_SESSION['f_others']);
-		// unset($_SESSION['t_tequip']);
-		// unset($_SESSION['t_rsa']);
-		// unset($_SESSION['t_isea']);
-		// unset($_SESSION['t_aicte']);
-		// unset($_SESSION['t_coep']);
-		// unset($_SESSION['t_others']);
-		// unset($_SESSION['faculty_mis']);
-		// unset($_SESSION['ug_student_mis']);
-		// unset($_SESSION['pg_student_mis']);
-		// unset($_SESSION['external_names']);
-		// unset($_SESSION['pdffilename']);
-		// unset($_SESSION['date']);
+		unset($_SESSION['title']);
+		unset($_SESSION['num_pages']);
+		unset($_SESSION['issueno']);
+		unset($_SESSION['volume']);
+		unset($_SESSION['citations']);
+		unset($_SESSION['nat_journal']);
+		unset($_SESSION['int_journal']);
+		unset($_SESSION['nat_conf']);
+		unset($_SESSION['int_conf']);
+		unset($_SESSION['national_journal_name']);
+		unset($_SESSION['international_journal_name']);
+		unset($_SESSION['national_conference_name']);
+		unset($_SESSION['international_conference_name']);
+		unset($_SESSION['f_tequip']);
+		unset($_SESSION['f_rsa']);
+		unset($_SESSION['f_isea']);
+		unset($_SESSION['f_aicte']);
+		unset($_SESSION['f_coep']);
+		unset($_SESSION['f_others']);
+		unset($_SESSION['t_tequip']);
+		unset($_SESSION['t_rsa']);
+		unset($_SESSION['t_isea']);
+		unset($_SESSION['t_aicte']);
+		unset($_SESSION['t_coep']);
+		unset($_SESSION['t_others']);
+		unset($_SESSION['faculty_mis']);
+		unset($_SESSION['ug_student_mis']);
+		unset($_SESSION['pg_student_mis']);
+		unset($_SESSION['external_names']);
+		unset($_SESSION['pdffilename']);
+		unset($_SESSION['date']);
 
 
 		if($title == '')
@@ -243,20 +243,37 @@
 		$date = test_input($date);
 		
 		
-
 		//fetch the row id
 		$id = get_max_record_id($db);
 
-		//TODO 
+		//TODO
 		//APPROVED STATUS
-		$approved_status = "'F'";
+		$level = $_SESSION['level'];
+		if($level != 'student') {
+			//$dep =
+			$mis = $_SESSION['mis'];
+			$query = "SELECT department FROM `users` WHERE mis='" . $mis . "'";
+			$result = $db->run_query($query);
+			$row = mysqli_fetch_row($result);
+			$user_department = $row[0];
+			if($user_department == $department) {
+				//approved status true
+				$approved_status = "'T'"; 
+			}
+			else {
+				//approved status false
+				$approved_status = "'F'"; 
+			}
+			//echo $query;
+		}
+		else {
+			$approved_status = "'F'";
+		}
 		$approved_by_mis = "'" . $approver . "'";
 		$submitted_by_mis = "'" . $_SESSION['mis'] . "'";
-		$department = "'" . $branch . "'";
+		$department = "'" . $department . "'";
 		
 		$query = "INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES ('$id', $date, $title, $f_tequip, $f_rsa, $f_isea, $f_aicte, $f_coep, $f_others, $t_tequip, $t_isea, $t_rsa, $t_aicte, $t_coep, $t_others, $national_journal_name, $international_journal_name, $national_conference_name, $international_conference_name, $volume, $num_pages, $citations, $approved_status, $approved_by_mis, $submitted_by_mis, $department, $pdffilename)";
-		
-		echo $query;
 		if($db->run_query($query)) {
 			//add faculty mis to table
 			$length = count($faculty_mis);
@@ -264,7 +281,7 @@
 				$mis = $faculty_mis[$i];
 				$mis = test_input($mis);
 				$query = "INSERT INTO `authors` (`idrecord`, `mis`) VALUES ('$id', '$mis')";
-				db->run_query(query);
+				$db->run_query($query);
 			}
 
 			//add ug student mis to table
@@ -273,7 +290,7 @@
 				$mis = $ug_student_mis[$i];
 				$mis = test_input($mis);
 				$query = "INSERT INTO `authors` (`idrecord`, `mis`) VALUES ('$id', '$mis')";
-				db->run_query(query);
+				$db->run_query($query);
 			}
 
 			//add pg student mis to table
@@ -282,7 +299,7 @@
 				$mis = $pg_student_mis[$i];
 				$mis = test_input($mis);
 				$query = "INSERT INTO `authors` (`idrecord`, `mis`) VALUES ('$id', '$mis')";
-				db->run_query(query);
+				$db->run_query($query);
 			}
 
 			//add external student name to table
@@ -291,13 +308,14 @@
 				$name = $external_names[$i];
 				$name = test_input($name);
 				$query = "INSERT INTO `external` (`record_id`, `name`) VALUES ('$id', '$name');";
-				db->run_query(query);
+				$db->run_query($query);
 			}
+
+			echo "<h2>Successfully added record to table</h2>";
 
 		}
 		else {
 			echo "Some Error Occured....Please try again";
-			return;
 		}
 	}
 	
@@ -345,7 +363,7 @@
 		    	<form method="POST">
 		    		<div class="form-group"> <!-- State Button -->
 			      		<label for="dept_id" class="control-label">Select Department of Approver</label>
-			      		<select class="form-control" id="appr_dept_id" name="branch" required>
+			      		<select class="form-control" id="appr_dept_id" name="department" required>
 			      			<option value="Applied Science">Department of Applied Science</option>
 			            	<option value="Civil Engineering ">Department of Civil Engineering</option>
 			            	<option value="Computer Engineering and Information Technology">Department of Computer Engineering & IT</option>

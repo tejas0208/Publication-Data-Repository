@@ -6,7 +6,7 @@ $(document).ready(function() {
 		var val = $(this).val();
 		var html;
 		$.get("get_faculty_list.php?dept="+val, function(data, status){
-			debugger;
+			//debugger;
 	        //alert("Data: " + data + "\nStatus: " + status);
 	        var approvers_list = JSON.parse(data);
 	        for (var mis in approvers_list) {
