@@ -13,7 +13,7 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
 
     if ($mis == "111503071" && $password == "helloworld") {
         $_SESSION['mis'] = $mis;
-        $_SESSION['type'] = "student";
+        $_SESSION['level'] = "student";
         
         $db = new DB();
         $query = "SELECT * from users where username = '$mis'";
@@ -29,7 +29,7 @@ if(isset($_POST['mis']) && isset($_POST['password'])){
     elseif ($mis == "abhijit.comp" && $password == "helloworld") {
         # code...
         $_SESSION['mis'] = $mis;
-        $_SESSION['type'] = "executive";
+        $_SESSION['level'] = "executive";
         
         $db = new DB();
         $query = "SELECT * from users where username = '$mis'";
