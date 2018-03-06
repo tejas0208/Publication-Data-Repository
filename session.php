@@ -2,8 +2,10 @@
    //include('config.php');
    session_start();
    
-   $user = $_SESSION['mis'];
+   $username = $_SESSION['username'];
    $level = $_SESSION['level'];
+   $role = $_SESSION['role'];
+   $entry = $_SESSION['entry'];
    
    //$ses_sql = mysqli_query($db,"select username from admin where username = '$user_check' ");
    
@@ -14,6 +16,6 @@
    //TODO
    //change this after adding correct login
    if(!isset($_SESSION['level'])){
-      header("location:dummy_login.php");
+      header("location:final_login.php");
    }
 ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 05, 2018 at 01:51 AM
+-- Generation Time: Mar 06, 2018 at 11:17 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -163,9 +163,17 @@ CREATE TABLE `record` (
   `approved_status` varchar(2) DEFAULT NULL,
   `approved_by_mis` int(11) DEFAULT NULL,
   `submitted_by_mis` int(11) DEFAULT NULL,
-  `department` varchar(45) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
   `filename` varchar(1023) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `record`
+--
+
+INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES
+(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T', 111508053, 111508053, 'Computer Engineering and Information Technology', NULL),
+(6, '2015-05-25', 'lsdakfj', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', NULL, NULL, NULL, NULL, NULL, '2', NULL, 'T', 111508053, 111508053, 'Computer Engineering and Information Technology', 'Data Modeling.pdf');
 
 -- --------------------------------------------------------
 
@@ -176,6 +184,13 @@ CREATE TABLE `record` (
 CREATE TABLE `record_id_max` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `record_id_max`
+--
+
+INSERT INTO `record_id_max` (`id`) VALUES
+(7);
 
 -- --------------------------------------------------------
 
@@ -221,7 +236,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `year`, `level`, `department`) VALUES
-('111508053', 111508053, 'NAYAK TEJAS UDAY', 'tejasunayak@gmail.com', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology');
+('111508053', 111508053, 'NAYAK TEJAS UDAY', 'nayaktu15.it@coep.ac.in', 'student', 'Computer Engineering', 2019, 'approver', 'Computer Engineering and Information Technology');
 
 --
 -- Indexes for dumped tables
@@ -346,5 +361,3 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-INSERT INTO `record_id_max` (`id`) VALUES ('1');
