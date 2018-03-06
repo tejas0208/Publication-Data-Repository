@@ -1,30 +1,26 @@
 <?php
-
 require_once 'adLDAP.php';
+require_once "db.php";
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+session_start();
 
-if(isset($_POST['mis']) && isset($_POST['password'])){
+if(isset($_POST['username']) && isset($_POST['password'])){
 
-	$mis = trim($_POST['mis']);
+	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
 	
 	
 	$ad = new adLDAP();
-	$entry = $ad->searchDn($mis);
+	$entry = $ad->searchDn($username);
 	if(!$entry) {
 		die('Error in authentication');
 	}
 	function pvd($var) {
-	echo "<pre style='font-size:16px;'>";
+		echo "<pre style='font-size:16px;'>";
 		var_dump($var);
-	echo "</pre>";
-}
-        pvd($entry);
-				$file = '/tmp/file4';
-			$content = json_encode($entry);
-			file_put_contents($file, $content);
-			$entry = json_decode(file_get_contents($file), TRUE);
-			
-			pvd($entry);
+		echo "</pre>";
+	}
 	$auth = $ad->authenticate($entry['dn'], $password);
 	if(!$auth) {
 		die('Error in authentication');	

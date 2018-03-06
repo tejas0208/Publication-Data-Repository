@@ -24,7 +24,7 @@
 
 		<div class="navbar">
       <div class="col-md-12">
-				Welcome, <?php echo $_SESSION['mis'] ?>
+				Welcome, <?php echo $_SESSION['username'] ?>
 				<div class = "logout">
 	        <a href="logout.php" class="btn btn-info btn-lg">
 	        	<span class="glyphicon glyphicon-log-out"></span> Log out
@@ -43,7 +43,7 @@
 			<!-- Page Content Holder -->
 			<div id="content">
 				<!-- if user is teacher or executive display these options -->
-				<?php if($_SESSION['level'] != 'student') : ?>
+				<?php if($_SESSION['level'] != 'normal') : ?>
 					<div class="row">
 			        <div class="col-sm-6">
 			    		  <a href="pending_approvals.php">

@@ -251,8 +251,8 @@
 		$level = $_SESSION['level'];
 		if($level != 'student') {
 			//$dep =
-			$mis = $_SESSION['mis'];
-			$query = "SELECT department FROM `users` WHERE mis='" . $mis . "'";
+			$mis = $_SESSION['username'];
+			$query = "SELECT department FROM `users` WHERE username='" . $mis . "'";
 			$result = $db->run_query($query);
 			$row = mysqli_fetch_row($result);
 			$user_department = $row[0];
@@ -270,7 +270,8 @@
 			$approved_status = "'F'";
 		}
 		$approved_by_mis = "'" . $approver . "'";
-		$submitted_by_mis = "'" . $_SESSION['mis'] . "'";
+		//TOdo
+		$submitted_by_mis = "'" . $_SESSION['username'] . "'";
 		$department = "'" . $department . "'";
 		
 		$query = "INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES ('$id', $date, $title, $f_tequip, $f_rsa, $f_isea, $f_aicte, $f_coep, $f_others, $t_tequip, $t_isea, $t_rsa, $t_aicte, $t_coep, $t_others, $national_journal_name, $international_journal_name, $national_conference_name, $international_conference_name, $volume, $num_pages, $citations, $approved_status, $approved_by_mis, $submitted_by_mis, $department, $pdffilename)";
@@ -347,7 +348,7 @@
 	<body>
 		<div class="navbar">
       		<div class="col-md-12">
-				Welcome, <?php echo $_SESSION['mis'] ?>
+				Welcome, <?php echo $_SESSION['username'] ?>
 				<div class = "logout">
 	        		<a href="logout.php" class="btn btn-info btn-lg">
 	        			<span class="glyphicon glyphicon-log-out"></span> Log out
