@@ -9,12 +9,15 @@
     var_dump($var);
     echo "</pre>";
   }
-  $file = 'tmp/file';
-  $entry = json_decode(file_get_contents($file), TRUE);
-  pvd($entry);
+  $entry = $_SESSION['entry'];
   // define variables and set to empty values
   $username = $role_submitted = $mis = $full_name = $email =  "";
-
+  
+  function GetYearOfPassing($entry) {
+    $pieces = explode(",", $entry["dn"]);
+    $pieces = explode("=", $pieces[1]);
+    return $pieces[1];
+  }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = test_input($_POST["username"]);
     $role_submitted = test_input($_POST["role"]);
@@ -57,7 +60,7 @@
   <body>
     <div class="navbar">
       <div class="col-md-12">
-        Welcome, <?php echo $_SESSION['mis'] ?>
+        Welcome, <?php echo $_SESSION['username'] ?>
         <div class = "logout">
           <a href="logout.php" class="btn btn-info btn-lg">
             <span class="glyphicon glyphicon-log-out"></span> Log out
@@ -144,7 +147,7 @@
           <?php if($role == 'student'):?>
             <div class="form-group">
               <label for="year_id" class="control-label">Year of Passing</label>
-              <input type="text" class="form-control" id="year_id" name="year" placeholder="Enter year of passing"  required>
+              <input type="text" class="form-control" id="year_id" name="year" placeholder="Enter year of passing" value="<?php echo GetYearOfPassing($entry); ?>" required>
             </div>
           <?php endif?>
           <div class="form-group">
