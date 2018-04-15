@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 15, 2018 at 07:40 PM
+-- Generation Time: Apr 15, 2018 at 07:56 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -231,8 +231,6 @@ INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `year
 ('111503071', 111503071, 'WADHWA TARUN RAJULAL', 'wadhwatr15.comp@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
 ('111503075', 111503075, 'PATIL AKASH MARUTI', 'patilam15.comp@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
 ('111505048', 111505048, 'SAFNA HASSAN', 'hassans15.elec@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
-('111508053', 111508053, 'NAYAK TEJAS UDAY', 'nayaktu15.it@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
-('adsf', 111505350, 'daf', 'sadfsdfa', 'student', 'Applied Science', NULL, 'approver', 'Metallurgy and Material Science '),
 ('approver', 111503001, 'ABHYANKAR AKSHAY SAMEER', 'abhyankaras15.comp@coep.ac.in', 'faculty', 'Computer Engineering', NULL, 'approver', 'Computer Engineering and Information Technology');
 
 --
