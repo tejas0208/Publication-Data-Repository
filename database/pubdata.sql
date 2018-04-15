@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 06, 2018 at 11:17 AM
+-- Generation Time: Apr 15, 2018 at 07:40 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
--- PHP Version: 7.0.22-0ubuntu0.16.04.1
+-- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -167,14 +167,6 @@ CREATE TABLE `record` (
   `filename` varchar(1023) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `record`
---
-
-INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES
-(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'T', 111508053, 111508053, 'Computer Engineering and Information Technology', NULL),
-(6, '2015-05-25', 'lsdakfj', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', NULL, NULL, NULL, NULL, NULL, '2', NULL, 'T', 111508053, 111508053, 'Computer Engineering and Information Technology', 'Data Modeling.pdf');
-
 -- --------------------------------------------------------
 
 --
@@ -190,7 +182,7 @@ CREATE TABLE `record_id_max` (
 --
 
 INSERT INTO `record_id_max` (`id`) VALUES
-(7);
+(17);
 
 -- --------------------------------------------------------
 
@@ -236,7 +228,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `year`, `level`, `department`) VALUES
-('111508053', 111508053, 'NAYAK TEJAS UDAY', 'nayaktu15.it@coep.ac.in', 'student', 'Computer Engineering', 2019, 'approver', 'Computer Engineering and Information Technology');
+('111503071', 111503071, 'WADHWA TARUN RAJULAL', 'wadhwatr15.comp@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
+('111503075', 111503075, 'PATIL AKASH MARUTI', 'patilam15.comp@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
+('111505048', 111505048, 'SAFNA HASSAN', 'hassans15.elec@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
+('111508053', 111508053, 'NAYAK TEJAS UDAY', 'nayaktu15.it@coep.ac.in', 'student', 'Computer Engineering', 2019, 'normal', 'Computer Engineering and Information Technology'),
+('adsf', 111505350, 'daf', 'sadfsdfa', 'student', 'Applied Science', NULL, 'approver', 'Metallurgy and Material Science '),
+('approver', 111503001, 'ABHYANKAR AKSHAY SAMEER', 'abhyankaras15.comp@coep.ac.in', 'faculty', 'Computer Engineering', NULL, 'approver', 'Computer Engineering and Information Technology');
 
 --
 -- Indexes for dumped tables
@@ -327,8 +324,8 @@ ALTER TABLE `attended_by`
 -- Constraints for table `authors`
 --
 ALTER TABLE `authors`
-  ADD CONSTRAINT `author_to_record_id` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `authors_ibfk_1` FOREIGN KEY (`mis`) REFERENCES `users` (`mis`);
+  ADD CONSTRAINT `author_to_record_id` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `authors_ibfk_1` FOREIGN KEY (`mis`) REFERENCES `users` (`mis`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `branches`
@@ -346,17 +343,17 @@ ALTER TABLE `external`
 -- Constraints for table `record`
 --
 ALTER TABLE `record`
-  ADD CONSTRAINT `record_ibfk_1` FOREIGN KEY (`approved_by_mis`) REFERENCES `users` (`mis`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `record_ibfk_2` FOREIGN KEY (`submitted_by_mis`) REFERENCES `users` (`mis`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `record_ibfk_1` FOREIGN KEY (`approved_by_mis`) REFERENCES `users` (`mis`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `record_ibfk_2` FOREIGN KEY (`submitted_by_mis`) REFERENCES `users` (`mis`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `user_branch` FOREIGN KEY (`branch`) REFERENCES `branches` (`branch`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_department` FOREIGN KEY (`department`) REFERENCES `departments` (`department`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`roles`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`level`) REFERENCES `levels` (`level`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_branch` FOREIGN KEY (`branch`) REFERENCES `branches` (`branch`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_department` FOREIGN KEY (`department`) REFERENCES `departments` (`department`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`roles`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_to_level` FOREIGN KEY (`level`) REFERENCES `levels` (`level`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
