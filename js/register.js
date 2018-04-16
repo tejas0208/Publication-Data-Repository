@@ -19,4 +19,9 @@ $(document).ready(function() {
     });
     return false;
   });
+  var role = $("#role_id");
+  if(role.val() == 'student') {
+    var username = $("#username_id").val();
+    $("#mis_id").val(username).trigger("change");
+  }
 });
