@@ -7,6 +7,12 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background: #fafafa;
+	background: linear-gradient(#131314, #474a4f);
+	height: 100%;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	color: white;
 }
 
 p {
@@ -24,8 +30,15 @@ a, a:hover, a:focus {
 }
 
 .navbar {
+  background: linear-gradient(#131314, #474a4f);
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+	color:white;
 	padding: 15px 10px;
-	background: #fff;
+	/*background: #fff;*/
 	border: none;
 	border-radius: 0;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
@@ -46,7 +59,8 @@ a, a:hover, a:focus {
 .logout {
 	float: right;
 }
-.logout .btn {
+.navbar .btn {
+	float: right;
 	font-size: 10pt;
 }
 .line {
@@ -244,4 +258,11 @@ a.article, a.article:hover {
 	color: #fff;
 	background: #09585f;
   transform: scale(1.1);
+}
+.content {
+  background: linear-gradient(#131314, #474a4f);
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }

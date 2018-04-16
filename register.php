@@ -10,6 +10,13 @@
     echo "</pre>";
   }
   $entry = $_SESSION['entry'];
+  if(strpos($entry["dn"], "students")!= false) {
+    $role = 'student';
+  }
+  else {
+    $role = 'faculty';
+  }
+
   // define variables and set to empty values
   $username = $role_submitted = $mis = $full_name = $email =  "";
   
@@ -25,11 +32,21 @@
     $full_name = test_input($_POST["full_name"]);
     $email = test_input($_POST["email"]);
     $dept = test_input($_POST["dept"]);
+    if($role == 'student') {
+      $year = test_input($_POST["year"]);
+    }
+    else {
+      $year = NULL;
+    }
+    $level = $_SESSION["level"];
     $branch = test_input($_POST["branch"]);
-    $year = test_input($_POST["year"]);
-    $level = "normal";
     $db = new DB();
-    $query = "INSERT INTO users VALUES ('".$username."','".$mis."','".$full_name."','".$email."','".$role_submitted."','".$branch."','".$year."','".$level."','".$dept."')";
+    if($year != NULL) {
+      $query = "INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `year`, `level`, `department`) VALUES ('".$username."','".$mis."','".$full_name."','".$email."','".$role_submitted."','".$branch."','".$year."','".$level."','".$dept."')";
+    }
+    else {
+      $query = "INSERT INTO `users` (`username`, `mis`, `name`, `email`, `role`, `branch`, `level`, `department`) VALUES ('".$username."','".$mis."','".$full_name."','".$email."','".$role_submitted."','".$branch."','".$level."','".$dept."')";
+    }
     $result = $db->run_query($query);
     if($result == 1) {
       header("location:dashboard.php");
@@ -60,7 +77,7 @@
   <body>
     <div class="navbar">
       <div class="col-md-12">
-        Welcome, <?php echo $_SESSION['username'] ?>
+        <a href="dashboard.php">Welcome, <?php echo $_SESSION['username'] ?></a>
         <div class = "logout">
           <a href="logout.php" class="btn btn-info btn-lg">
             <span class="glyphicon glyphicon-log-out"></span> Log out
@@ -76,15 +93,8 @@
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
           <div class="form-group"> 
             <label for="username_id" class="control-label">Username</label>
-            <input type="text" class="form-control" id="username_id" name="username" value = "<?php echo $entry["cn"][0]; ?>" readonly>
+            <input type="text" class="form-control" id="username_id" name="username" value = "<?php echo $_SESSION["username"] ?>" readonly>
           </div>
-          <?php if(strpos($entry["dn"], "students")!= false) {
-                  $role = 'student';
-                }
-                else {
-                  $role = 'faculty';
-                }
-          ?>
             <div class="form-group">
               <label for="role_id" class="control-label">Role</label>
               <input type="text" class="form-control" id="role_id" name="role" value = "<?php echo $role; ?>" readonly>
