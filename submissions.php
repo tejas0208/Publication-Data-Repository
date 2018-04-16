@@ -29,8 +29,8 @@
 
 		<div class="navbar">
       <div class="col-md-12">
-				Welcome, <?php echo $_SESSION['username'] ?>
-				<div class = "logout">
+				<a href="dashboard.php">Welcome, <?php echo $_SESSION['username'] ?></a>
+		<div class = "logout">
 	        <a href="logout.php" class="btn btn-info btn-lg">
 	        	<span class="glyphicon glyphicon-log-out"></span> Log out
 	        </a>

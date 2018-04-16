@@ -301,12 +301,10 @@
 	<body>
 		<div class="navbar">
       		<div class="col-md-12">
-				Welcome, <?php echo $_SESSION['mis'] ?>
-				<div class = "logout">
+						<a href="dashboard.php">Welcome, <?php echo $_SESSION['username'] ?></a>
 	        		<a href="logout.php" class="btn btn-info btn-lg">
 	        			<span class="glyphicon glyphicon-log-out"></span> Log out
 	        		</a>
-				</div>
         		<h1 class="navheader">
           			Publication Data Repository
         		</h1>
@@ -314,6 +312,7 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
+					Note: Co-authors should be registered on this portal to add them by MIS<br /><br />
 		    	<form method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="title" class="control-label">Title</label>
@@ -407,7 +406,7 @@
 						</div>
 					</div>
 
-
+					Co-Authors:<br />
 					<!-- Don't change class and id of this -->
 					<div class="input_fields_wrap form-group">
 					    <button class="add_field_button btn" id="add_faculty">Add Faculty</button>
