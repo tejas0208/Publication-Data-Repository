@@ -167,12 +167,12 @@
 			$faculty_mis = $_POST['add_facultymis'];
 		}
 
-		if(isset($_POST['add_ug_studentmis']) and isset($_POST['add_ug_studentname'])) {
+		if(isset($_POST['add_ug_studentmis'])) {
 			$ug_student_mis = $_POST['add_ug_studentmis'];
 			
 		}
 
-		if(isset($_POST['add_pg_studentmis']) and isset($_POST['add_pg_studentname'])) {
+		if(isset($_POST['add_pg_studentmis'])) {
 			$pg_student_mis = $_POST['add_pg_studentmis'];
 		}
 
