@@ -4,7 +4,7 @@ class DB {
 	private $conn;
 	private $server = "127.0.0.1";
 	private $username = "root";
-	private $pass = "root";
+	private $pass = "";
 	private $db_name = "pubdata";
 	function __construct() {
 		$this->connect();
