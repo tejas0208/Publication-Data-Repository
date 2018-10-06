@@ -9,19 +9,16 @@ $(document).ready(function() {
     	console.log(this.parentElement);
     	wrapper = this.parentElement;
         var id = $(this).attr('id');
-        var placeholder1, placeholder2;
+        var placeholder1;
         if(id == 'add_faculty') {
         	placeholder1 = "Enter Faculty MIS";
-        	placeholder2 = "Enter Faculty's full name";
         }
         	
         else if (id == 'add_ug_student') {
         	placeholder1 = "Enter UG Student's MIS";
-        	placeholder2 = "Full Name";
         }
         else if (id == 'add_pg_student') {
         	placeholder1 = "Enter PG Student's MIS";
-        	placeholder2 = "Full Name";
         }
         else if (id == 'add_external') {
         	var html = '<div class="input-group form-group">\
@@ -32,8 +29,6 @@ $(document).ready(function() {
         if(id != 'add_external') {
 	        var html = '<div class="input-group form-group">\
 	        				<input type="text" class="form-control" name="'+id+'mis[]" placeholder="'+placeholder1+'">\
-	        				<span class="input-group-addon">&nbsp&nbsp</span>\
-	        				<input type="text" class="form-control" name="'+id+'name[]" placeholder="'+placeholder2+'">\
 	        				&nbsp<a href="#" class="remove_field btn btn-info">Remove</a>\
 	        			</div>';
 	    }			

@@ -163,20 +163,17 @@
 		}
 
 		//get list of faculty mis
-		if(isset($_POST['add_facultymis']) and isset($_POST['add_facultyname'])) {
+		if(isset($_POST['add_facultymis'])) {
 			$faculty_mis = $_POST['add_facultymis'];
-			$faculty_name = $_POST['add_facultyname'];
 		}
 
 		if(isset($_POST['add_ug_studentmis']) and isset($_POST['add_ug_studentname'])) {
 			$ug_student_mis = $_POST['add_ug_studentmis'];
-			$ug_student_name = $_POST['add_ug_studentname'];
 			
 		}
 
 		if(isset($_POST['add_pg_studentmis']) and isset($_POST['add_pg_studentname'])) {
 			$pg_student_mis = $_POST['add_pg_studentmis'];
-			$pg_student_name = $_POST['add_pg_studentname'];
 		}
 
 		if(isset($_POST['add_externalname'])) {
@@ -238,6 +235,7 @@
 		$_SESSION['national_conference_name'] = $national_conference_name;
 		$_SESSION['international_conference_name'] = $international_conference_name;
 		
+		$_SESSION['faculty_mis'] = $faculty_mis;
 		$_SESSION['f_tequip'] = $f_tequip;
 		$_SESSION['f_rsa'] = $f_rsa;
 		$_SESSION['f_isea'] = $f_isea;
@@ -250,8 +248,6 @@
 		$_SESSION['t_aicte'] = $t_aicte;
 		$_SESSION['t_coep'] = $t_coep;
 		$_SESSION['t_others'] = $t_others;
-		
-		$_SESSION['faculty_mis'] = $faculty_mis;
 		$_SESSION['ug_student_mis'] = $ug_student_mis;
 		$_SESSION['pg_student_mis'] = $pg_student_mis;
 		$_SESSION['external_names'] = $external_names;
