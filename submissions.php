@@ -60,18 +60,31 @@
                             <th>Sr.No.</th>
                             <th>Title</th>
                             <th>Date</th>
+							<th>Approval Status</th>
                           </tr>
                         </thead>
                         <tbody>';
 
 
                     while ($row = mysqli_fetch_array($result)) {
-                      echo '
+						if($row['approved_status'] == 'F') {
+						echo '
                           <tr>
                 					<td>'.$i.'</td>
                 					<td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-                          <td>'.$row['date'].'</td>
-                				</tr>';
+									<td>'.$row['date'].'</td>
+									<td style="color:red">Not approved</td>
+                		  </tr>';
+						}
+						else {
+							echo '
+                          <tr>
+                					<td>'.$i.'</td>
+                					<td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
+									<td>'.$row['date'].'</td>
+									<td style="color:green">Approved</td>
+                		  </tr>';
+						}
                         $i++;
                     }
                   }
