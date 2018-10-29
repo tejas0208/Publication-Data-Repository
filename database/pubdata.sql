@@ -387,7 +387,7 @@ CREATE TABLE `applications` (
   `submitted_by_mis` int(11) DEFAULT NULL,
   `department` varchar(100) DEFAULT NULL,
   `filename` varchar(1023) DEFAULT NULL,
- approved_level int(1) DEFAULT 0,
+ approved_level int(1) DEFAULT 1,
   PRIMARY KEY (`idrecord`),
   KEY `approved_by_to_mis_idx1` (`approved_by_mis`,`submitted_by_mis`),
   KEY `submitted_by_mis1` (`submitted_by_mis`),
