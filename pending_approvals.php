@@ -5,9 +5,10 @@
   require_once "db.php";
 
   if (isset($_GET['id'])) {
-  	$id = $_GET['id']
+  	$id = $_GET['id'];
   	$db = new DB();
-	$query = "UPDATE record SET approved_status = 'F' where idrecord = $id";
+	$query = "UPDATE record SET approved_status = 'T' where idrecord = $id";
+  echo $query;
 	$result = $db->run_query($query);
   }
 
