@@ -36,7 +36,7 @@
 			</div>
 		</div>
 
-		<div class="pendingappr">
+		<div class="myappr">
 			<?php
 				$i = 1;
 				$db = new DB();
