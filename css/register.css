@@ -7,7 +7,7 @@
   color: black;
 }
 
-.submissions {
+.submissions, .pendingappr, .myappr {
   width: 80%;
   margin: auto;
   margin-top: 10%;
@@ -16,14 +16,4 @@
   border-radius: 15px;
   color: black;
 
-}
-
-.pendingappr {
-  width: 80%;
-  margin: auto;
-  margin-top: 10%;
-  padding: 20px;
-  background: white;
-  border-radius: 15px;
-  color: black;    
 }
