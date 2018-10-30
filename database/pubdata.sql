@@ -356,3 +356,41 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Table structure for applications table
+
+CREATE TABLE `applications` (
+  `idrecord` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `title` varchar(1023) DEFAULT NULL,
+  `f_tequip` varchar(2) DEFAULT NULL,
+  `f_rsa` varchar(2) DEFAULT NULL,
+  `f_isea` varchar(2) DEFAULT NULL,
+  `f_aicte` varchar(2) DEFAULT NULL,
+  `f_coep` varchar(2) DEFAULT NULL,
+  `f_others` varchar(2) DEFAULT NULL,
+  `t_tequip` varchar(2) DEFAULT NULL,
+  `t_isea` varchar(2) DEFAULT NULL,
+  `t_rsa` varchar(2) DEFAULT NULL,
+  `t_aicte` varchar(2) DEFAULT NULL,
+  `t_coep` varchar(2) DEFAULT NULL,
+  `t_others` varchar(2) DEFAULT NULL,
+  `nat_journal` varchar(1023) DEFAULT NULL,
+  `int_journal` varchar(1023) DEFAULT NULL,
+  `nat_conf` varchar(1023) DEFAULT NULL,
+  `int_conf` varchar(1023) DEFAULT NULL,
+  `volume_no` varchar(45) DEFAULT NULL,
+  `pages` varchar(45) DEFAULT NULL,
+  `citations` varchar(1023) DEFAULT NULL,
+  `approved_status` varchar(2) DEFAULT NULL,
+  `approved_by_mis` int(11) DEFAULT NULL,
+  `submitted_by_mis` int(11) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `filename` varchar(1023) DEFAULT NULL,
+ approved_level int(1) DEFAULT 1,
+  PRIMARY KEY (`idrecord`),
+  KEY `approved_by_to_mis_idx1` (`approved_by_mis`,`submitted_by_mis`),
+  KEY `submitted_by_mis1` (`submitted_by_mis`),
+  CONSTRAINT `record_ibfk_11` FOREIGN KEY (`approved_by_mis`) REFERENCES `users` (`mis`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `record_ibfk_22` FOREIGN KEY (`submitted_by_mis`) REFERENCES `users` (`mis`) ON DELETE CASCADE ON UPDATE CASCADE
+);
