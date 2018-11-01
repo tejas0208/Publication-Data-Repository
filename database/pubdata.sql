@@ -359,6 +359,18 @@ ALTER TABLE `users`
 
 -- Table structure for applications table
 
+CREATE TABLE `rejection_record` (
+  `idrecord` int(11) NOT NULL,
+  `reason` varchar(256) NOT NULL
+);
+
+ALTER TABLE `rejection_record`
+  ADD PRIMARY KEY (`idrecord`);
+
+ALTER TABLE `rejection_record`
+  ADD CONSTRAINT `id_record_rejection_fk` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`);
+COMMIT;
+
 CREATE TABLE `applications` (
   `idrecord` int(11) NOT NULL,
   `date` date DEFAULT NULL,
