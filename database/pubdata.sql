@@ -379,3 +379,7 @@ CREATE TABLE `applications` (
 `Comment` varchar(1023) DEFAULT NULL,
   PRIMARY KEY (`idrecord`)
 );
+
+ALTER TABLE `applications`
+  ADD CONSTRAINT `id_record_appl_fk` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`);
+COMMIT;
