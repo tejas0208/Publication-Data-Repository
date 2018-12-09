@@ -25,6 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attended_by`
 --
+create database pubdata;
+use pubdata;
 
 CREATE TABLE `attended_by` (
   `recordid` int(11) NOT NULL,
