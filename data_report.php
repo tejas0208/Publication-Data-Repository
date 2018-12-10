@@ -66,7 +66,49 @@
 				<input type="text" class="form-control" id="citations" name="citations" placeholder="Citations">
 			</div>
 			<div class="form-group">
-				<input type="submit" class="btn btn-primary" id="submit" name="submit">
+				<label for="funded_by" class="control-label">Funded By</label>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"> ISEA</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="tequip"> TEQUIP</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="coep"> COEP</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="rsa"> RSA</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="aicte"> AICTE</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"> Others</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="sponsored_by" class="control-label">Sponsored By</label>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"> TEQUIP</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"> COEP</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"> RPS</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"> AICTE</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"> Others</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
 			</div>
 		</form>
 			<?php
@@ -102,9 +144,9 @@
 					if($_GET["volume"] != "") {
 						$volume = $_GET["volume"];
 						if($flag)
-							$query = $query . " AND volume = '$volume'";
+							$query = $query . " AND volume_no = '$volume'";
 						else
-							$query = $query . " WHERE volume = '$volume'";
+							$query = $query . " WHERE volume_no = '$volume'";
 					}
 					if($_GET["citations"] != "") {
 						$issueno = $_GET["citations"];
@@ -112,6 +154,86 @@
 							$query = $query . " AND citations = '$citations'";
 						else
 							$query = $query . " WHERE citations = '$citations'";
+					}
+					if(isset($_GET["funded_by"])) {
+						foreach($_GET["funded_by"] as $fund) {
+							if($fund == "isea") {
+								if($flag)
+									$query = $query . " AND f_isea = 'T'";
+								else
+									$query = $query . " WHERE f_isea = 'T'";
+							}
+							if($fund == "tequip") {
+								if($flag)
+									$query = $query . " AND f_tequip = 'T'";
+								else
+									$query = $query . " WHERE f_tequip = 'T'";
+							}
+							if($fund == "coep") {
+								if($flag)
+									$query = $query . " AND f_coep = 'T'";
+								else
+									$query = $query . " WHERE f_coep = 'T'";
+							}
+							if($fund == "rsa") {
+								if($flag)
+									$query = $query . " AND f_rsa = 'T'";
+								else
+									$query = $query . " WHERE f_rsa = 'T'";
+							}
+							if($fund == "aicte") {
+								if($flag)
+									$query = $query . " AND f_aicte = 'T'";
+								else
+									$query = $query . " WHERE f_aicte = 'T'";
+							}
+							if($fund == "others") {
+								if($flag)
+									$query = $query . " AND f_others = 'T'";
+								else
+									$query = $query . " WHERE f_others = 'T'";
+							}
+						}
+					}
+					if(isset($_GET["sponsored_by"])) {
+						foreach($_GET["sponsored_by"] as $spons) {
+							if($spons == "isea") {
+								if($flag)
+									$query = $query . " AND t_isea = 'T'";
+								else
+									$query = $query . " WHERE t_isea = 'T'";
+							}
+							if($spons == "tequip") {
+								if($flag)
+									$query = $query . " AND t_tequip = 'T'";
+								else
+									$query = $query . " WHERE t_tequip = 'T'";
+							}
+							if($spons == "coep") {
+								if($flag)
+									$query = $query . " AND t_coep = 'T'";
+								else
+									$query = $query . " WHERE t_coep = 'T'";
+							}
+							if($spons == "rsa") {
+								if($flag)
+									$query = $query . " AND t_rsa = 'T'";
+								else
+									$query = $query . " WHERE t_rsa = 'T'";
+							}
+							if($spons == "aicte") {
+								if($flag)
+									$query = $query . " AND t_aicte = 'T'";
+								else
+									$query = $query . " WHERE t_aicte = 'T'";
+							}
+							if($spons == "others") {
+								if($flag)
+									$query = $query . " AND t_others = 'T'";
+								else
+									$query = $query . " WHERE t_others = 'T'";
+							}
+						}
 					}
 					echo $query;
 		            $result = $db->run_query($query);
