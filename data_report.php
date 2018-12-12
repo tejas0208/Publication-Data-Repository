@@ -43,7 +43,7 @@
 		<form method = "GET">
 			<div class="form-group">
 				<label for="title" class="control-label">Title</label>
-				<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+				<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
 			</div>
 			<div class="form-group">
 				<label for="date" class="control-label">Date</label>
@@ -64,6 +64,10 @@
 			<div class="form-group">
 				<label for="citations" class="control-label">Citations</label>
 				<input type="text" class="form-control" id="citations" name="citations" placeholder="Citations">
+			</div>
+			<div class="form-group">
+				<label for="citations" class="control-label">Department</label>
+				<input type="text" class="form-control" id="department" name="department" placeholder="Department">
 			</div>
 			<div class="form-group">
 				<label for="funded_by" class="control-label">Funded By</label>
@@ -108,6 +112,30 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label for="journal_details" class="control-label">Journal Details: </label>
+				<div class="checkbox">
+					<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national"> National </label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"> International</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="citations" class="control-label">File Name</label>
+				<input type="text" class="form-control" id="fname" name="fname" placeholder="File Name">
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox" id = "approved" name="approved" value="approved"> Approved</label>
+			</div>
+			<div class="form-group">
+				<label for="title" class="control-label">Approved By</label>
+				<input type="text" class="form-control" id="approved_by_mis" name="approved_by_mis" placeholder="MIS">
+			</div>
+			<div class="form-group">
+				<label for="title" class="control-label">Submitted By</label>
+				<input type="text" class="form-control" id="submitted_by_mis" name="submitted_by_mis" placeholder="MIS">
+			</div>
+			<div class="form-group">
 				<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
 			</div>
 		</form>
@@ -122,76 +150,143 @@
 					}
 					if($_GET["date"] != "") {
 						$date = $_GET["date"];
-						if($flag)
+						if($flag) 
 							$query = $query . " AND date = '$date'";
-						else
+						else {
 							$query = $query . " WHERE date = '$date'";
+							$flag = 1;
+						}
 					}
 					if($_GET["pages"] != "") {
 						$pages = $_GET["pages"];
 						if($flag)
 							$query = $query . " AND pages = '$pages'";
-						else
+						else {
 							$query = $query . " WHERE pages = '$pages'";
+							$flag = 1;
+						}
 					}
 					if($_GET["issueno"] != "") {
 						$issueno = $_GET["issueno"];
 						if($flag)
 							$query = $query . " AND issueno = '$issueno'";
-						else
+						else {
 							$query = $query . " WHERE issueno = '$issueno'";
+							$flag = 1;
+						}
 					}
 					if($_GET["volume"] != "") {
 						$volume = $_GET["volume"];
 						if($flag)
 							$query = $query . " AND volume_no = '$volume'";
-						else
+						else {
 							$query = $query . " WHERE volume_no = '$volume'";
+							$flag = 1;
+						}
 					}
 					if($_GET["citations"] != "") {
 						$issueno = $_GET["citations"];
 						if($flag)
 							$query = $query . " AND citations = '$citations'";
-						else
+						else {
 							$query = $query . " WHERE citations = '$citations'";
+							$flag = 1;
+						}
+					}
+					if($_GET["department"] != "") { //Switch to dropdown
+						$department = $_GET["department"];
+						if($flag)
+							$query = $query . " AND department = '$department'";
+						else {
+							$query = $query . " WHERE department = '$department'";
+							$flag = 1;
+						}
+					}
+					if($_GET["fname"] != "") {
+						$fname = $_GET["fname"];
+						if($flag)
+							$query = $query . " AND filename = '$fname'";
+						else {
+							$query = $query . " WHERE filename = '$fname'";
+							$flag = 1;
+						}
+					}
+					if(isset($_GET["approved"])) {
+						$approved = $_GET["approved"];
+						if($flag)
+							$query = $query . " AND approved_status = 'T'";
+						else {
+							$query = $query . " WHERE approved_status = 'T'";
+							$flag = 1;
+						}
+					}
+					if($_GET["approved_by_mis"] != "") {
+						$approved_by_mis = $_GET["approved_by_mis"];
+						if($flag)
+							$query = $query . " AND approved_by_mis = '$approved_by_mis'";
+						else {
+							$query = $query . " WHERE approved_by_mis = '$approved_by_mis'";
+							$flag = 1;
+						}
+					}
+					if($_GET["submitted_by_mis"] != "") {
+						$submitted_by_mis = $_GET["submitted_by_mis"];
+						if($flag)
+							$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
+						else {
+							$query = $query . " WHERE submitted_by_mis = '$submitted_by_mis'";
+							$flag = 1;
+						}
 					}
 					if(isset($_GET["funded_by"])) {
 						foreach($_GET["funded_by"] as $fund) {
 							if($fund == "isea") {
 								if($flag)
 									$query = $query . " AND f_isea = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_isea = 'T'";
+									$flag = 1;
+								}
 							}
 							if($fund == "tequip") {
 								if($flag)
 									$query = $query . " AND f_tequip = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_tequip = 'T'";
+									$flag = 1;
+								}
 							}
 							if($fund == "coep") {
 								if($flag)
 									$query = $query . " AND f_coep = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_coep = 'T'";
+									$flag = 1;
+								}
 							}
 							if($fund == "rsa") {
 								if($flag)
 									$query = $query . " AND f_rsa = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_rsa = 'T'";
+									$flag = 1;
+								}
 							}
 							if($fund == "aicte") {
 								if($flag)
 									$query = $query . " AND f_aicte = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_aicte = 'T'";
+									$flag = 1;
+								}
 							}
 							if($fund == "others") {
 								if($flag)
 									$query = $query . " AND f_others = 'T'";
-								else
+								else {
 									$query = $query . " WHERE f_others = 'T'";
+									$flag = 1;
+								}
 							}
 						}
 					}
@@ -200,41 +295,54 @@
 							if($spons == "isea") {
 								if($flag)
 									$query = $query . " AND t_isea = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_isea = 'T'";
+									$flag = 1;
+								}
 							}
 							if($spons == "tequip") {
 								if($flag)
 									$query = $query . " AND t_tequip = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_tequip = 'T'";
+									$flag = 1;
+								}
 							}
 							if($spons == "coep") {
 								if($flag)
 									$query = $query . " AND t_coep = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_coep = 'T'";
+									$flag = 1;
+								}
 							}
 							if($spons == "rsa") {
 								if($flag)
 									$query = $query . " AND t_rsa = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_rsa = 'T'";
+									$flag = 1;
+								}
 							}
 							if($spons == "aicte") {
 								if($flag)
 									$query = $query . " AND t_aicte = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_aicte = 'T'";
+									$flag = 1;
+								}
 							}
 							if($spons == "others") {
 								if($flag)
 									$query = $query . " AND t_others = 'T'";
-								else
+								else {
 									$query = $query . " WHERE t_others = 'T'";
+									$flag = 1;
+								}
 							}
 						}
 					}
+
 					echo $query;
 		            $result = $db->run_query($query);
 			        echo '<table class="table table-striped table-bordered table-condensed">';
