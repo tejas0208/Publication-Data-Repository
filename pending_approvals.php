@@ -4,12 +4,20 @@
   ini_set('display_errors', 1);
   require_once "db.php";
 
-  if (isset($_GET['id'])) {
+  if (isset($_GET['id']) && isset($_GET['type'])) {
   	$id = $_GET['id'];
+    $type = $_GET['type'];
   	$db = new DB();
-	$query = "UPDATE record SET approved_status = 'T' where idrecord = $id";
-  echo $query;
-	$result = $db->run_query($query);
+
+
+    if ($type == 'A') {
+    	$query = "UPDATE record SET approved_status = 'T' where idrecord = $id";
+      echo $query;
+    	$result = $db->run_query($query);
+    }
+    else {
+      //Todo
+    }
   }
 
 
@@ -66,7 +74,7 @@
                             <th>Sr.No.</th>
                             <th>Title</th>
                             <th>Date</th>
-							<th>Approve</th>
+							<th>Approve / Reject</th>
                           </tr>
                         </thead>
                         <tbody>';
@@ -77,7 +85,10 @@
                     			<td>'.$i.'</td>
                     			<td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
                     			<td>'.$row['date'].'</td>
-                    			<td><a href = "pending_approvals.php?id='.$row['idrecord'].'" class = "btn btn-success">Approve</a></td>
+                    			<td>
+                            <a href = "pending_approvals.php?id='.$row['idrecord'].'&type=A" class = "btn btn-success">Approve</a>
+                            <a href = "pending_approvals.php?id='.$row['idrecord'].'&type=R" class = "btn btn-danger">Reject</a>
+                          </td>
                     		</tr>
                     	';
                     	$i++;
