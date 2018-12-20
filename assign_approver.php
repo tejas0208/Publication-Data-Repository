@@ -262,12 +262,12 @@
 			}
 			else {
 				//approved status false
-				$approved_status = "'F'"; 
+				$approved_status = "'NA'"; 
 			}
 			//echo $query;
 		}
 		else {
-			$approved_status = "'F'";
+			$approved_status = "'NA'";
 		}
 		$approved_by_mis = "'" . $approver . "'";
 		//TOdo
