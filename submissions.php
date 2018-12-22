@@ -41,19 +41,19 @@
       </div>
     </div>
       <div class="submissions">
-      <?php
-        $i = 1;
-        $db = new DB();
-        $query = "SELECT * from users where username = '".$_SESSION['username']."'";
-        $result = $db->run_query($query);
-        $result = mysqli_fetch_row($result);
-        $mis = $result[1];
-        $query = "SELECT * from record where submitted_by_mis = $mis";
-        $result = $db->run_query($query);
-        if(mysqli_num_rows($result) == 0) {
-            echo "Nothing to show";
-        } else {
-            echo '<table class="table table-striped table-bordered table-condensed">
+<?php
+            $i      = 1;
+            $db     = new DB();
+            $query  = "SELECT * from users where username = '" . $_SESSION['username'] . "'";
+            $result = $db->run_query($query);
+            $result = mysqli_fetch_row($result);
+            $mis    = $result[1];
+            $query  = "SELECT * from record where submitted_by_mis = $mis";
+            $result = $db->run_query($query);
+            if (mysqli_num_rows($result) == 0) {
+                echo "Nothing to show";
+            } else {
+                echo '<table class="table table-striped table-bordered table-condensed">
                   <thead>
                     <tr>
                       <th>Sr.No.</th>
@@ -64,43 +64,41 @@
                     </tr>
                   </thead>
                   <tbody>';
-
-              while ($row = mysqli_fetch_array($result)) {
-              	$id = $row['idrecord'];
-                $title = $row['title'];
-                $date = $row['date'];
-
-                if($row['approved_status'] == 'T') {
-                  $color = "green";
-                  $message = "Approved";
-                  $reason = "";
-                }
-                else if($row['approved_status'] == 'F'){
-                  $color = "red";
-                  $message = "Rejected";
-                  $query2 = "SELECT reason from rejection_record where idrecord = '".$id."'";
-                  $reason = $db->run_query($query2);
-                  $reason = mysqli_fetch_array($result);
-                }
-                else {
-                  $color = "black";
-                  $message = "Pending";
-                  $reason = "";
-                }
-                echo '
+                
+                while ($row = mysqli_fetch_array($result)) {
+                    $id    = $row['idrecord'];
+                    $title = $row['title'];
+                    $date  = $row['date'];
+                    
+                    if ($row['approved_status'] == 'T') {
+                        $color   = "green";
+                        $message = "Approved";
+                        $reason  = "";
+                    } else if ($row['approved_status'] == 'F') {
+                        $color   = "red";
+                        $message = "Rejected";
+                        $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "'";
+                        $reason  = $db->run_query($query2);
+                        $reason  = mysqli_fetch_array($result);
+                    } else {
+                        $color   = "black";
+                        $message = "Pending";
+                        $reason  = "";
+                    }
+                    echo '
                   <tr>
-                    <td>'.$i.'</td>
-                    <td><u><a href = "details.php?id='.$id.'">'.$title.'</a></u></td>
-                    <td>'.$date.'</td>
-                    <td style="color:'.$color.';">'.$message.'</td>
+                    <td>' . $i . '</td>
+                    <td><u><a href = "details.php?id=' . $id . '">' . $title . '</a></u></td>
+                    <td>' . $date . '</td>
+                    <td style="color:' . $color . ';">' . $message . '</td>
                   </tr>
                 ';
-                $i++;
-              }
-
-
-          }
-      ?>
+                    $i++;
+                }
+                
+                
+            }
+?>
               </tbody>
           </table>      
     </div>
