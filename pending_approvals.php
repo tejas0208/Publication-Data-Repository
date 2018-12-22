@@ -1,54 +1,54 @@
 <?php
-  include('session.php');
-  ini_set('error_reporting', E_ALL);
-  ini_set('display_errors', 1);
-  require_once "db.php";
-  $no_reason_flag = 0;
-  $rejected_flag = 0;
-  $accepted_flag = 0;
-  $db = new DB();
-  $query = "SELECT *  from users where username = '".$_SESSION['username']."'";
-  $result = $db->run_query($query);
-  $result = mysqli_fetch_row($result);
-  $mis = $result[1];
-  $query = "SELECT * from record where approved_by_mis = $mis and approved_status = 'NA'";
-  $result = $db->run_query($query);
+include('session.php');
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+require_once "db.php";
+$no_reason_flag = 0;
+$rejected_flag  = 0;
+$accepted_flag  = 0;
+$db             = new DB();
+$query          = "SELECT *  from users where username = '" . $_SESSION['username'] . "'";
+$result         = $db->run_query($query);
+$result         = mysqli_fetch_row($result);
+$mis            = $result[1];
+$query          = "SELECT * from record where approved_by_mis = $mis and approved_status = 'NA'";
+$result         = $db->run_query($query);
 
-  function test_input($data) {
-    	$data = trim($data);
-    	$data = stripslashes($data);
-    	$data = htmlspecialchars($data);
-    	return $data;
-  }
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
-  if(mysqli_num_rows($result) != 0) {
-  	while ($row = mysqli_fetch_array($result)) {
-  		$id = $row['idrecord'];
-  		$A = "A".$id.$id;
-  		$R = "R".$id.$id;
-  		if (isset($_POST[$R])) {
-  			// The record is rejected, need to be added in the table
-  			// Check if there is a reason given
-  			$reason = test_input($_POST["rejection_comment"]);
-  			if ($reason != "" || strlen($reason) > 1024) {
-  				$query = "UPDATE record set approved_status = 'F' where idrecord = '$id'";
-  				$result = $db->run_query($query);
-  				$query = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
-  				$result = $db->run_query($query);
-  				$rejected_flag = 1;
-  			}
-  			else {
-  				$no_reason_flag = 1;
-  			}
-
-  		}
-  		if (isset($_POST[$A])) {
-  			$query = "UPDATE record set approved_status = 'T' where idrecord = '$id'";
-  			$result = $db->run_query($query);
-  			$accepted_flag = 1;
-  		}
-  	}
-  }
+if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $id = $row['idrecord'];
+        $A  = "A" . $id . $id;
+        $R  = "R" . $id . $id;
+        if (isset($_POST[$R])) {
+            // The record is rejected, need to be added in the table
+            // Check if there is a reason given
+            $reason = test_input($_POST["rejection_comment"]);
+            if ($reason != "" || strlen($reason) > 1024) {
+                $query         = "UPDATE record set approved_status = 'F' where idrecord = '$id'";
+                $result        = $db->run_query($query);
+                $query         = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
+                $result        = $db->run_query($query);
+                $rejected_flag = 1;
+            } else {
+                $no_reason_flag = 1;
+            }
+            
+        }
+        if (isset($_POST[$A])) {
+            $query         = "UPDATE record set approved_status = 'T' where idrecord = '$id'";
+            $result        = $db->run_query($query);
+            $accepted_flag = 1;
+        }
+    }
+}
 
 ?>
 
