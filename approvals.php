@@ -50,6 +50,7 @@
                     echo "Nothing to show";
                 }
                 else {
+
                 	echo '<table class="table table-striped table-bordered table-condensed">
                         <thead>
                           <tr>
@@ -57,31 +58,41 @@
                             <th>Title</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Reason for rejection(where applicable)</th>
                           </tr>
                         </thead>
                         <tbody>';
 
                     while ($row = mysqli_fetch_array($result)) {
+                    	$id = $row['idrecord'];
+                		$title = $row['title'];
+                		$date = $row['date'];
                     	if($row['approved_status'] == 'T') {
                     		$color = "green";
                     		$message = "Approved";
-                    	}
-                    	else{
+                    		$reason = "";
+                    	} else if($row['approved_status'] == 'NA') {
+                            $color = "black";
+                            $message = "Pending";
+                            $reason = ""
+                        } else{
                     		$color = "red";
                     		$message = "Rejected";
+                    		$query2 = "SELECT reason from rejection_record where idrecord = '".$id."'";
+                    		$reason = $db->run_query($query2);
+                    		$reason = mysqli_fetch_array($result);
                     	}
                     	echo '
                     		<tr>
                     			<td>'.$i.'</td>
-                    			<td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-                    			<td>'.$row['date'].'</td>
+                    			<td><u><a href = "details.php?id='.$id.'">'.$title.'</a></u></td>
+                    			<td>'.$date.'</td>
                     			<td style="color:'.$color.';">'.$message.'</td>
+                    			<td>'.$reason.'</td>
                     		</tr>
                     	';
                     	$i++;
                     }
-
-
                 }
 			?>
         </tbody>
