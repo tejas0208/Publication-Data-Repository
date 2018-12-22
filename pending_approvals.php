@@ -3,28 +3,52 @@
   ini_set('error_reporting', E_ALL);
   ini_set('display_errors', 1);
   require_once "db.php";
-  if (isset($_GET['id']) && isset($_GET['type'])) {
-    $id = $_GET['id'];
-    $type = $_GET['type'];
-    $db = new DB();
+  $no_reason_flag = 0;
+  $rejected_flag = 0;
+  $accepted_flag = 0;
+  $db = new DB();
+  $query = "SELECT *  from users where username = '".$_SESSION['username']."'";
+  $result = $db->run_query($query);
+  $result = mysqli_fetch_row($result);
+  $mis = $result[1];
+  $query = "SELECT * from record where approved_by_mis = $mis and approved_status = 'NA'";
+  $result = $db->run_query($query);
 
-
-    if ($type == 'A') {
-      $query = "UPDATE record SET approved_status = 'T' where idrecord = $id";
-      $result = $db->run_query($query);
-    }
-
-  }
-  if (isset($_POST['id'])) {
-    $id = $_POST['id'];
-    $reason = $_POST['reason'];
-    $db = new DB();
-    $query = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason');";
-    $result = $db->run_query($query);
-    $query = "UPDATE `record` SET `approved_status` = 'F' WHERE `idrecord` = '17';";
-    
+  function test_input($data) {
+    	$data = trim($data);
+    	$data = stripslashes($data);
+    	$data = htmlspecialchars($data);
+    	return $data;
   }
 
+  if(mysqli_num_rows($result) != 0) {
+  	while ($row = mysqli_fetch_array($result)) {
+  		$id = $row['idrecord'];
+  		$A = "A".$id.$id;
+  		$R = "R".$id.$id;
+  		if (isset($_POST[$R])) {
+  			// The record is rejected, need to be added in the table
+  			// Check if there is a reason given
+  			$reason = test_input($_POST["rejection_comment"]);
+  			if ($reason != "" || strlen($reason) > 1024) {
+  				$query = "UPDATE record set approved_status = 'F' where idrecord = '$id'";
+  				$result = $db->run_query($query);
+  				$query = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
+  				$result = $db->run_query($query);
+  				$rejected_flag = 1;
+  			}
+  			else {
+  				$no_reason_flag = 1;
+  			}
+
+  		}
+  		if (isset($_POST[$A])) {
+  			$query = "UPDATE record set approved_status = 'T' where idrecord = '$id'";
+  			$result = $db->run_query($query);
+  			$accepted_flag = 1;
+  		}
+  	}
+  }
 
 ?>
 
@@ -61,8 +85,28 @@
     <form action="pending_approvals.php" method="POST">
       <div class="pendingappr">
         <?php
+          if ($no_reason_flag == 1) {
+          	echo '<br>
+					<div class="alert alert-danger alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Please enter a valid rejection reason.</strong>
+					</div>';
+          }
+          if($rejected_flag == 1) {
+          	echo '<br>
+					<div class="alert alert-danger alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Record updated!</strong>
+					</div>';
+          }
+          if($accepted_flag == 1) {
+          	echo '<br>
+					<div class="alert alert-success alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Record updated!</strong>
+					</div>';
+          }
           $i = 1;
-          $db = new DB();
           $query = "SELECT *  from users where username = '".$_SESSION['username']."'";
           $result = $db->run_query($query);
           $result = mysqli_fetch_row($result);
@@ -91,8 +135,8 @@
                       <td>'.$row['date'].'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
-                        <button class = "btn btn-success" name = "approve">Approve</a>
-                        <button class = "btn btn-danger" name = "reject">Reject</a>
+                        <button class = "btn btn-success" name = "A'.$row['idrecord'].$row['idrecord'].'">Approve</a>
+                        <button class = "btn btn-danger" name = "R'.$row['idrecord'].$row['idrecord'].'">Reject</a>
                       </td>
                     </tr>
                   ';
