@@ -60,28 +60,38 @@
                       <th>Title</th>
                       <th>Date</th>
                       <th>Status</th>
+                      <th>Reason for rejection(where applicable)</th>
                     </tr>
                   </thead>
                   <tbody>';
 
               while ($row = mysqli_fetch_array($result)) {
+              	$id = $row['idrecord'];
+                $title = $row['title'];
+                $date = $row['date'];
+
                 if($row['approved_status'] == 'T') {
                   $color = "green";
                   $message = "Approved";
+                  $reason = "";
                 }
                 else if($row['approved_status'] == 'F'){
                   $color = "red";
                   $message = "Rejected";
+                  $query2 = "SELECT reason from rejection_record where idrecord = '".$id."'";
+                  $reason = $db->run_query($query2);
+                  $reason = mysqli_fetch_array($result);
                 }
                 else {
                   $color = "black";
                   $message = "Pending";
+                  $reason = "";
                 }
                 echo '
                   <tr>
                     <td>'.$i.'</td>
-                    <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-                    <td>'.$row['date'].'</td>
+                    <td><u><a href = "details.php?id='.$id.'">'.$title.'</a></u></td>
+                    <td>'.$date.'</td>
                     <td style="color:'.$color.';">'.$message.'</td>
                   </tr>
                 ';
