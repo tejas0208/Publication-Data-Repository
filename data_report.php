@@ -4,7 +4,7 @@
 			ini_set('display_errors', 1);
 			require_once "db.php";
 			$db = new DB();
-				if(isset($_GET["submit"])) {
+				if(isset($_GET["submit"]) OR isset($_GET["downpdf"])) {
 					$query = "SELECT * FROM record";
 					$flag = 0;
 					if($_GET["title"] != "") {
@@ -258,8 +258,10 @@
     	<div class="wrapper">
 		    <div class="register">
 				<?php
-					if(isset($_GET["submit"])) {
+					if(isset($_GET["submit"]) OR isset($_GET["downpdf"])) {
 					    $result = $db->run_query($query);
+					    if(isset($_GET["downpdf"]))
+					    	ob_start();
 					    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
 						echo "<tr>
 								<th>Title</th>
@@ -278,6 +280,13 @@
 									</tr>";
 						}
 					    echo '</table>';
+					    if(isset($_GET["downpdf"])) {
+						    $table = ob_get_clean();
+						    require_once __DIR__ . '/vendor/autoload.php';
+							$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+							$mpdf->WriteHTML($table);
+							$mpdf->Output('search_result.pdf', "D");
+						}
 					}
 				?>
 				<form method = "GET">
@@ -377,6 +386,9 @@
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
 					</div>
 				</form>
 			</div>
