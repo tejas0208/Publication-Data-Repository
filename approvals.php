@@ -44,7 +44,7 @@
 				$result = $db->run_query($query);
                 $result = mysqli_fetch_row($result);
                 $mis = $result[1];
-                $query = "SELECT * from record where approved_by_mis = $mis and approved_status = 'T'";
+                $query = "SELECT * from record where approved_by_mis = $mis and approved_status != 'NA'";
                 $result = $db->run_query($query);
                 if(mysqli_num_rows($result) == 0) {
                     echo "Nothing to show";
@@ -56,16 +56,26 @@
                             <th>Sr.No.</th>
                             <th>Title</th>
                             <th>Date</th>
+                            <th>Status</th>
                           </tr>
                         </thead>
                         <tbody>';
 
                     while ($row = mysqli_fetch_array($result)) {
+                    	if($row['approved_status'] == 'T') {
+                    		$color = "green";
+                    		$message = "Approved";
+                    	}
+                    	else{
+                    		$color = "red";
+                    		$message = "Rejected";
+                    	}
                     	echo '
                     		<tr>
                     			<td>'.$i.'</td>
                     			<td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
                     			<td>'.$row['date'].'</td>
+                    			<td style="color:'.$color.';">'.$message.'</td>
                     		</tr>
                     	';
                     	$i++;
@@ -74,7 +84,9 @@
 
                 }
 			?>
-		</div>
+        </tbody>
+    </table>
+        </div>
 
 
 	</body>
