@@ -4,205 +4,88 @@
 			ini_set('display_errors', 1);
 			require_once "db.php";
 			$db = new DB();
-				if(isset($_GET["submit"]) OR isset($_GET["downpdf"])) {
-					$query = "SELECT * FROM record";
-					$flag = 0;
+				if(isset($_GET["submit"])) {
+					$query = "SELECT * FROM record WHERE approved_status = 'T'";
 					if($_GET["title"] != "") {
 						$title = $_GET["title"];
-						$query = $query . " WHERE title = '$title'";
-						$flag = 1;
+						$query = $query . " AND title = '$title'";
 					}
 					if($_GET["date"] != "") {
 						$date = $_GET["date"];
-						if($flag) 
-							$query = $query . " AND date = '$date'";
-						else {
-							$query = $query . " WHERE date = '$date'";
-							$flag = 1;
-						}
+						$query = $query . " AND date = '$date'";
 					}
 					if($_GET["pages"] != "") {
 						$pages = $_GET["pages"];
-						if($flag)
-							$query = $query . " AND pages = '$pages'";
-						else {
-							$query = $query . " WHERE pages = '$pages'";
-							$flag = 1;
-						}
+						$query = $query . " AND pages = '$pages'";
 					}
-					if($_GET["issueno"] != "") {
+/*					if($_GET["issueno"] != "") {
 						$issueno = $_GET["issueno"];
-						if($flag)
-							$query = $query . " AND issueno = '$issueno'";
-						else {
-							$query = $query . " WHERE issueno = '$issueno'";
-							$flag = 1;
-						}
-					}
+						$query = $query . " AND issueno = '$issueno'";
+					}*/
 					if($_GET["volume"] != "") {
 						$volume = $_GET["volume"];
-						if($flag)
-							$query = $query . " AND volume_no = '$volume'";
-						else {
-							$query = $query . " WHERE volume_no = '$volume'";
-							$flag = 1;
-						}
+						$query = $query . " AND volume_no = '$volume'";
 					}
 					if($_GET["citations"] != "") {
-						$issueno = $_GET["citations"];
-						if($flag)
-							$query = $query . " AND citations = '$citations'";
-						else {
-							$query = $query . " WHERE citations = '$citations'";
-							$flag = 1;
-						}
+						$citations = $_GET["citations"];
+						$query = $query . " AND citations = '$citations'";
 					}
-					if($_GET["department"] != "") { //Switch to dropdown
+					if($_GET["department"] != "") { //Switch to dropdown maybe?
 						$department = $_GET["department"];
-						if($flag)
-							$query = $query . " AND department = '$department'";
-						else {
-							$query = $query . " WHERE department = '$department'";
-							$flag = 1;
-						}
+						$query = $query . " AND department = '$department'";
 					}
 					if($_GET["fname"] != "") {
 						$fname = $_GET["fname"];
-						if($flag)
-							$query = $query . " AND filename = '$fname'";
-						else {
-							$query = $query . " WHERE filename = '$fname'";
-							$flag = 1;
-						}
-					}
-					if(isset($_GET["approved"])) {
-						$approved = $_GET["approved"];
-						if($flag)
-							$query = $query . " AND approved_status = 'T'";
-						else {
-							$query = $query . " WHERE approved_status = 'T'";
-							$flag = 1;
-						}
+						$query = $query . " AND filename = '$fname'";
 					}
 					if($_GET["approved_by_mis"] != "") {
 						$approved_by_mis = $_GET["approved_by_mis"];
-						if($flag)
-							$query = $query . " AND approved_by_mis = '$approved_by_mis'";
-						else {
-							$query = $query . " WHERE approved_by_mis = '$approved_by_mis'";
-							$flag = 1;
-						}
+						$query = $query . " AND approved_by_mis = '$approved_by_mis'";
 					}
 					if($_GET["submitted_by_mis"] != "") {
 						$submitted_by_mis = $_GET["submitted_by_mis"];
-						if($flag)
-							$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
-						else {
-							$query = $query . " WHERE submitted_by_mis = '$submitted_by_mis'";
-							$flag = 1;
-						}
+						$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
 					}
 					if(isset($_GET["funded_by"])) {
 						foreach($_GET["funded_by"] as $fund) {
-							if($fund == "isea") {
-								if($flag)
-									$query = $query . " AND f_isea = 'T'";
-								else {
-									$query = $query . " WHERE f_isea = 'T'";
-									$flag = 1;
-								}
-							}
-							if($fund == "tequip") {
-								if($flag)
-									$query = $query . " AND f_tequip = 'T'";
-								else {
-									$query = $query . " WHERE f_tequip = 'T'";
-									$flag = 1;
-								}
-							}
-							if($fund == "coep") {
-								if($flag)
-									$query = $query . " AND f_coep = 'T'";
-								else {
-									$query = $query . " WHERE f_coep = 'T'";
-									$flag = 1;
-								}
-							}
-							if($fund == "rsa") {
-								if($flag)
-									$query = $query . " AND f_rsa = 'T'";
-								else {
-									$query = $query . " WHERE f_rsa = 'T'";
-									$flag = 1;
-								}
-							}
-							if($fund == "aicte") {
-								if($flag)
-									$query = $query . " AND f_aicte = 'T'";
-								else {
-									$query = $query . " WHERE f_aicte = 'T'";
-									$flag = 1;
-								}
-							}
-							if($fund == "others") {
-								if($flag)
-									$query = $query . " AND f_others = 'T'";
-								else {
-									$query = $query . " WHERE f_others = 'T'";
-									$flag = 1;
-								}
-							}
+							if($fund == "isea")
+								$query = $query . " AND f_isea = 'T'";
+
+							if($fund == "tequip")
+								$query = $query . " AND f_tequip = 'T'";
+
+							if($fund == "coep")
+								$query = $query . " AND f_coep = 'T'";
+
+							if($fund == "rsa")
+								$query = $query . " AND f_rsa = 'T'";
+
+							if($fund == "aicte")
+								$query = $query . " AND f_aicte = 'T'";
+
+							if($fund == "others")
+								$query = $query . " AND f_others = 'T'";
 						}
 					}
 					if(isset($_GET["sponsored_by"])) {
 						foreach($_GET["sponsored_by"] as $spons) {
 							if($spons == "isea") {
-								if($flag)
-									$query = $query . " AND t_isea = 'T'";
-								else {
-									$query = $query . " WHERE t_isea = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_isea = 'T'";
 							}
 							if($spons == "tequip") {
-								if($flag)
-									$query = $query . " AND t_tequip = 'T'";
-								else {
-									$query = $query . " WHERE t_tequip = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_tequip = 'T'";
 							}
 							if($spons == "coep") {
-								if($flag)
-									$query = $query . " AND t_coep = 'T'";
-								else {
-									$query = $query . " WHERE t_coep = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_coep = 'T'";
 							}
 							if($spons == "rsa") {
-								if($flag)
-									$query = $query . " AND t_rsa = 'T'";
-								else {
-									$query = $query . " WHERE t_rsa = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_rsa = 'T'";
 							}
 							if($spons == "aicte") {
-								if($flag)
-									$query = $query . " AND t_aicte = 'T'";
-								else {
-									$query = $query . " WHERE t_aicte = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_aicte = 'T'";
 							}
 							if($spons == "others") {
-								if($flag)
-									$query = $query . " AND t_others = 'T'";
-								else {
-									$query = $query . " WHERE t_others = 'T'";
-									$flag = 1;
-								}
+								$query = $query . " AND t_others = 'T'";
 							}
 						}
 					}
@@ -257,107 +140,193 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
-				<?php
-					if(isset($_GET["submit"]) OR isset($_GET["downpdf"])) {
+		    	<?php
+					if(isset($_GET["submit"])) {
 					    $result = $db->run_query($query);
-					    if(isset($_GET["downpdf"]))
-					    	ob_start();
-					    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
-						echo "<tr>
-								<th>Title</th>
-								<th>Date</th>
-								<th>Approved By MIS</th>
-								<th>Submitted By MIS</th>
-								<th>Department</th>
-							</tr>";
-						while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+					    $rowCount = $result->num_rows;
+					    if(!$rowCount)
+					    	echo "<h4 style='text-align:center'>No Results</h2>";
+					    else {
+						    if(isset($_POST["downpdf"])) 
+						    	ob_start();
+						    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
 							echo "<tr>
-										<td>". $row['title']. "</td>
-										<td>" . $row['date'] . "</td>
-										<td>" . $row['approved_by_mis'] . "</td>
-										<td>" . $row['submitted_by_mis'] . "</td>
-										<td>" . $row['department'] . "</td>
-									</tr>";
-						}
-					    echo '</table>';
-					    if(isset($_GET["downpdf"])) {
-						    $table = ob_get_clean();
-						    require_once __DIR__ . '/vendor/autoload.php';
-							$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
-							$mpdf->WriteHTML($table);
-							$mpdf->Output('search_result.pdf', "D");
+									<th>Title</th>
+									<th>Date</th>
+									<th>Approved By MIS</th>
+									<th>Submitted By MIS</th>
+									<th>Department</th>
+								</tr>";
+							while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+								echo "<tr>
+											<td>". $row['title']. "</td>
+											<td>" . $row['date'] . "</td>
+											<td>" . $row['approved_by_mis'] . "</td>
+											<td>" . $row['submitted_by_mis'] . "</td>
+											<td>" . $row['department'] . "</td>
+										</tr>";
+							}
+						    echo '</table>';
+						    if(isset($_POST["downpdf"])) {
+							    $table = ob_get_clean();
+							    require_once __DIR__ . '/vendor/autoload.php';
+								$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+								$mpdf->WriteHTML($table);
+								$mpdf->Output('search_result.pdf', "D");
+							}
+						    echo '<form method= "POST">
+						    	<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
+						    </form>'; 
 						}
 					}
 				?>
 				<form method = "GET">
 					<div class="form-group">
 						<label for="title" class="control-label">Title</label>
-						<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+						<input type="text" class="form-control" id="title" name="title"
+						<?php
+							if(isset($_GET["title"]))
+								echo 'value="'.$_GET["title"].'"';
+						?> placeholder="Enter Title">
 					</div>
 					<div class="form-group">
 						<label for="date" class="control-label">Date</label>
-						<input type="text" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
+						<input type="text" class="form-control" id="date" name="date"
+						<?php
+							if(isset($_GET["date"]))
+								echo 'value="'.$_GET["date"].'"';
+						?> placeholder="yyyy/mm/dd">
 					</div>
 					<div class="form-group">
 						<label for="pages" class="control-label">Pages</label>
-						<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages">
+						<input type="text" class="form-control" id="pages" name="pages"
+						<?php
+							if(isset($_GET["pages"]))
+								echo 'value="'.$_GET["pages"].'"';
+						?> placeholder="No. of pages">
 					</div>
-					<div class="form-group">
+					<!--<div class="form-group">
 						<label for="issueno" class="control-label">Issue no</label>
-						<input type="text" class="form-control" id="issueno" name="issueno" placeholder="Enter issue no">
-					</div>
+						<input type="text" class="form-control" id="issueno" name="issueno"
+						<?php
+							echo 'value="';
+							if(isset($_GET["issueno"]))
+								echo $_GET["issueno"];
+							echo '"';
+						?> placeholder="Enter issue no">
+					</div>-->
 					<div class="form-group">
 						<label for="volume" class="control-label">Volume</label>
-						<input type="text" class="form-control" id="volume" name="volume" placeholder="Enter Volume">
+						<input type="text" class="form-control" id="volume" name="volume"
+						<?php
+							if(isset($_GET["volume"]))
+								echo 'value="'.$_GET["volume"].'"';
+						?> placeholder="Enter Volume">
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">Citations</label>
-						<input type="text" class="form-control" id="citations" name="citations" placeholder="Citations">
+						<input type="text" class="form-control" id="citations" name="citations"
+						<?php
+							if(isset($_GET["citations"]))
+								echo 'value="'.$_GET["citations"].'"';
+						?> placeholder="Citations">
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">Department</label>
-						<input type="text" class="form-control" id="department" name="department" placeholder="Department">
+						<input type="text" class="form-control" id="department" name="department"
+						<?php
+							if(isset($_GET["department"]))
+								echo 'value="'.$_GET["department"].'"';
+						?> placeholder="Department">
 					</div>
 					<div class="form-group">
 						<label for="funded_by" class="control-label">Funded By</label>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"> ISEA</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("isea", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>> ISEA</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="tequip"> TEQUIP</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="tequip"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("tequip", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>> TEQUIP</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="coep"> COEP</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="coep"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("coep", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>> COEP</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="rsa"> RSA</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="rsa"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("rsa", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>> RSA</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="aicte"> AICTE</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="aicte"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("aicte", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>a> AICTE</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"> Others</label>
+							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"
+						<?php
+							if(isset($_GET["funded_by"]) AND in_array("others", $_GET["funded_by"]))
+								echo 'checked="checked"';
+						?>> Others</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="sponsored_by" class="control-label">Sponsored By</label>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("isea", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> ISEA</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"> TEQUIP</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("tequip", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> TEQUIP</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"> COEP</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("coep", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> COEP</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"> RPS</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("rps", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> RPS</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"> AICTE</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("aicte", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> AICTE</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"> Others</label>
+							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"
+						<?php
+							if(isset($_GET["sponsored_by"]) AND in_array("others", $_GET["sponsored_by"]))
+								echo 'checked="checked"';
+						?>> Others</label>
 						</div>
 					</div>
 					<div class="form-group">
@@ -371,24 +340,30 @@
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">File Name</label>
-						<input type="text" class="form-control" id="fname" name="fname" placeholder="File Name">
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" id = "approved" name="approved" value="approved"> Approved</label>
+						<input type="text" class="form-control" id="fname" name="fname"
+						<?php
+							if(isset($_GET["fname"]))
+								echo 'value="'.$_GET["fname"].'"';
+						?> placeholder="File Name">
 					</div>
 					<div class="form-group">
 						<label for="title" class="control-label">Approved By</label>
-						<input type="text" class="form-control" id="approved_by_mis" name="approved_by_mis" placeholder="MIS">
+						<input type="text" class="form-control" id="approved_by_mis" name="approved_by_mis"
+						<?php
+							if(isset($_GET["approved_by_mis"]))
+								echo 'value="'.$_GET["approved_by_mis"].'"';
+						?> placeholder="MIS">
 					</div>
 					<div class="form-group">
 						<label for="title" class="control-label">Submitted By</label>
-						<input type="text" class="form-control" id="submitted_by_mis" name="submitted_by_mis" placeholder="MIS">
+						<input type="text" class="form-control" id="submitted_by_mis" name="submitted_by_mis"
+						<?php
+							if(isset($_GET["submitted_by_mis"]))
+								echo 'value="'.$_GET["submitted_by_mis"].'"';
+						?> placeholder="MIS">
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
-					</div>
-					<div class="form-group">
-						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
 					</div>
 				</form>
 			</div>
