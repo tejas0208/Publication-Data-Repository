@@ -15,9 +15,9 @@
     }
 
   }
-  if (isset($_POST['data'])) {
-    $id = $_POST['data']['id'];
-    $reason = $_POST['data']['reason'];
+  if (isset($_POST['id'])) {
+    $id = $_POST['id'];
+    $reason = $_POST['reason'];
     $db = new DB();
     $query = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason');";
     $result = $db->run_query($query);
@@ -58,72 +58,53 @@
             <h1 class="navheader"> Publication Data Repository </h1>
       </div>
     </div>
+    <form action="pending_approvals.php" method="POST">
+      <div class="pendingappr">
+        <?php
+          $i = 1;
+          $db = new DB();
+          $query = "SELECT *  from users where username = '".$_SESSION['username']."'";
+          $result = $db->run_query($query);
+          $result = mysqli_fetch_row($result);
+          $mis = $result[1];
+          $query = "SELECT * from record where approved_by_mis = $mis and approved_status = 'NA'";
+          $result = $db->run_query($query);
+          if(mysqli_num_rows($result) == 0) {
+            echo "Nothing to show";
+          } else {
+              echo '<table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Title</th>
+                        <th>Date</th>
+          <th>Approve / Reject</th>
+                      </tr>
+                    </thead>
+                    <tbody>';
 
-    <div class="pendingappr">
-      <?php
-        $i = 1;
-        $db = new DB();
-        $query = "SELECT * from users where username = '".$_SESSION['username']."'";
-        $result = $db->run_query($query);
-                $result = mysqli_fetch_row($result);
-                $mis = $result[1];
-                $query = "SELECT * from record where approved_by_mis = $mis and approved_status = 'NA'";
-                $result = $db->run_query($query);
-                if(mysqli_num_rows($result) == 0) {
-                    echo "Nothing to show";
+                while ($row = mysqli_fetch_array($result)) {
+                  echo '
+                    <tr>
+                      <td>'.$i.'</td>
+                      <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
+                      <td>'.$row['date'].'</td>
+                      <td>
+                        <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
+                        <button class = "btn btn-success" name = "approve">Approve</a>
+                        <button class = "btn btn-danger" name = "reject">Reject</a>
+                      </td>
+                    </tr>
+                  ';
+                  $i++;
                 }
-                else {
-                  echo '<table class="table table-striped table-bordered table-condensed">
-                        <thead>
-                          <tr>
-                            <th>Sr.No.</th>
-                            <th>Title</th>
-                            <th>Date</th>
-              <th>Approve / Reject</th>
-                          </tr>
-                        </thead>
-                        <tbody>';
-
-                    while ($row = mysqli_fetch_array($result)) {
-                      echo '
-                        <tr>
-                          <td>'.$i.'</td>
-                          <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-                          <td>'.$row['date'].'</td>
-                          <td>
-                            <a href = "pending_approvals.php?id='.$row['idrecord'].'&type=A" class = "btn btn-success">Approve</a>
-                            <a id='.$row['idrecord'].' class = "btn btn-danger reject_button">Reject</a>
-                          </td>
-                        </tr>
-                      ';
-                      $i++;
-                    }
+                echo '</tbody></table>';
 
 
-                }
-      ?>
-    </div>
-
+          }
+        ?>
+      </div>
+    </form>
 
   </body>
-  <script type="text/javascript">
-    $('.reject_button').click(function(){
-      var thisid = $(this).attr('id');
-      var reason = prompt("Please enter a rejection reason (max 1024 Characters)");
-      if(reason == "" || reason == null) {
-          //Let's do something for this
-      } else {
-        var data = {data: JSON.stringify({id:thisid, reason:reason})};
-        console.log(data);
-        $.ajax({
-          url:"./pending_approvals.php",
-          type:"POST",
-          data:data,
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: console.log(data);
-        })
-      }
-    });
-  </script>
 </html>
