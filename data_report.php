@@ -4,50 +4,51 @@
 			ini_set('display_errors', 1);
 			require_once "db.php";
 			$db = new DB();
-				if(isset($_GET["submit"])) {
+			$flag = 0;
+				if(isset($_POST["submit"])) {
 					$query = "SELECT * FROM record WHERE approved_status = 'T'";
-					if($_GET["title"] != "") {
-						$title = $_GET["title"];
+					if($_POST["title"] != "") {
+						$title = $_POST["title"];
 						$query = $query . " AND title = '$title'";
 					}
-					if($_GET["date"] != "") {
-						$date = $_GET["date"];
+					if($_POST["date"] != "") {
+						$date = $_POST["date"];
 						$query = $query . " AND date = '$date'";
 					}
-					if($_GET["pages"] != "") {
-						$pages = $_GET["pages"];
+					if($_POST["pages"] != "") {
+						$pages = $_POST["pages"];
 						$query = $query . " AND pages = '$pages'";
 					}
-/*					if($_GET["issueno"] != "") {
-						$issueno = $_GET["issueno"];
+/*					if($_POST["issueno"] != "") {
+						$issueno = $_POST["issueno"];
 						$query = $query . " AND issueno = '$issueno'";
 					}*/
-					if($_GET["volume"] != "") {
-						$volume = $_GET["volume"];
+					if($_POST["volume"] != "") {
+						$volume = $_POST["volume"];
 						$query = $query . " AND volume_no = '$volume'";
 					}
-					if($_GET["citations"] != "") {
-						$citations = $_GET["citations"];
+					if($_POST["citations"] != "") {
+						$citations = $_POST["citations"];
 						$query = $query . " AND citations = '$citations'";
 					}
-					if($_GET["department"] != "") { //Switch to dropdown maybe?
-						$department = $_GET["department"];
+					if($_POST["department"] != "") { //Switch to dropdown maybe?
+						$department = $_POST["department"];
 						$query = $query . " AND department = '$department'";
 					}
-					if($_GET["fname"] != "") {
-						$fname = $_GET["fname"];
+					if($_POST["fname"] != "") {
+						$fname = $_POST["fname"];
 						$query = $query . " AND filename = '$fname'";
 					}
-					if($_GET["approved_by_mis"] != "") {
-						$approved_by_mis = $_GET["approved_by_mis"];
+					if($_POST["approved_by_mis"] != "") {
+						$approved_by_mis = $_POST["approved_by_mis"];
 						$query = $query . " AND approved_by_mis = '$approved_by_mis'";
 					}
-					if($_GET["submitted_by_mis"] != "") {
-						$submitted_by_mis = $_GET["submitted_by_mis"];
+					if($_POST["submitted_by_mis"] != "") {
+						$submitted_by_mis = $_POST["submitted_by_mis"];
 						$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
 					}
-					if(isset($_GET["funded_by"])) {
-						foreach($_GET["funded_by"] as $fund) {
+					if(isset($_POST["funded_by"])) {
+						foreach($_POST["funded_by"] as $fund) {
 							if($fund == "isea")
 								$query = $query . " AND f_isea = 'T'";
 
@@ -67,8 +68,8 @@
 								$query = $query . " AND f_others = 'T'";
 						}
 					}
-					if(isset($_GET["sponsored_by"])) {
-						foreach($_GET["sponsored_by"] as $spons) {
+					if(isset($_POST["sponsored_by"])) {
+						foreach($_POST["sponsored_by"] as $spons) {
 							if($spons == "isea") {
 								$query = $query . " AND t_isea = 'T'";
 							}
@@ -89,7 +90,7 @@
 							}
 						}
 					}
-
+					$_SESSION["query"] = $query;
 			    }
 		    ?>
 <html lang="en">
@@ -141,12 +142,15 @@
     	<div class="wrapper">
 		    <div class="register">
 		    	<?php
-					if(isset($_GET["submit"])) {
-					    $result = $db->run_query($query);
+					if(isset($_POST["submit"]) || isset($_POST["downpdf"])) {
+					    $result = $db->run_query($_SESSION["query"]);
 					    $rowCount = $result->num_rows;
-					    if(!$rowCount)
+					    if(!$rowCount) {
+					    	$flag = 0;
 					    	echo "<h4 style='text-align:center'>No Results</h2>";
+					    }
 					    else {
+					    	$flag = 1;
 						    if(isset($_POST["downpdf"])) 
 						    	ob_start();
 						    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
@@ -173,36 +177,34 @@
 								$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
 								$mpdf->WriteHTML($table);
 								$mpdf->Output('search_result.pdf', "D");
+								unset($_session['query']);
 							}
-						    echo '<form method= "POST">
-						    	<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
-						    </form>'; 
 						}
 					}
 				?>
-				<form method = "GET">
+				<form method = "POST">
 					<div class="form-group">
 						<label for="title" class="control-label">Title</label>
 						<input type="text" class="form-control" id="title" name="title"
 						<?php
-							if(isset($_GET["title"]))
-								echo 'value="'.$_GET["title"].'"';
+							if(isset($_POST["title"]))
+								echo 'value="'.$_POST["title"].'"';
 						?> placeholder="Enter Title">
 					</div>
 					<div class="form-group">
 						<label for="date" class="control-label">Date</label>
 						<input type="text" class="form-control" id="date" name="date"
 						<?php
-							if(isset($_GET["date"]))
-								echo 'value="'.$_GET["date"].'"';
+							if(isset($_POST["date"]))
+								echo 'value="'.$_POST["date"].'"';
 						?> placeholder="yyyy/mm/dd">
 					</div>
 					<div class="form-group">
 						<label for="pages" class="control-label">Pages</label>
 						<input type="text" class="form-control" id="pages" name="pages"
 						<?php
-							if(isset($_GET["pages"]))
-								echo 'value="'.$_GET["pages"].'"';
+							if(isset($_POST["pages"]))
+								echo 'value="'.$_POST["pages"].'"';
 						?> placeholder="No. of pages">
 					</div>
 					<!--<div class="form-group">
@@ -210,8 +212,8 @@
 						<input type="text" class="form-control" id="issueno" name="issueno"
 						<?php
 							echo 'value="';
-							if(isset($_GET["issueno"]))
-								echo $_GET["issueno"];
+							if(isset($_POST["issueno"]))
+								echo $_POST["issueno"];
 							echo '"';
 						?> placeholder="Enter issue no">
 					</div>-->
@@ -219,24 +221,24 @@
 						<label for="volume" class="control-label">Volume</label>
 						<input type="text" class="form-control" id="volume" name="volume"
 						<?php
-							if(isset($_GET["volume"]))
-								echo 'value="'.$_GET["volume"].'"';
+							if(isset($_POST["volume"]))
+								echo 'value="'.$_POST["volume"].'"';
 						?> placeholder="Enter Volume">
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">Citations</label>
 						<input type="text" class="form-control" id="citations" name="citations"
 						<?php
-							if(isset($_GET["citations"]))
-								echo 'value="'.$_GET["citations"].'"';
+							if(isset($_POST["citations"]))
+								echo 'value="'.$_POST["citations"].'"';
 						?> placeholder="Citations">
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">Department</label>
 						<input type="text" class="form-control" id="department" name="department"
 						<?php
-							if(isset($_GET["department"]))
-								echo 'value="'.$_GET["department"].'"';
+							if(isset($_POST["department"]))
+								echo 'value="'.$_POST["department"].'"';
 						?> placeholder="Department">
 					</div>
 					<div class="form-group">
@@ -244,42 +246,42 @@
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("isea", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("isea", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>> ISEA</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="tequip"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("tequip", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("tequip", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>> TEQUIP</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="coep"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("coep", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("coep", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>> COEP</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="rsa"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("rsa", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("rsa", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>> RSA</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="aicte"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("aicte", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("aicte", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>a> AICTE</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"
 						<?php
-							if(isset($_GET["funded_by"]) AND in_array("others", $_GET["funded_by"]))
+							if(isset($_POST["funded_by"]) AND in_array("others", $_POST["funded_by"]))
 								echo 'checked="checked"';
 						?>> Others</label>
 						</div>
@@ -289,42 +291,42 @@
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("isea", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("isea", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> ISEA</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="tequip"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("tequip", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("tequip", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> TEQUIP</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="coep"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("coep", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("coep", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> COEP</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="rps"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("rps", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("rps", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> RPS</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="aicte"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("aicte", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("aicte", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> AICTE</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="others"
 						<?php
-							if(isset($_GET["sponsored_by"]) AND in_array("others", $_GET["sponsored_by"]))
+							if(isset($_POST["sponsored_by"]) AND in_array("others", $_POST["sponsored_by"]))
 								echo 'checked="checked"';
 						?>> Others</label>
 						</div>
@@ -332,39 +334,52 @@
 					<div class="form-group">
 						<label for="journal_details" class="control-label">Journal Details: </label>
 						<div class="checkbox">
-							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national"> National </label>
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national" 
+						<?php
+							if(isset($_POST["journal_details"]) AND in_array("national", $_POST["journal_details"]))
+								echo 'checked="checked"';
+						?>> National </label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"> International</label>
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"<?php
+							if(isset($_POST["journal_details"]) AND in_array("international", $_POST["journal_details"]))
+								echo 'checked="checked"';
+						?>> International</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="citations" class="control-label">File Name</label>
 						<input type="text" class="form-control" id="fname" name="fname"
 						<?php
-							if(isset($_GET["fname"]))
-								echo 'value="'.$_GET["fname"].'"';
+							if(isset($_POST["fname"]))
+								echo 'value="'.$_POST["fname"].'"';
 						?> placeholder="File Name">
 					</div>
 					<div class="form-group">
 						<label for="title" class="control-label">Approved By</label>
 						<input type="text" class="form-control" id="approved_by_mis" name="approved_by_mis"
 						<?php
-							if(isset($_GET["approved_by_mis"]))
-								echo 'value="'.$_GET["approved_by_mis"].'"';
+							if(isset($_POST["approved_by_mis"]))
+								echo 'value="'.$_POST["approved_by_mis"].'"';
 						?> placeholder="MIS">
 					</div>
 					<div class="form-group">
 						<label for="title" class="control-label">Submitted By</label>
 						<input type="text" class="form-control" id="submitted_by_mis" name="submitted_by_mis"
 						<?php
-							if(isset($_GET["submitted_by_mis"]))
-								echo 'value="'.$_GET["submitted_by_mis"].'"';
+							if(isset($_POST["submitted_by_mis"]))
+								echo 'value="'.$_POST["submitted_by_mis"].'"';
 						?> placeholder="MIS">
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
 					</div>
+					<?php
+						if($flag)
+							echo '<div class="form-group">
+						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
+					</div>';
+					?>
 				</form>
 			</div>
 		</div>
