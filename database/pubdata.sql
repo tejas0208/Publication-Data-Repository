@@ -374,7 +374,7 @@ ALTER TABLE `rejection_record`
 COMMIT;
 
 CREATE TABLE `applications` (
-	`aid` varchar(1023),
+	`aid` int(11),
   `idrecord` int(11) NOT NULL,
 `initial_paper` varchar(1023) DEFAULT NULL,
 `fund_required` varchar(1023) DEFAULT NULL,
