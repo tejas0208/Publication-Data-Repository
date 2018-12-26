@@ -374,14 +374,20 @@ ALTER TABLE `rejection_record`
 COMMIT;
 
 CREATE TABLE `applications` (
+	`aid` varchar(1023),
   `idrecord` int(11) NOT NULL,
 `initial_paper` varchar(1023) DEFAULT NULL,
 `fund_required` varchar(1023) DEFAULT NULL,
  `approved_level` int(1) DEFAULT 1,
 `Comment` varchar(1023) DEFAULT NULL,
-  PRIMARY KEY (`idrecord`)
+  PRIMARY KEY (`idrecord`,`aid`)
 );
 
 ALTER TABLE `applications`
   ADD CONSTRAINT `id_record_appl_fk` FOREIGN KEY (`idrecord`) REFERENCES `record` (`idrecord`);
+COMMIT;
+
+-- Adding a missing column to the records table.
+ALTER TABLE `record` 
+  ADD COLUMN issueno varchar(45);
 COMMIT;
