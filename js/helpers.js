@@ -47,7 +47,7 @@ $(document).ready(function() {
     $('.journal_details').change(function() {
     	var c = this.checked;
     	var value = this.value;
-    	var html = '<input type="text" class="form-control" name="' + value + '_journal_name" placeholder="Journal name"><br>';
+    	var html = '<input type="text" class="form-control" name="' + value + '_journal_name"<?php if(isset($_GET["national_journal_name"])) echo 'value="'.$_GET["national_journal_name"].'"';?> placeholder="Journal name"><br>';
     	if(c) {
     		$(this.parentElement.parentElement).append(html);
     	}
