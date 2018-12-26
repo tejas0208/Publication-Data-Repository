@@ -374,7 +374,7 @@ ALTER TABLE `rejection_record`
 COMMIT;
 
 CREATE TABLE `applications` (
-	`aid` varchar(1023),
+	`aid` int(11),
   `idrecord` int(11) NOT NULL,
 `initial_paper` varchar(1023) DEFAULT NULL,
 `fund_required` varchar(1023) DEFAULT NULL,
@@ -391,3 +391,10 @@ COMMIT;
 ALTER TABLE `record` 
   ADD COLUMN issueno varchar(45);
 COMMIT;
+
+CREATE TABLE `application_id_max` (
+  `id` int(11) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+INSERT INTO `application_id_max`(`id`) VALUES(1);
