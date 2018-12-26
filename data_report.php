@@ -70,26 +70,46 @@
 					}
 					if(isset($_POST["sponsored_by"])) {
 						foreach($_POST["sponsored_by"] as $spons) {
-							if($spons == "isea") {
+							if($spons == "isea")
 								$query = $query . " AND t_isea = 'T'";
-							}
-							if($spons == "tequip") {
+
+							if($spons == "tequip")
 								$query = $query . " AND t_tequip = 'T'";
-							}
-							if($spons == "coep") {
+
+							if($spons == "coep")
 								$query = $query . " AND t_coep = 'T'";
-							}
-							if($spons == "rsa") {
+
+							if($spons == "rsa") 
 								$query = $query . " AND t_rsa = 'T'";
-							}
-							if($spons == "aicte") {
+
+							if($spons == "aicte")
 								$query = $query . " AND t_aicte = 'T'";
-							}
-							if($spons == "others") {
+
+							if($spons == "others")
 								$query = $query . " AND t_others = 'T'";
-							}
+
 						}
 					}
+
+					if(isset($_POST["national_journal_details"])) {
+						$natjournal = $_POST["national_journal_details"];
+						$query = $query . " AND nat_journal = '$natjournal'";
+					}
+
+					if(isset($_POST["international_journal_details"])) {
+						$intjournal = $_POST["international_journal_details"];
+						$query = $query . " AND int_journal = '$intjournal'";
+					}
+
+					if(isset($_POST["national_conference_details"])) {
+						$natconf = $_POST["national_conference_details"];
+						$query = $query . " AND nat_conf = '$natconf'";
+					}
+					if(isset($_POST["international_conference_details"])) {
+						$intconf = $_POST["international_conference_details"];
+						$query = $query . " AND int_conf = '$intconf'";
+					}
+
 					$_SESSION["query"] = $query;
 			    }
 		    ?>
@@ -163,7 +183,7 @@
 								</tr>";
 							while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 								echo "<tr>
-											<td>". $row['title']. "</td>
+											<td><a href='details.php?id=".$row['idrecord']."''>". $row['title']. "</a></td>
 											<td>" . $row['date'] . "</td>
 											<td>" . $row['approved_by_mis'] . "</td>
 											<td>" . $row['submitted_by_mis'] . "</td>
@@ -172,11 +192,13 @@
 							}
 						    echo '</table>';
 						    if(isset($_POST["downpdf"])) {
+						    	$t = time();
+						    	$user = $_SESSION['username'];
 							    $table = ob_get_clean();
 							    require_once __DIR__ . '/vendor/autoload.php';
 								$mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
 								$mpdf->WriteHTML($table);
-								$mpdf->Output('search_result.pdf', "D");
+								$mpdf->Output("search_"."$user"."_"."$t".".pdf", "D");
 								unset($_session['query']);
 							}
 						}
@@ -341,8 +363,26 @@
 						?>> National </label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"<?php
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="international"
+						<?php
 							if(isset($_POST["journal_details"]) AND in_array("international", $_POST["journal_details"]))
+								echo 'checked="checked"';
+						?>> International</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="conference_details" class="control-label">Conference Details: </label>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "conference_details" name="conference_details[]" value="national"
+						<?php
+							if(isset($_POST["conference_details"]) AND in_array("national", $_POST["conference_details"]))
+								echo 'checked="checked"';
+						?>> National</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" class = "conference_details" name="conference_details[]" value="international"
+						<?php
+							if(isset($_POST["conference_details"]) AND in_array("international", $_POST["conference_details"]))
 								echo 'checked="checked"';
 						?>> International</label>
 						</div>
