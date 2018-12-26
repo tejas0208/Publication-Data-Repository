@@ -96,7 +96,7 @@
 			    	  </div>
 
 			        <div class="col-sm-6">
-			      	  <a href="new_application.php">
+			      	  <a href="application_base.php">
 			      	     <div class="tile two">
 							 <h2 class="title">New Application</h2>
 						  <p>Add a new application request</p>
