@@ -53,6 +53,7 @@ $(document).ready(function() {
     	}
     	else {
     		$(this.parentElement.nextSibling.nextSibling).remove();
+    		$(this.parentElement.nextSibling).remove();
     	}
     });
 
@@ -65,6 +66,7 @@ $(document).ready(function() {
     	}
     	else {
     		$(this.parentElement.nextSibling.nextSibling).remove();
+    		$(this.parentElement.nextSibling).remove();
     	}
     });
 
