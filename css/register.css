@@ -7,7 +7,7 @@
   color: black;
 }
 
-.submissions, .pendingappr, .myappr {
+.submissions, .pendingappr, .myappr, .pendingappl {
   width: 80%;
   margin: auto;
   margin-top: 10%;
