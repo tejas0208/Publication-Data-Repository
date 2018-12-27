@@ -2,6 +2,7 @@
 /*
 Bug fixes left:
 	Dean isn't workig, look into it
+	More over add condition for HOD where the department matches, stupid bug
 */
 include('session.php');
 ini_set('error_reporting', E_ALL);
