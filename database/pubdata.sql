@@ -398,3 +398,7 @@ CREATE TABLE `application_id_max` (
 );
 
 INSERT INTO `application_id_max`(`id`) VALUES(1);
+
+ALTER TABLE `applications` 
+	ADD COLUMN `date` date NOT NULL;
+COMMIT;
