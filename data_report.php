@@ -162,7 +162,7 @@
     	<div class="wrapper">
 		    <div class="register">
 		    	<?php
-					if(isset($_POST["submit"]) || isset($_POST["downpdf"])) {
+					if(isset($_POST["submit"]) || isset($_POST["downpdf"]) || isset($_POST["downzip"])) {
 					    $result = $db->run_query($_SESSION["query"]);
 					    $rowCount = $result->num_rows;
 					    if(!$rowCount) {
@@ -181,6 +181,7 @@
 									<th>Submitted By MIS</th>
 									<th>Department</th>
 								</tr>";
+							$files = array();
 							while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 								echo "<tr>
 											<td><a href='details.php?id=".$row['idrecord']."''>". $row['title']. "</a></td>
@@ -189,6 +190,7 @@
 											<td>" . $row['submitted_by_mis'] . "</td>
 											<td>" . $row['department'] . "</td>
 										</tr>";
+								array_push($files, $row['filename']);
 							}
 						    echo '</table>';
 						    if(isset($_POST["downpdf"])) {
@@ -200,6 +202,20 @@
 								$mpdf->WriteHTML($table);
 								$mpdf->Output("search_"."$user"."_"."$t".".pdf", "D");
 								unset($_session['query']);
+							}
+							if(isset($_POST["downzip"])) {
+								$t = time();
+								$user = $_SESSION['username'];
+								$zip = new ZipArchive();
+								$zipname = "search_"."$user"."_"."$t".".zip";
+							    $zip->open("uploads/$zipname",  ZipArchive::CREATE);
+							    foreach ($files as $file) {
+							        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));    
+							    }
+							    $zip->close();
+							    header('Content-Type: application/zip');
+								header('Content-Disposition: attachment; filename="'.$zipname.'"');
+								readfile("uploads/$zipname");
 							}
 						}
 					}
@@ -417,7 +433,11 @@
 					<?php
 						if($flag)
 							echo '<div class="form-group">
-						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download as PDF">
+						<input type="submit" class="btn btn-primary" id="downzip" name="downzip" value="Download Reports">
+					</div>';
+						if($flag)
+							echo '<div class="form-group">
+						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download Search Results as PDF">
 					</div>';
 					?>
 				</form>
