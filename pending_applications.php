@@ -1,9 +1,4 @@
 <?php
-/*
-Bug fixes left:
-	Dean isn't workig, look into it
-	More over add condition for HOD where the department matches, stupid bug
-*/
 include('session.php');
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -72,7 +67,7 @@ if (mysqli_num_rows($result) != 0) {
             
         }
         if (isset($_POST[$A])) {
-        	$status = $required_status << 1;
+        	$status = $required_status * 2;
             $query         = "UPDATE applications set approved_level = '".$status."' where aid = '$id'";
             $result        = $db->run_query($query);
             $accepted_flag = 1;
