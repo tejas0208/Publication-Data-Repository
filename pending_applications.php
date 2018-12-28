@@ -28,7 +28,7 @@ else {
   		$required_status = 2;
   	if($role == "Director")
   		$required_status = 4;
-    $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record on a.idrecord = r.idrecord where a.approved_level = $required_status";
+    $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where a.approved_level = $required_status";
   }
 	$result = $db->run_query($query);
 }
