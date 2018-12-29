@@ -1,7 +1,0 @@
-"Computer Engineering and Information Technology"
-"Electrical Engineering"
-"Electronics and Telecommunication Engineering "
-"Instrumentation and Control Engineering "
-"Applied Science"
-"Mechanical Engineering"
-"Planning "
