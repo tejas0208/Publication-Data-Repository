@@ -9,7 +9,6 @@
 	
 	
 	if(isset($_POST["submit"])) {
-		
 		//initial paper
 		if(isset($_POST['initial_paper'])) {
 			$initial_paper = $_POST['initial_paper'];
@@ -26,7 +25,6 @@
 		$_SESSION['id'] = $id;
 		$_SESSION['initial_paper'] = $initial_paper;
 		$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
-		echo $_SESSION['id'];
 		header("location:new_application_approver.php");
 		
 	}
@@ -83,7 +81,7 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
-		    	<form method="POST" enctype="multipart/form-data">
+		    	<form method="POST" action="new_application.php">
 					<div class="form-group">
 						<label for="title" class="control-label">Initial Paper</label>
 						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >

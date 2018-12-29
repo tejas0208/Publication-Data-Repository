@@ -10,25 +10,6 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-
-    $ad = new adLDAP();
-    $entry = $ad->searchDn($username);
-    $_SESSION["entry"] = $entry;
-    if(!$entry) {
-      //die('Error in authentication');
-    }
-    $auth = $ad->authenticate($entry['dn'], $password);
-    if(!$auth) {
-      //die('Error in authentication');	
-    }
-    if(strpos($entry["dn"], "students")!= false) {
-      $role = 'student';
-      $level = 'normal';
-    }
-    else {
-      $role = 'faculty';
-      $level = 'normal';
-    }
     if ($username == "approver" && $password == "helloworld") {
         # code...
         $_SESSION['username'] = $username;
@@ -47,27 +28,47 @@ if(isset($_POST['username']) && isset($_POST['password'])){
           header("location:dashboard.php");
         }
 
-    }
-  
-    else if ($auth) {
-        $_SESSION['username'] = $username;
-        $_SESSION['level'] = $level;
-        $_SESSION['role'] = $role;
-        
-        $db = new DB();
-        $query = "SELECT * from users where username = '$username'";
-        $result = $db->run_query($query);
-        if(mysqli_num_rows($result) == 0) {
-          header("location:register.php");
-        }
-        else {
-          header("location:dashboard.php");
-        }
+    } else {
 
-    }
-    else {
-        echo "Incorrect login credentials";
-    }
+	    $ad = new adLDAP();
+	    $entry = $ad->searchDn($username);
+	    $_SESSION["entry"] = $entry;
+	    if(!$entry) {
+	      //die('Error in authentication');
+	    }
+	    $auth = $ad->authenticate($entry['dn'], $password);
+	    if(!$auth) {
+	      //die('Error in authentication');	
+	    }
+	    if(strpos($entry["dn"], "students")!= false) {
+	      $role = 'student';
+	      $level = 'normal';
+	    }
+	    else {
+	      $role = 'faculty';
+	      $level = 'normal';
+	    }
+	  
+	    if ($auth) {
+	        $_SESSION['username'] = $username;
+	        $_SESSION['level'] = $level;
+	        $_SESSION['role'] = $role;
+	        
+	        $db = new DB();
+	        $query = "SELECT * from users where username = '$username'";
+	        $result = $db->run_query($query);
+	        if(mysqli_num_rows($result) == 0) {
+	          header("location:register.php");
+	        }
+	        else {
+	          header("location:dashboard.php");
+	        }
+
+	    }
+	    else {
+	        echo "Incorrect login credentials";
+	    }
+	}
 }
 ?>
 
