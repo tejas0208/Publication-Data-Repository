@@ -19,14 +19,14 @@ if($role == "faculty")
 	$is_faculty = 1;
 else {
 	$dept_of_user = $result[8];
-	if($role == "HOD") {
+	if($role == "hod") {
 		$required_status = 1;
     $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where r.department = '".$dept_of_user."' and a.approved_level = $required_status";
   }
   else {
-  	if($role == "Dean")
+  	if($role == "dean")
   		$required_status = 2;
-  	if($role == "Director")
+  	if($role == "director")
   		$required_status = 4;
     $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where a.approved_level = $required_status";
   }

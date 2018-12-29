@@ -123,6 +123,14 @@
   			    		  </a>
   			        </div>
   			      </div>
+  			      <div class="col-sm-6">
+  			      	<a href="my_applications.php">
+  			      		<div class="tile four">
+  			      			<h2 class="title">My Applications</h2>
+  			      			<p>Manage your Submitted Applications</p>
+  			      		</div>
+  			      	</a>
+  			      </div>
 
 			</div>
 		</div>
