@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-      Dashboard | <?php echo $_SESSION['username'] ?>
+      My Applications
     </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/menu.css">
@@ -35,7 +35,7 @@
         <h1 class="navheader">Publication Data Repository</h1>
       </div>
     </div>
-    <div class="submissions">
+    <div class="myappl">
       <?php
         $i      = 1;
         $db     = new DB();
@@ -46,7 +46,7 @@
         $query  = "SELECT * from record where submitted_by_mis = $mis";
         $result = $db->run_query($query);
         if (mysqli_num_rows($result) == 0) {
-            echo "Nothing to show";
+            echo "Nothing tos show";
         } else {
             echo '<table class="table table-striped table-bordered table-condensed">
               <thead>
