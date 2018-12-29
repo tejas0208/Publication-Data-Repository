@@ -222,6 +222,14 @@
 				?>
 				<form method = "POST">
 					<div class="form-group">
+						<?php
+						if($flag)
+							echo '<div class="form-group">
+						<input type="submit" class="btn btn-primary" id="downzip" name="downzip" value="Download Reports">';
+						if($flag)
+							echo '<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download Search Results as PDF">
+					</div>';
+					?>
 						<label for="title" class="control-label">Title</label>
 						<input type="text" class="form-control" id="title" name="title"
 						<?php
@@ -430,16 +438,6 @@
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
 					</div>
-					<?php
-						if($flag)
-							echo '<div class="form-group">
-						<input type="submit" class="btn btn-primary" id="downzip" name="downzip" value="Download Reports">
-					</div>';
-						if($flag)
-							echo '<div class="form-group">
-						<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download Search Results as PDF">
-					</div>';
-					?>
 				</form>
 			</div>
 		</div>
