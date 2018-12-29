@@ -229,15 +229,16 @@
 					?>
 				<form method = "POST">
 					<div class="form-group">
+						<input type="submit" class="hidden" id="submit" name="submit" value="submit">
 						<?php
 							if($flag)
 								echo '<div class="form-group">
-							<input type="submit" class="btn btn-primary" id="downzip" name="downzip" value="Download Reports">';
+							<input type="submit" class="btn btn-primary" style="float: left" id="downzip" name="downzip" value="Download Reports">';
 							if($flag)
-								echo '<input type="submit" class="btn btn-primary" id="downpdf" name="downpdf" value="Download Search Results as PDF">
+								echo '<input type="submit" class="btn btn-primary" style="float: right" align="right" id="downpdf" name="downpdf" value="Download Search Results as PDF">
 							</div>';
 				?>
-						<label for="title" class="control-label">Title</label>
+						<br><br><br><label for="title" class="control-label">Title</label>
 						<input type="text" class="form-control" id="title" name="title"
 						<?php
 							if(isset($_POST["title"]))
@@ -329,7 +330,7 @@
 						<?php
 							if(isset($_POST["funded_by"]) AND in_array("aicte", $_POST["funded_by"]))
 								echo 'checked="checked"';
-						?>a> AICTE</label>
+						?>> AICTE</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="others"
