@@ -6,8 +6,6 @@
 	//TODO avoid sql injection
 	$id = $_GET['id'];
 	$initial_paper = $finacial_aid= "";
-	
-	
 	if(isset($_POST["submit"])) {
 		//initial paper
 		if(isset($_POST['initial_paper'])) {
@@ -22,7 +20,6 @@
 		}else {
 			echo "";
 		}
-		$_SESSION['id'] = $id;
 		$_SESSION['initial_paper'] = $initial_paper;
 		$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
 		header("location:new_application_approver.php");
@@ -32,8 +29,7 @@
 ?>
 
 <?php if(!isset($_POST["submit"])) : ?>
-
-<html lang="en">
+	<html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!-- Meta, title, CSS, favicons, etc. -->
@@ -96,7 +92,9 @@
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" name="submit">Next</button>
 					</div>     
-			
+					<?php
+							$_SESSION['id'] = $GLOBALS['id'];
+					  ?>
 				</form>
 			</div>
 		</div>	
