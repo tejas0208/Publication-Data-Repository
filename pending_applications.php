@@ -43,8 +43,8 @@ function test_input($data) {
 if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $id = $row['aid'];
-        $A  = "A" . $id . $id;
-        $R  = "R" . $id . $id;
+        $A  = "A" . $id;
+        $R  = "R" . $id;
         if (isset($_POST[$R])) {
         	if($required_status == 1)
         		$status = 3;
@@ -161,8 +161,8 @@ if (mysqli_num_rows($result) != 0) {
 											<td>'.$row['fund_required'].'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
-                        <button class = "btn btn-success" name = "A'.$row['aid'].$row['aid'].'">Approve</a>
-                        <button class = "btn btn-danger" name = "R'.$row['aid'].$row['aid'].'">Reject</a>
+                        <button class = "btn btn-success" name = "A'.$row['aid'].'">Approve</a>
+                        <button class = "btn btn-danger" name = "R'.$row['aid'].'">Reject</a>
                       </td>
                     </tr>
                   ';
