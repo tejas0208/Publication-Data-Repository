@@ -6,10 +6,7 @@
 	//TODO avoid sql injection
 	$id = $_GET['id'];
 	$initial_paper = $finacial_aid= "";
-	
-	
 	if(isset($_POST["submit"])) {
-		
 		//initial paper
 		if(isset($_POST['initial_paper'])) {
 			$initial_paper = $_POST['initial_paper'];
@@ -23,10 +20,8 @@
 		}else {
 			echo "";
 		}
-		$_SESSION['id'] = $id;
 		$_SESSION['initial_paper'] = $initial_paper;
 		$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
-		echo $_SESSION['id'];
 		header("location:new_application_approver.php");
 		
 	}
@@ -34,8 +29,7 @@
 ?>
 
 <?php if(!isset($_POST["submit"])) : ?>
-
-<html lang="en">
+	<html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!-- Meta, title, CSS, favicons, etc. -->
@@ -83,7 +77,7 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
-		    	<form method="POST" enctype="multipart/form-data">
+		    	<form method="POST" action="new_application.php">
 					<div class="form-group">
 						<label for="title" class="control-label">Initial Paper</label>
 						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >
@@ -98,7 +92,9 @@
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" name="submit">Next</button>
 					</div>     
-			
+					<?php
+							$_SESSION['id'] = $GLOBALS['id'];
+					  ?>
 				</form>
 			</div>
 		</div>	

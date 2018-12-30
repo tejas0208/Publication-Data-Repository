@@ -43,65 +43,69 @@
 	//https://stackoverflow.com/questions/32405077/show-second-dropdown-options-based-on-first-dropdown-selection-jquery
 	
 	//returns the max id and updates the id in the database
+	if(isset($_SESSION['initial_paper']) and isset($_SESSION['finacial_aid']) and isset($_SESSION['id'])){
+		function get_max_application_id($dbclient) {
+			$query = 'SELECT * FROM `application_id_max` LIMIT 1';
+			$result = $dbclient->run_query($query);
+			$row = mysqli_fetch_row($result);
+			$id = $row[0];
+			$query = "DELETE FROM `application_id_max`";
+			$dbclient->run_query($query);
+			$query = "INSERT INTO `application_id_max` VALUES ('" . ($id+1) . "')";
+			$dbclient->run_query($query);
+			return $id;
+		}
 
-	function get_max_application_id($dbclient) {
-		$query = 'SELECT * FROM `application_id_max` LIMIT 1';
-		$result = $dbclient->run_query($query);
-		$row = mysqli_fetch_row($result);
-		$id = $row[0];
-		$query = "DELETE FROM `application_id_max`";
-		$dbclient->run_query($query);
-		$query = "INSERT INTO `application_id_max` VALUES ('" . ($id+1) . "')";
-		$dbclient->run_query($query);
-		return $id;
+		function test_input($data) {
+	    	$data = trim($data);
+	    	$data = stripslashes($data);
+	    	$data = htmlspecialchars($data);
+	    	return $data;
+	  	}
+	/*		
+			if(!isset($_SESSION['title'])) {
+				header("location:new_application.php");
+			}
+	*/
+			$db = new DB();
+
+			$id = $_SESSION['id'];
+			$initial_paper = $_SESSION['initial_paper'];
+			$finacial_aid = $_SESSION['finacial_aid'];
+			unset($_SESSION['initial_paper']);
+			unset($_SESSION['finacial_aid']);
+			unset($_SESSION['id']);
+			//fetch the row id
+			$aid = get_max_application_id($db);
+
+			if($initial_paper == '')
+				$initial_paper = 'NULL';
+			else
+				$initial_paper = "'" . $initial_paper . "'";
+
+			if($finacial_aid == '')
+				$finacial_aid = 'NULL';
+			else
+				$finacial_aid = "'" . $finacial_aid . "'";
+
+			$finacial_aid = test_input($finacial_aid);
+			$initial_paper = test_input($initial_paper);
+			$id = test_input($id);
+			$time = time();
+			$date = date("Y/m/d",$time);
+			$query = "INSERT INTO `applications` (`aid`,`idrecord`, `initial_paper`, `fund_required`, `approved_level`, `date`) VALUES (".$aid.",".$id.",". $initial_paper.",".$finacial_aid.", 1,'".$date."');";
+			if($db->run_query($query)) {
+				
+				echo "<br/><center><h2>Application Successfully Submitted....</h2></center>";
+
+			}
+			else {
+				echo "<br/><center><h2>Some Error Occured....Please try again<center><h2>";
+			}
+		}
+	else{
+		header("location:dashboard.php");
 	}
-
-	function test_input($data) {
-    	$data = trim($data);
-    	$data = stripslashes($data);
-    	$data = htmlspecialchars($data);
-    	return $data;
-  	}
-/*		
-		if(!isset($_SESSION['title'])) {
-			header("location:new_application.php");
-		}
-*/
-		$db = new DB();
-
-		$id = $_SESSION['id'];
-		$initial_paper = $_SESSION['initial_paper'];
-		$finacial_aid = $_SESSION['finacial_aid'];
-		unset($_SESSION['initial_paper']);
-		unset($_SESSION['finacial_aid']);
-		unset($_SESSION['id']);
-		//fetch the row id
-		$aid = get_max_application_id($db);
-
-		if($initial_paper == '')
-			$initial_paper = 'NULL';
-		else
-			$initial_paper = "'" . $initial_paper . "'";
-
-		if($finacial_aid == '')
-			$finacial_aid = 'NULL';
-		else
-			$finacial_aid = "'" . $finacial_aid . "'";
-
-		$finacial_aid = test_input($finacial_aid);
-		$initial_paper = test_input($initial_paper);
-		$id = test_input($id);
-		$time = time();
-		$date = date("Y/m/d",$time);
-		$query = "INSERT INTO `applications` (`aid`,`idrecord`, `initial_paper`, `fund_required`, `approved_level`, `date`) VALUES (".$aid.",".$id.",". $initial_paper.",".$finacial_aid.", 1,'".$date."');";
-		if($db->run_query($query)) {
-			
-			echo "<br/><center><h2>Application Successfully Submitted....</h2></center>";
-
-		}
-		else {
-			echo "<br/><center><h2>Some Error Occured....Please try again<center><h2>";
-		}
 	
 ?>
 

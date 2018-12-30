@@ -1,9 +1,4 @@
 <?php
-/*
-Bug fixes left:
-	Dean isn't workig, look into it
-	More over add condition for HOD where the department matches, stupid bug
-*/
 include('session.php');
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -14,7 +9,6 @@ $required_status = 0;
 $no_reason_flag = 0;
 $rejected_flag  = 0;
 $accepted_flag  = 0;
-
 $db             = new DB();
 $query          = "SELECT *  from users where username = '" . $_SESSION['username'] . "'";
 $result         = $db->run_query($query);
@@ -25,13 +19,17 @@ if($role == "faculty")
 	$is_faculty = 1;
 else {
 	$dept_of_user = $result[8];
-	if($role == "HOD")
+	if($role == "hod") {
 		$required_status = 1;
-	if($role == "Dean")
-		$required_status = 2;
-	if($role == "Director")
-		$required_status = 4;
-	$query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, record.date, record.title from applications a left join record on a.idrecord = record.idrecord where a.approved_level = $required_status";
+    $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where r.department = '".$dept_of_user."' and a.approved_level = $required_status";
+  }
+  else {
+  	if($role == "dean")
+  		$required_status = 2;
+  	if($role == "director")
+  		$required_status = 4;
+    $query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where a.approved_level = $required_status";
+  }
 	$result = $db->run_query($query);
 }
 
@@ -69,7 +67,7 @@ if (mysqli_num_rows($result) != 0) {
             
         }
         if (isset($_POST[$A])) {
-        	$status = $required_status << 1;
+        	$status = $required_status * 2;
             $query         = "UPDATE applications set approved_level = '".$status."' where aid = '$id'";
             $result        = $db->run_query($query);
             $accepted_flag = 1;
