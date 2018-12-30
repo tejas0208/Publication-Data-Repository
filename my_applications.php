@@ -69,6 +69,11 @@
                 $status = $row['approved_level'];
                 $date   = $row['date'];
 
+                $query_for_title = "SELECT title from record where idrecord = $rid";
+                $title = $db->run_query($query_for_title);
+                $title = mysqli_fetch_row($title);
+                $title = $title[0];
+
                 if($status == 1) {
                   $color = "black";
                   $message = "Pending";
@@ -82,20 +87,28 @@
                   $message = "Rejected by HOD";
                   $reason = $row["Comment"];
                 } else if ($status == 4) {
-                  //Approved by dean
-                  //Pending by Directoe
+                  $color = "black";
+                  $message = "Pending";
+                  $reason = "Pending for approval by Director";
                 } else if ($status == 5) {
-                  //Rejected By Dean
+                  $color = "red";
+                  $message = "Rejected by Dean";
+                  $reason = $row["Comment"];
                 } else if ($status == 8) {
-                  //Approved By director
+                  $color = "green";
+                  $message = "Approved";
+                  $reason = "Approved by Director";
                 } else {
-                  //Rejected by Director
+                  $color = "red";
+                  $message = "Rejected by Director";
+                  $reason = $row["Comment"];
                 }
                 echo '
               <tr>
                 <td>' . $i . '</td>
-                <td><u><a href = "details.php?id=' . $id . '">' . $title . '</a></u></td>
+                <td><u><a href = "details.php?id=' . $rid . '">' . $title . '</a></u></td>
                 <td>' . $date . '</td>
+                <td>'. $fund .'</td>
                 <td style="color:' . $color . ';">' . $message . '</td>
                 <td>'.$reason.'</td>
               </tr>
