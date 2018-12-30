@@ -43,7 +43,8 @@
         $result = $db->run_query($query);
         $result = mysqli_fetch_row($result);
         $mis    = $result[1];
-        $query  = "SELECT * from record where submitted_by_mis = $mis";
+        $query  = "select * from applications where idrecord in (select idrecord from record where submitted_by_mis = $mis"
+        //$query  = "SELECT * from record where submitted_by_mis = $mis";
         $result = $db->run_query($query);
         if (mysqli_num_rows($result) == 0) {
             echo "Nothing tos show";
