@@ -3,7 +3,7 @@
   ini_set('error_reporting', E_ALL);
   ini_set('display_errors', 1);
   require_once "db.php";
-  
+
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,31 +55,41 @@
                   <th>Sr.No.</th>
                   <th>Title</th>
                   <th>Date</th>
+                  <th>Fund Required</th>
                   <th>Status</th>
                   <th>Reason for rejection(where applicable)</th>
                 </tr>
               </thead>
               <tbody>';
-            
+
             while ($row = mysqli_fetch_array($result)) {
-                $id    = $row['idrecord'];
-                $title = $row['title'];
-                $date  = $row['date'];
-                
-                if ($row['approved_status'] == 'T') {
-                    $color   = "green";
-                    $message = "Approved";
-                    $reason  = " ";
-                } else if ($row['approved_status'] == 'F') {
-                    $color   = "red";
-                    $message = "Rejected";
-                    $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "'";
-                    $reason  = $db->run_query($query2);
-                    $reason  = mysqli_fetch_array($result);
+                $aid    = $row['aid'];
+                $rid    = $row['idrecord'];
+                $fund   = $row['fund_required'];
+                $status = $row['approved_level'];
+                $date   = $row['date'];
+
+                if($status == 1) {
+                  $color = "black";
+                  $message = "Pending";
+                  $reason = "Pending for approval by HOD";
+                } else if ($status == 2) {
+                  $color = "black";
+                  $message = "Pending"
+                  $reason = "Pending for approval by Dean";
+                } else if ($status == 3) {
+                  $color = "red";
+                  $message = "Rejected by HOD";
+                  $reason = $row["Comment"];
+                } else if ($status == 4) {
+                  //Approved by dean
+                  //Pending by Directoe
+                } else if ($status == 5) {
+                  //Rejected By Dean
+                } else if ($status == 8) {
+                  //Approved By director
                 } else {
-                    $color   = "black";
-                    $message = "Pending";
-                    $reason  = " ";
+                  //Rejected by Director
                 }
                 echo '
               <tr>
@@ -92,12 +102,12 @@
             ';
                 $i++;
             }
-            
-            
+
+
         }
         ?>
       </tbody>
-      </table>      
+      </table>
     </div>
   </body>
 </html>
