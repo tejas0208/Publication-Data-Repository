@@ -50,21 +50,21 @@ if (mysqli_num_rows($result) != 0) {
         		$status = 3;
         	else if ($required_status == 2)
         		$status = 5;
-        	else 
+        	else
         		$status = 9;
-            // The record is rejected, need to be added in the table
-            // Check if there is a reason given
-            $reason = test_input($_POST["rejection_comment"]);
-            if ($reason != "" || strlen($reason) > 1024) {
-                $query         = "UPDATE applications set approved_level = '".$status."' where aid = '$id'";
-                $result        = $db->run_query($query);
-                $query         = "UPDATE applications set Comment = '".$reason."' where aid = '$id'";
-                $result        = $db->run_query($query);
-                $rejected_flag = 1;
-            } else {
-                $no_reason_flag = 1;
-            }
-            
+          // The record is rejected, need to be added in the table
+          // Check if there is a reason given
+          $reason = test_input($_POST["rejection_comment"]);
+          if ($reason != "" || strlen($reason) > 1024) {
+              $query         = "UPDATE applications set approved_level = '".$status."' where aid = '$id'";
+              $result        = $db->run_query($query);
+              $query         = "UPDATE applications set Comment = '".$reason."' where aid = '$id'";
+              $result        = $db->run_query($query);
+              $rejected_flag = 1;
+          } else {
+              $no_reason_flag = 1;
+          }
+
         }
         if (isset($_POST[$A])) {
         	$status = $required_status * 2;
@@ -146,7 +146,8 @@ if (mysqli_num_rows($result) != 0) {
                         <th>Sr.No.</th>
                         <th>Title</th>
                         <th>Date</th>
-          <th>Approve / Reject</th>
+												<th>Fund Required</th>
+          							<th>Approve / Reject</th>
                       </tr>
                     </thead>
                     <tbody>';
@@ -157,6 +158,7 @@ if (mysqli_num_rows($result) != 0) {
                       <td>'.$i.'</td>
                       <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
                       <td>'.$row['date'].'</td>
+											<td>'.$row['fund_required'].'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
                         <button class = "btn btn-success" name = "A'.$row['aid'].$row['aid'].'">Approve</a>
