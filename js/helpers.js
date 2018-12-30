@@ -2,7 +2,7 @@ $(document).ready(function() {
     var max_fields      = 100; //maximum input boxes allowed
     var wrapper         = $(".input_fields_wrap"); //Fields wrapper
     var add_button      = $(".add_field_button"); //Add button ID
-    
+
     var x = 1; //initlal text box count
     $(add_button).click(function(e){ //on add input button click
     	//debugger;
@@ -13,7 +13,7 @@ $(document).ready(function() {
         if(id == 'add_faculty') {
         	placeholder1 = "Enter Faculty MIS";
         }
-        	
+
         else if (id == 'add_ug_student') {
         	placeholder1 = "Enter UG Student's MIS";
         }
@@ -31,14 +31,14 @@ $(document).ready(function() {
 	        				<input type="text" class="form-control" name="'+id+'mis[]" placeholder="'+placeholder1+'">\
 	        				&nbsp<a href="#" class="remove_field btn btn-info">Remove</a>\
 	        			</div>';
-	    }			
+	    }
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
             $(wrapper).prepend(html); //add input box
         }
     });
-    
+
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
         e.preventDefault(); $(this).parent('div').remove(); x--;
     })
@@ -70,9 +70,9 @@ $(document).ready(function() {
     	}
     });
 
-    
 
-	
+
+
 });
 
 // $(document).ready(function() {
@@ -83,8 +83,3 @@ $(document).ready(function() {
 // 		console.log("CLick0");
 // 	});
 // });
-
-
-
-
-
