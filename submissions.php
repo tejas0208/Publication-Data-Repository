@@ -68,7 +68,7 @@
                 if ($row['approved_status'] == 'T') {
                     $color   = "green";
                     $message = "Approved";
-                    $reason  = "";
+                    $reason  = " ";
                 } else if ($row['approved_status'] == 'F') {
                     $color   = "red";
                     $message = "Rejected";
@@ -78,7 +78,7 @@
                 } else {
                     $color   = "black";
                     $message = "Pending";
-                    $reason  = "";
+                    $reason  = " ";
                 }
                 echo '
               <tr>
@@ -86,6 +86,7 @@
                 <td><u><a href = "details.php?id=' . $id . '">' . $title . '</a></u></td>
                 <td>' . $date . '</td>
                 <td style="color:' . $color . ';">' . $message . '</td>
+                <td>'.$reason.'</td>
               </tr>
             ';
                 $i++;

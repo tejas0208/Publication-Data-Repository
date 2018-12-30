@@ -29,6 +29,15 @@ a, a:hover, a:focus {
 	transition: all 0.3s;
 }
 
+input.hidden {
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    border: 0px;
+}
+
 .navbar {
   background: linear-gradient(#131314, #474a4f);
   height: 100%;
