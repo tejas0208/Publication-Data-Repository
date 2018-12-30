@@ -25,8 +25,8 @@ function test_input($data)
 if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $id = $row['idrecord'];
-        $A  = "A" . $id . $id;
-        $R  = "R" . $id . $id;
+        $A  = "A";
+        $R  = "R";
         if (isset($_POST[$R])) {
             // The record is rejected, need to be added in the table
             // Check if there is a reason given
@@ -40,7 +40,7 @@ if (mysqli_num_rows($result) != 0) {
             } else {
                 $no_reason_flag = 1;
             }
-            
+
         }
         if (isset($_POST[$A])) {
             $query         = "UPDATE record set approved_status = 'T' where idrecord = '$id'";
@@ -135,8 +135,8 @@ if (mysqli_num_rows($result) != 0) {
                       <td>'.$row['date'].'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
-                        <button class = "btn btn-success" name = "A'.$row['idrecord'].$row['idrecord'].'">Approve</a>
-                        <button class = "btn btn-danger" name = "R'.$row['idrecord'].$row['idrecord'].'">Reject</a>
+                        <button class = "btn btn-success" name = "A'.$row['idrecord'].'">Approve</a>
+                        <button class = "btn btn-danger" name = "R'.$row['idrecord'].'">Reject</a>
                       </td>
                     </tr>
                   ';
