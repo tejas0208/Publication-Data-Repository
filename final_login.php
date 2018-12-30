@@ -15,7 +15,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
         $_SESSION['username'] = $username;
         $_SESSION['level'] = "approver";
         $_SESSION['role'] = 'faculty';
-        
+        $_SESSION['entry'] = $username;
         $db = new DB();
         $query = "SELECT * from users where username = '$username'";
         $result = $db->run_query($query);
