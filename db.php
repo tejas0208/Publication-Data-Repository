@@ -3,8 +3,8 @@
 class DB {
 	private $conn;
 	private $server = "127.0.0.1";
-	private $username = "ved";
-	private $pass = "p@ssw0rd";
+	private $username = "phpmyadmin";
+	private $pass = "some_pass";
 	private $db_name = "pubdata";
 	function __construct() {
 		$this->connect();
@@ -19,8 +19,9 @@ class DB {
 		$result = mysqli_query($this->conn, $query);
 		if(!$result) {
 			throw new Exception($query .'<br>' .mysqli_error($this->conn));
+		} else {
+			return $result;
 		}
-		return $result;
 	}
 }
 ?>
