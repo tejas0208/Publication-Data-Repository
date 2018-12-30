@@ -25,8 +25,8 @@ function test_input($data)
 if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $id = $row['idrecord'];
-        $A  = "A";
-        $R  = "R";
+        $A  = "A" . $id;
+        $R  = "R" . $id;
         if (isset($_POST[$R])) {
             // The record is rejected, need to be added in the table
             // Check if there is a reason given
