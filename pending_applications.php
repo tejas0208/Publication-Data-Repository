@@ -150,16 +150,22 @@
 					            <tbody>';
 
 					            while ($row = mysqli_fetch_array($result)) {
+												$rid = $row['idrecord'];
+												$aid = $row['aid'];
+												$title = $row['title'];
+												$date = $row['date'];
+												$fund = $row['fund_required'];
+
 					            	echo '
 					            <tr>
 					              <td>'.$i.'</td>
-					              <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-					              <td>'.$row['date'].'</td>
-												<td>'.$row['fund_required'].'</td>
+					              <td><u><a href = "details.php?id='.$rid.'">'.$title.'</a></u></td>
+					              <td>'.$date.'</td>
+												<td>'.$fund.'</td>
 					              <td>
 					                <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
-					                <button class = "btn btn-success" name = "A'.$row['aid'].'">Approve</a>
-					                <button class = "btn btn-danger" name = "R'.$row['aid'].'">Reject</a>
+					                <button class = "btn btn-success" name = "A'.$aid.'">Approve</a>
+					                <button class = "btn btn-danger" name = "R'.$aid.'">Reject</a>
 					              </td>
 					            </tr>
 					          ';
