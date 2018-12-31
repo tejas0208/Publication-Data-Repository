@@ -128,15 +128,18 @@ if (mysqli_num_rows($result) != 0) {
                     <tbody>';
 
                 while ($row = mysqli_fetch_array($result)) {
+                  $rid = $row['idrecord'];
+                  $title = $row['title'];
+                  $date = $row['date'];
                   echo '
                     <tr>
                       <td>'.$i.'</td>
-                      <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
-                      <td>'.$row['date'].'</td>
+                      <td><u><a href = "details.php?id='.$rid.'">'.$title.'</a></u></td>
+                      <td>'.$date.'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
-                        <button class = "btn btn-success" name = "A'.$row['idrecord'].'">Approve</a>
-                        <button class = "btn btn-danger" name = "R'.$row['idrecord'].'">Reject</a>
+                        <button class = "btn btn-success" name = "A'.$rid.'">Approve</a>
+                        <button class = "btn btn-danger" name = "R'.$rid.'">Reject</a>
                       </td>
                     </tr>
                   ';
