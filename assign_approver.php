@@ -334,7 +334,7 @@
 				}
 			}
 			
-			header("location:details.php?id=$id");
+			header("location:details.php?id=$id&success=1");
 
 		}
 		else {
