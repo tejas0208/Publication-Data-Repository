@@ -83,7 +83,7 @@
                 echo '
               <tr>
                 <td>' . $i . '</td>
-                <td><u><a href = "details.php?id=' . $id . '">' . $title . '</a></u></td>
+                <td><u><a href = "details.php?id=' . $id . '" target="_blank">' . $title . '</a></u></td>
                 <td>' . $date . '</td>
                 <td style="color:' . $color . ';">' . $message . '</td>
                 <td>'.$reason.'</td>
