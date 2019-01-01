@@ -278,7 +278,7 @@
 		$submitted_by_mis = "'" . $mis . "'";
 		$department = "'" . $department . "'";
 		
-		$query = "INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES ('$id', $date, $title, $f_tequip, $f_rsa, $f_isea, $f_aicte, $f_coep, $f_others, $t_tequip, $t_isea, $t_rsa, $t_aicte, $t_coep, $t_others, $national_journal_name, $international_journal_name, $national_conference_name, $international_conference_name, $volume, $num_pages, $citations, $approved_status, $approved_by_mis, $submitted_by_mis, $department, $pdffilename)";
+		$query = "INSERT INTO `record` (`idrecord`, `date`, `title`, `f_tequip`, `f_rsa`, `f_isea`, `f_aicte`, `f_coep`, `f_others`, `t_tequip`, `t_isea`, `t_rsa`, `t_aicte`, `t_coep`, `t_others`, `nat_journal`, `int_journal`, `nat_conf`, `int_conf`, `volume_no`, `pages`, `citations`, `issueno`, `approved_status`, `approved_by_mis`, `submitted_by_mis`, `department`, `filename`) VALUES ('$id', $date, $title, $f_tequip, $f_rsa, $f_isea, $f_aicte, $f_coep, $f_others, $t_tequip, $t_isea, $t_rsa, $t_aicte, $t_coep, $t_others, $national_journal_name, $international_journal_name, $national_conference_name, $international_conference_name, $volume, $num_pages, $citations, $issueno, $approved_status, $approved_by_mis, $submitted_by_mis, $department, $pdffilename)";
 		if($db->run_query($query)) {
 			//add faculty mis to table
 			$length = count($faculty_mis);
