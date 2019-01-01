@@ -131,7 +131,7 @@ if (mysqli_num_rows($result) != 0) {
                   echo '
                     <tr>
                       <td>'.$i.'</td>
-                      <td><u><a href = "details.php?id='.$row['idrecord'].'">'.$row['title'].'</a></u></td>
+                      <td><u><a href = "details.php?id='.$row['idrecord'].'" target="_blank">'.$row['title'].'</a></u></td>
                       <td>'.$row['date'].'</td>
                       <td>
                         <textarea class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"></textarea>
