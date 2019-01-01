@@ -48,6 +48,10 @@
           echo '<div class="alert alert-success" role="alert">
           Record successfully added!
         </div>';
+        if(isset($_GET['app']))
+          echo '<div class="alert alert-success" role="alert">
+          Applicated received!
+        </div>';
       ?>
       <table class="table table-striped table-bordered table-condensed">
   		    <tbody>
