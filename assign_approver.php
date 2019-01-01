@@ -334,7 +334,7 @@
 				}
 			}
 			
-			echo "<h2>Successfully added record to table</h2>";
+			header("location:details.php?id=$id");
 
 		}
 		else {
