@@ -96,7 +96,7 @@
 			$query = "INSERT INTO `applications` (`aid`,`idrecord`, `initial_paper`, `fund_required`, `approved_level`, `date`) VALUES (".$aid.",".$id.",". $initial_paper.",".$finacial_aid.", 1,'".$date."');";
 			if($db->run_query($query)) {
 				
-				echo "<br/><center><h2>Application Successfully Submitted....</h2></center>";
+				header("location:details.php?id=$id&app=1");
 
 			}
 			else {
