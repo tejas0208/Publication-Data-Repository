@@ -136,7 +136,7 @@
                     <td>Department</td><td>'.$result[25].'</td>
                 </tr>
                 <tr>
-                    <td>Filename</a></td><td><u><a href = "uploads/'.$result[26].'">'.$result[26].'</a></u></td>
+                    <td>Filename</td><td><u><a href = "uploads/'.$result[26].'" target="_blank">'.$result[26].'</a></u></td>
                 </tr>
                 ';
           		?>
