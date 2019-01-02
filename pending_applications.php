@@ -155,11 +155,10 @@
 												$title = $row['title'];
 												$date = $row['date'];
 												$fund = $row['fund_required'];
-
 					            	echo '
 					            <tr>
 					              <td>'.$i.'</td>
-					              <td><u><a href = "details.php?id='.$rid.'">'.$title.'</a></u></td>
+					              <td><u><a href = "details.php?id='.$rid.'" target="_blank">'.$title.'</a></u></td>
 					              <td>'.$date.'</td>
 												<td>'.$fund.'</td>
 					              <td>

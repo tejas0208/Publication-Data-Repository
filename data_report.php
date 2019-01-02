@@ -188,7 +188,7 @@
 									echo "<tr>
 											<td>";
 									if(!isset($_POST["downpdf"]))
-										echo "<a href='details.php?id=".$row['idrecord']."''>". $row['title']. "</a>";
+										echo "<a href='details.php?id=".$row['idrecord']."'' target='_blank'>". $row['title']. "</a>";
 									else
 										echo $row['title'];
 									echo "</td>
@@ -261,16 +261,14 @@
 								echo 'value="'.$_POST["pages"].'"';
 						?> placeholder="No. of pages">
 					</div>
-					<!--<div class="form-group">
+					<div class="form-group">
 						<label for="issueno" class="control-label">Issue no</label>
 						<input type="text" class="form-control" id="issueno" name="issueno"
 						<?php
-							echo 'value="';
 							if(isset($_POST["issueno"]))
-								echo $_POST["issueno"];
-							echo '"';
+								echo 'value="'.$_POST["issueno"].'"';
 						?> placeholder="Enter issue no">
-					</div>-->
+					</div>
 					<div class="form-group">
 						<label for="volume" class="control-label">Volume</label>
 						<input type="text" class="form-control" id="volume" name="volume"
