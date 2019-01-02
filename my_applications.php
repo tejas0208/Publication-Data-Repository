@@ -39,7 +39,7 @@
       <?php
         $i      = 1;
         $db     = new DB();
-        $query  = "SELECT * from users where username = '111505048'";//$_SESSION['username'] . "'";
+        $query  = "SELECT * from users where username = '" . $_SESSION['username'] . "'";
         $result = $db->run_query($query);
         $result = mysqli_fetch_row($result);
         $mis    = $result[1];
