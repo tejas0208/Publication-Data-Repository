@@ -57,7 +57,7 @@
                   <th>Date</th>
                   <th>Fund Required</th>
                   <th>Status</th>
-                  <th>Reason for rejection(where applicable)</th>
+                  <th>Comments</th>
                 </tr>
               </thead>
               <tbody>';
