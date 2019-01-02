@@ -17,7 +17,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
-			Dashboard | <?php echo $_SESSION['username'] ?>
+			Details | <?php echo $_SESSION['username'] ?>
 		</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/menu.css">
@@ -43,7 +43,16 @@
       </div>
     </div>
     <div class="submissions">
-
+      <?php
+        if(isset($_GET['success']))
+          echo '<div class="alert alert-success" role="alert">
+          Record successfully added!
+        </div>';
+        if(isset($_GET['app']))
+          echo '<div class="alert alert-success" role="alert">
+          Applicated received!
+        </div>';
+      ?>
       <table class="table table-striped table-bordered table-condensed">
   		    <tbody>
             <?php
@@ -127,7 +136,7 @@
                     <td>Department</td><td>'.$result[25].'</td>
                 </tr>
                 <tr>
-                    <td>Filename</a></td><td><u><a href = "uploads/'.$result[26].'">'.$result[26].'</a></u></td>
+                    <td>Filename</td><td><u><a href = "uploads/'.$result[26].'" target="_blank">'.$result[26].'</a></u></td>
                 </tr>
                 ';
           		?>
