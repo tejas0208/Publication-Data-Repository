@@ -39,15 +39,15 @@
       <?php
         $i      = 1;
         $db     = new DB();
-        $query  = "SELECT * from users where username = '" . $_SESSION['username'] . "'";
+        $query  = "SELECT * from users where username = '111505048'";//$_SESSION['username'] . "'";
         $result = $db->run_query($query);
         $result = mysqli_fetch_row($result);
         $mis    = $result[1];
-        $query  = "select * from applications where idrecord in (select idrecord from record where submitted_by_mis = $mis"
+        $query  = "select * from applications where idrecord in (select idrecord from record where submitted_by_mis = $mis)";
         //$query  = "SELECT * from record where submitted_by_mis = $mis";
         $result = $db->run_query($query);
         if (mysqli_num_rows($result) == 0) {
-            echo "Nothing tos show";
+            echo "Nothing to show";
         } else {
             echo '<table class="table table-striped table-bordered table-condensed">
               <thead>
@@ -80,7 +80,7 @@
                   $reason = "Pending for approval by HOD";
                 } else if ($status == 2) {
                   $color = "black";
-                  $message = "Pending"
+                  $message = "Pending";
                   $reason = "Pending for approval by Dean";
                 } else if ($status == 3) {
                   $color = "red";
@@ -106,7 +106,7 @@
                 echo '
               <tr>
                 <td>' . $i . '</td>
-                <td><u><a href = "details.php?id=' . $rid . '">' . $title . '</a></u></td>
+                <td><u><a href = "details.php?id=' . $rid . '" target="_blank">' . $title . '</a></u></td>
                 <td>' . $date . '</td>
                 <td>'. $fund .'</td>
                 <td style="color:' . $color . ';">' . $message . '</td>
