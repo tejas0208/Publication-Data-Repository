@@ -5,18 +5,26 @@
 			require_once "db.php";
 			$db = new DB();
 			$flag = 0;
+			function test_input($data) {
+			    $data = trim($data);
+			    $data = stripslashes($data);
+			    $data = htmlspecialchars($data);
+			    return $data;
+			  }
+
 				if(isset($_POST["submit"])) {
 					$query = "SELECT * FROM record WHERE approved_status = 'T'";
+
 					if($_POST["title"] != "") {
-						$title = $_POST["title"];
+						$title = test_input($_POST["title"]);
 						$query = $query . " AND title = '$title'";
 					}
 					if($_POST["date"] != "") {
-						$date = $_POST["date"];
+						$date = test_input($_POST["date"]);
 						$query = $query . " AND date = '$date'";
 					}
 					if($_POST["pages"] != "") {
-						$pages = $_POST["pages"];
+						$pages = test_input($_POST["pages"]);
 						$query = $query . " AND pages = '$pages'";
 					}
 /*					if($_POST["issueno"] != "") {
@@ -24,27 +32,27 @@
 						$query = $query . " AND issueno = '$issueno'";
 					}*/
 					if($_POST["volume"] != "") {
-						$volume = $_POST["volume"];
+						$volume = test_input($_POST["volume"]);
 						$query = $query . " AND volume_no = '$volume'";
 					}
 					if($_POST["citations"] != "") {
-						$citations = $_POST["citations"];
+						$citations = test_input($_POST["citations"]);
 						$query = $query . " AND citations = '$citations'";
 					}
 					if($_POST["department"] != "") { //Switch to dropdown maybe?
-						$department = $_POST["department"];
+						$department = test_input($_POST["department"]);
 						$query = $query . " AND department = '$department'";
 					}
 					if($_POST["fname"] != "") {
-						$fname = $_POST["fname"];
+						$fname = test_input($_POST["fname"]);
 						$query = $query . " AND filename = '$fname'";
 					}
 					if($_POST["approved_by_mis"] != "") {
-						$approved_by_mis = $_POST["approved_by_mis"];
+						$approved_by_mis = test_input($_POST["approved_by_mis"]);
 						$query = $query . " AND approved_by_mis = '$approved_by_mis'";
 					}
 					if($_POST["submitted_by_mis"] != "") {
-						$submitted_by_mis = $_POST["submitted_by_mis"];
+						$submitted_by_mis = test_input($_POST["submitted_by_mis"]);
 						$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
 					}
 					if(isset($_POST["funded_by"])) {
@@ -92,21 +100,21 @@
 					}
 
 					if(isset($_POST["national_journal_details"])) {
-						$natjournal = $_POST["national_journal_details"];
+						$natjournal = test_input($_POST["national_journal_details"]);
 						$query = $query . " AND nat_journal = '$natjournal'";
 					}
 
 					if(isset($_POST["international_journal_details"])) {
-						$intjournal = $_POST["international_journal_details"];
+						$intjournal = test_input($_POST["international_journal_details"]);
 						$query = $query . " AND int_journal = '$intjournal'";
 					}
 
 					if(isset($_POST["national_conference_details"])) {
-						$natconf = $_POST["national_conference_details"];
+						$natconf = test_input($_POST["national_conference_details"]);
 						$query = $query . " AND nat_conf = '$natconf'";
 					}
 					if(isset($_POST["international_conference_details"])) {
-						$intconf = $_POST["international_conference_details"];
+						$intconf = test_input($_POST["international_conference_details"]);
 						$query = $query . " AND int_conf = '$intconf'";
 					}
 
