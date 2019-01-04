@@ -27,10 +27,10 @@
 						$pages = test_input($_POST["pages"]);
 						$query = $query . " AND pages = '$pages'";
 					}
-/*					if($_POST["issueno"] != "") {
+					if($_POST["issueno"] != "") {
 						$issueno = $_POST["issueno"];
 						$query = $query . " AND issueno = '$issueno'";
-					}*/
+					}
 					if($_POST["volume"] != "") {
 						$volume = test_input($_POST["volume"]);
 						$query = $query . " AND volume_no = '$volume'";
@@ -165,7 +165,7 @@
 						    }
 						    else {
 						    	$flag = 1;
-							    if(isset($_POST["downpdf"])){
+							    if(isset($_POST["downpdf"]) || isset($_POST["downzip"])){
 							    	ob_end_clean();
 							    	ob_start();
 							    }
@@ -194,29 +194,34 @@
 									array_push($files, $row['filename']);
 								}
 							    echo '</table>';
-							    if(isset($_POST["downpdf"])) {
+							    if(isset($_POST["downpdf"]) || isset($_POST["downzip"])) {
 							    	$t = time();
 							    	$user = $_SESSION['username'];
+							    	$name = "search_"."$user"."_"."$t";
 								    $table = ob_get_clean();
 								    include 'TCPDF/tcpdf.php';
-								    $pdf = new TCPDF;                   // create TCPDF object with default constructor args
-									$pdf->AddPage();                    // pretty self-explanatory
-									$pdf->writeHTML("$table");      // 1 is line height
-									$pdf->Output("search_"."$user"."_"."$t".".pdf", "D");
+								    $pdf = new TCPDF;
+									$pdf->AddPage();
+									$pdf->writeHTML("$table");
 								}
+								if(isset($_POST["downpdf"]))
+									$pdf->Output("$name".".pdf", "D");
+								if(isset($_POST["downzip"]))
+									$pdf->Output(__DIR__ . "/PDFs/$name".".pdf", "F");
 								if(isset($_POST["downzip"])) {
-									$t = time();
-									$user = $_SESSION['username'];
+									//$t = time();
+									//$user = $_SESSION['username'];
 									$zip = new ZipArchive();
-									$zipname = "search_"."$user"."_"."$t".".zip";
-								    $zip->open("uploads/$zipname",  ZipArchive::CREATE);
+									//$zipname = "search_"."$user"."_"."$t".".zip";
+								    $zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
 								    foreach ($files as $file) {
 								        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
 								    }
+								    $zip->addFromString(basename("PDFs/".$name.".pdf"),  file_get_contents("PDFs/".$name .".pdf"));
 								    $zip->close();
 								    header('Content-Type: application/zip');
-									header('Content-Disposition: attachment; filename="'.$zipname.'"');
-									readfile("uploads/$zipname");
+									header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
+									readfile("uploads/$name".".zip");
 								}
 							}
 						}
