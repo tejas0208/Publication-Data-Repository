@@ -1,29 +1,31 @@
 <?php
-	
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		return $data;
+	}
 	include('session.php');
 	//var_dump($_POST);
-
 	//TODO avoid sql injection
 	$id = $_GET['id'];
 	$initial_paper = $finacial_aid= "";
 	if(isset($_POST["submit"])) {
 		//initial paper
-		if(isset($_POST['initial_paper'])) {
-			$initial_paper = $_POST['initial_paper'];
-		}else {
-			echo "";
+		$initial_paper = test_input($_POST['initial_paper'])
+		$financial_aid = test_input($_POST['initial_paper'])
+
+		if($initial_paper != "" && $finacial_aid != "" ) {
+			$_SESSION['initial_paper'] = $initial_paper;
+			$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
+			header("location:new_application_approver.php");
+		}
+		else {
+			echo '<div class="alert alert-danger alert-dismissible fade show">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Enter valid data</strong>
+		</div>';
 		}
 
-		//finacial aid required
-		if(isset($_POST['finacial_aid'])) {
-			$finacial_aid = $_POST['finacial_aid'];
-		}else {
-			echo "";
-		}
-		$_SESSION['initial_paper'] = $initial_paper;
-		$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
-		header("location:new_application_approver.php");
-		
 	}
 
 ?>
@@ -48,20 +50,6 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
 		<script src="js/helpers.js"></script>
-		<script>
-			jQuery(document).ready(function() {
-				jQuery('.tabs .tab-links a').on('click', function(e)  {
-					
-					var currentAttrValue = jQuery(this).attr('href');
-					// Show/Hide Tabs
-					jQuery('.tabs ' + currentAttrValue).siblings().slideUp(400);
-					jQuery('.tabs ' + currentAttrValue).delay(400).slideDown(400);
-					// Change/remove current tab to active
-					jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-					e.preventDefault();
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -81,23 +69,23 @@
 					<div class="form-group">
 						<label for="title" class="control-label">Initial Paper</label>
 						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >
-					</div>					
-											
+					</div>
+
 					<div class="form-group"> <!-- Street 2 -->
 						<label for="pages" class="control-label">Financial Aid Required In Rupees</label>
 						<input type="text" class="form-control" id="finacial_aid" name="finacial_aid" placeholder="Financial Aid">
-					</div>	
+					</div>
 
-					
+
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" name="submit">Next</button>
-					</div>     
+					</div>
 					<?php
 							$_SESSION['id'] = $GLOBALS['id'];
 					  ?>
 				</form>
 			</div>
-		</div>	
+		</div>
     </body>
 </html>
 
