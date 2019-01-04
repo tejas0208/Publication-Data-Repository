@@ -1,5 +1,5 @@
 <?php
-	
+
 	include('session.php');
 	//var_dump($_POST);
 
@@ -108,12 +108,12 @@
 			}
 		} else {
 			echo "";
-		}	
+		}
 
 		//funded by
 		if(isset($_POST['funded_by'])) {
 			$funded_by = $_POST['funded_by'];
-			
+
 			if(in_array("tequip", $funded_by)) {
 				$f_tequip = "T";
 			}
@@ -139,7 +139,7 @@
 		//sponsored by
 		if(isset($_POST['sponsored_by'])) {
 			$sponsored_by = $_POST['sponsored_by'];
-			
+
 			if(in_array("tequip", $sponsored_by)) {
 				$t_tequip = "T";
 			}
@@ -169,7 +169,7 @@
 
 		if(isset($_POST['add_ug_studentmis'])) {
 			$ug_student_mis = $_POST['add_ug_studentmis'];
-			
+
 		}
 
 		if(isset($_POST['add_pg_studentmis'])) {
@@ -188,7 +188,7 @@
 			$uploadOk = 1;
 			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 			$type = mime_content_type($_FILES["pdffile"]["tmp_name"]);
-			
+
 
 			if($type == "application/pdf") {
 		        $uploadOk = 1;
@@ -201,17 +201,17 @@
 			if ($uploadOk == 0) {
 			    echo "Sorry, your file was not uploaded. Please try again";
 			    return;
-			
+
 			// if everything is ok, try to upload file
 			} else {
 			    if (move_uploaded_file($_FILES["pdffile"]["tmp_name"], $target_file)) {
-			        
+
 			    } else {
 			        echo "Sorry, there was an error uploading your file.";
 			        return;
 			    }
 			}
-			
+
 		} else {
 			echo "Please Upload file";
 			return;
@@ -225,7 +225,7 @@
 		$_SESSION['volume'] = $volume;
 		$_SESSION['citations'] = $citations;
 		$_SESSION['date'] = $date;
-		
+
 		$_SESSION['nat_journal'] = $nat_journal;
 		$_SESSION['int_journal'] = $int_journal;
 		$_SESSION['nat_conf'] = $nat_conf;
@@ -234,7 +234,7 @@
 		$_SESSION['international_journal_name'] = $international_journal_name;
 		$_SESSION['national_conference_name'] = $national_conference_name;
 		$_SESSION['international_conference_name'] = $international_conference_name;
-		
+
 		$_SESSION['faculty_mis'] = $faculty_mis;
 		$_SESSION['f_tequip'] = $f_tequip;
 		$_SESSION['f_rsa'] = $f_rsa;
@@ -279,20 +279,6 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
 		<script src="js/helpers.js"></script>
-		<script>
-			jQuery(document).ready(function() {
-				jQuery('.tabs .tab-links a').on('click', function(e)  {
-					
-					var currentAttrValue = jQuery(this).attr('href');
-					// Show/Hide Tabs
-					jQuery('.tabs ' + currentAttrValue).siblings().slideUp(400);
-					jQuery('.tabs ' + currentAttrValue).delay(400).slideDown(400);
-					// Change/remove current tab to active
-					jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-					e.preventDefault();
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -313,17 +299,17 @@
 					<div class="form-group">
 						<label for="title" class="control-label">Title</label>
 						<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
-					</div>	
+					</div>
 
 					<div class="form-group"> <!-- Street 1 -->
 						<label for="date" class="control-label">Date</label>
 						<input type="text" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
-					</div>					
-											
+					</div>
+
 					<div class="form-group"> <!-- Street 2 -->
 						<label for="pages" class="control-label">Pages</label>
 						<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages">
-					</div>	
+					</div>
 
 					<div class="form-group"> <!-- City-->
 						<label for="issueno" class="control-label">Issue no</label>
@@ -428,11 +414,11 @@
 
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" name="submit">Next</button>
-					</div>     
-			
+					</div>
+
 				</form>
 			</div>
-		</div>	
+		</div>
     </body>
 </html>
 <?php endif; ?>

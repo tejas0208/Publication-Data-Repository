@@ -87,7 +87,7 @@
 							if($spons == "coep")
 								$query = $query . " AND t_coep = 'T'";
 
-							if($spons == "rsa") 
+							if($spons == "rsa")
 								$query = $query . " AND t_rsa = 'T'";
 
 							if($spons == "aicte")
@@ -140,20 +140,6 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
 		<script src="js/helpers.js"></script>
-		<script>
-			jQuery(document).ready(function() {
-				jQuery('.tabs .tab-links a').on('click', function(e)  {
-					
-					var currentAttrValue = jQuery(this).attr('href');
-					// Show/Hide Tabs
-					jQuery('.tabs ' + currentAttrValue).siblings().slideUp(400);
-					jQuery('.tabs ' + currentAttrValue).delay(400).slideDown(400);
-					// Change/remove current tab to active
-					jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
-					e.preventDefault();
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -225,7 +211,7 @@
 									$zipname = "search_"."$user"."_"."$t".".zip";
 								    $zip->open("uploads/$zipname",  ZipArchive::CREATE);
 								    foreach ($files as $file) {
-								        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));    
+								        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
 								    }
 								    $zip->close();
 								    header('Content-Type: application/zip');
@@ -394,7 +380,7 @@
 					<div class="form-group">
 						<label for="journal_details" class="control-label">Journal Details: </label>
 						<div class="checkbox">
-							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national" 
+							<label><input type="checkbox" class = "journal_details" name="journal_details[]" value="national"
 						<?php
 							if(isset($_POST["journal_details"]) AND in_array("national", $_POST["journal_details"]))
 								echo 'checked="checked"';
