@@ -392,16 +392,16 @@
 			      		<label for="dept_id" class="control-label">Select Department of Approver</label>
 			      		<select class="form-control" id="appr_dept_id" name="department" required>
 			      			<option value="Applied Science">Department of Applied Science</option>
-			            	<option value="Civil Engineering ">Department of Civil Engineering</option>
+			            	<option value="Civil Engineering">Department of Civil Engineering</option>
 			            	<option value="Computer Engineering and Information Technology">Department of Computer Engineering & IT</option>
-			            	<option value="Electrical Engineering ">Department of Electrical Engineering</option>
-			            	<option value="Electronics and Telecommunication Engineering ">Department of Electronics and Telecommunication Engineering</option>
-			            	<option value="Instrumentation and Control Engineering ">Department of Instrumentation and Control Engineering</option>
-			            	<option value="maths">Department of Mathematics</option>
-			            	<option value="Mechanical Engineering ">Department of Mechanical Engineering</option>
-			            	<option value="Metallurgy and Material Science ">Department of Metallurgy and Materials Science</option>
-			            	<option value="phy">Department of Physics</option>
-			            	<option value = "Planning ">B.Tech Planning</option>
+			            	<option value="Electrical Engineering">Department of Electrical Engineering</option>
+			            	<option value="Electronics and Telecommunication Engineering">Department of Electronics and Telecommunication Engineering</option>
+			            	<option value="Instrumentation and Control Engineering">Department of Instrumentation and Control Engineering</option>
+			            	<option value="Department of Mathematics">Department of Mathematics</option>
+			            	<option value="Mechanical Engineering">Department of Mechanical Engineering</option>
+			            	<option value="Metallurgy and Material Science">Department of Metallurgy and Materials Science</option>
+			            	<option value="Department of Physics">Department of Physics</option>
+			            	<option value = "Planning">B.Tech Planning</option>
 			            	<option value = "Production Engineering and Industrial Management">Department of Production Engineering and Industrial Management</option>
 			      		</select>
 			      	</div>

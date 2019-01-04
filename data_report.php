@@ -285,12 +285,75 @@
 						?> placeholder="Citations">
 					</div>
 					<div class="form-group">
-						<label for="citations" class="control-label">Department</label>
+						<label for="department" class="control-label">Select Department of Approver</label>
+			      		<select class="form-control" id="department" name="department">
+			      			<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Applied Science")
+								echo 'selected';
+							?> value="Applied Science">Department of Applied Science</option>
+			            	<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Civil Engineering")
+								echo 'selected';
+							?> value="Civil Engineering">Department of Civil Engineering</option>
+			            	<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Computer Engineering and Information Technology")
+								echo 'selected';
+							?> value="Computer Engineering and Information Technology">Department of Computer Engineering & IT</option>
+			            	<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Electrical Engineering")
+								echo 'selected';
+							?> value="Electrical Engineering">Department of Electrical Engineering</option>
+			            	<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Electronics and Telecommunication Engineering")
+								echo 'selected';
+							?> value="Electronics and Telecommunication Engineering">Department of Electronics and Telecommunication Engineering</option>
+			            	<option
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Instrumentation and Control Engineering")
+								echo 'selected';
+							?> value="Instrumentation and Control Engineering">Department of Instrumentation and Control Engineering</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Department of Mathematics")
+								echo 'selected';
+							?> value="Department of Mathematics">Department of Mathematics</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Mechanical Engineering")
+								echo 'selected';
+							?> value="Mechanical Engineering">Department of Mechanical Engineering</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Metallurgy and Material Science")
+								echo 'selected';
+							?> value="Metallurgy and Material Science">Department of Metallurgy and Materials Science</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Department of Physics")
+								echo 'selected';
+							?> value="Department of Physics">Department of Physics</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Planning")
+								echo 'selected';
+							?> value = "Planning">B.Tech Planning</option>
+			            	<option 
+			      			<?php
+							if(isset($_POST["department"]) AND $_POST["department"] == "Production Engineering and Industrial Management")
+								echo 'selected';
+							?> value = "Production Engineering and Industrial Management">Department of Production Engineering and Industrial Management</option>
+			      		</select>
+						<!--<label for="citations" class="control-label">Department</label>
 						<input type="text" class="form-control" id="department" name="department"
 						<?php
 							if(isset($_POST["department"]))
 								echo 'value="'.$_POST["department"].'"';
-						?> placeholder="Department">
+						?> placeholder="Department">-->
 					</div>
 					<div class="form-group">
 						<label for="funded_by" class="control-label">Funded By</label>
