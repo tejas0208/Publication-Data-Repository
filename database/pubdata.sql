@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attended_by`
 --
-create database pubdata;
+create database if not exists pubdata;
 use pubdata;
 
 CREATE TABLE `attended_by` (
