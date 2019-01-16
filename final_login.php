@@ -66,7 +66,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 
 	    }
 	    else {
-	        echo "Incorrect login credentials";
+	    	$error = 1;
 	    }
 	}
 }
@@ -106,9 +106,12 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 								<span>Login</span>
 							</div>
 							<div class="panel-body form-horizontal">
-									<div id="genMsg" class="alert alert-danger hide">
-										Invalid UserName or Password
-									</div>
+									<?php
+										if(isset($error))
+											echo '<div id="genMsg" class="alert alert-danger">
+												Invalid UserName or Password
+											</div>';
+										?>
 									<div class="form-group">
 										<label for="username" class="col-sm-3 control-label">
 											UserName
