@@ -1,126 +1,126 @@
 <?php
-	include('session.php');
-			ini_set('error_reporting', E_ALL);
-			ini_set('display_errors', 1);
-			require_once "db.php";
-			$db = new DB();
-			$flag = 0;
-			function test_input($data) {
-			    $data = trim($data);
-			    $data = stripslashes($data);
-			    $data = htmlspecialchars($data);
-			    return $data;
-			  }
+include('session.php');
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+require_once "db.php";
+$db   = new DB();
+$flag = 0;
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
 
-				if(isset($_POST["submit"])) {
-					$query = "SELECT * FROM record WHERE approved_status = 'T'";
-
-					if($_POST["title"] != "") {
-						$title = test_input($_POST["title"]);
-						$query = $query . " AND title = '$title'";
-					}
-					if($_POST["date"] != "") {
-						$date = test_input($_POST["date"]);
-						$query = $query . " AND date = '$date'";
-					}
-					if($_POST["pages"] != "") {
-						$pages = test_input($_POST["pages"]);
-						$query = $query . " AND pages = '$pages'";
-					}
-					if($_POST["issueno"] != "") {
-						$issueno = $_POST["issueno"];
-						$query = $query . " AND issueno = '$issueno'";
-					}
-					if($_POST["volume"] != "") {
-						$volume = test_input($_POST["volume"]);
-						$query = $query . " AND volume_no = '$volume'";
-					}
-					if($_POST["citations"] != "") {
-						$citations = test_input($_POST["citations"]);
-						$query = $query . " AND citations = '$citations'";
-					}
-					if($_POST["department"] != "") { //Switch to dropdown maybe?
-						$department = test_input($_POST["department"]);
-						$query = $query . " AND department = '$department'";
-					}
-					if($_POST["fname"] != "") {
-						$fname = test_input($_POST["fname"]);
-						$query = $query . " AND filename = '$fname'";
-					}
-					if($_POST["approved_by_mis"] != "") {
-						$approved_by_mis = test_input($_POST["approved_by_mis"]);
-						$query = $query . " AND approved_by_mis = '$approved_by_mis'";
-					}
-					if($_POST["submitted_by_mis"] != "") {
-						$submitted_by_mis = test_input($_POST["submitted_by_mis"]);
-						$query = $query . " AND submitted_by_mis = '$submitted_by_mis'";
-					}
-					if(isset($_POST["funded_by"])) {
-						foreach($_POST["funded_by"] as $fund) {
-							if($fund == "isea")
-								$query = $query . " AND f_isea = 'T'";
-
-							if($fund == "tequip")
-								$query = $query . " AND f_tequip = 'T'";
-
-							if($fund == "coep")
-								$query = $query . " AND f_coep = 'T'";
-
-							if($fund == "rsa")
-								$query = $query . " AND f_rsa = 'T'";
-
-							if($fund == "aicte")
-								$query = $query . " AND f_aicte = 'T'";
-
-							if($fund == "others")
-								$query = $query . " AND f_others = 'T'";
-						}
-					}
-					if(isset($_POST["sponsored_by"])) {
-						foreach($_POST["sponsored_by"] as $spons) {
-							if($spons == "isea")
-								$query = $query . " AND t_isea = 'T'";
-
-							if($spons == "tequip")
-								$query = $query . " AND t_tequip = 'T'";
-
-							if($spons == "coep")
-								$query = $query . " AND t_coep = 'T'";
-
-							if($spons == "rsa")
-								$query = $query . " AND t_rsa = 'T'";
-
-							if($spons == "aicte")
-								$query = $query . " AND t_aicte = 'T'";
-
-							if($spons == "others")
-								$query = $query . " AND t_others = 'T'";
-
-						}
-					}
-
-					if(isset($_POST["national_journal_details"])) {
-						$natjournal = test_input($_POST["national_journal_details"]);
-						$query = $query . " AND nat_journal = '$natjournal'";
-					}
-
-					if(isset($_POST["international_journal_details"])) {
-						$intjournal = test_input($_POST["international_journal_details"]);
-						$query = $query . " AND int_journal = '$intjournal'";
-					}
-
-					if(isset($_POST["national_conference_details"])) {
-						$natconf = test_input($_POST["national_conference_details"]);
-						$query = $query . " AND nat_conf = '$natconf'";
-					}
-					if(isset($_POST["international_conference_details"])) {
-						$intconf = test_input($_POST["international_conference_details"]);
-						$query = $query . " AND int_conf = '$intconf'";
-					}
-
-					$_SESSION["query"] = $query;
-			    }
-		    ?>
+if (isset($_POST["submit"])) {
+	$query = "SELECT * FROM record WHERE approved_status = 'T'";
+	
+	if ($_POST["title"] != "") {
+		$title = test_input($_POST["title"]);
+		$query = $query . " AND title = '$title'";
+	}
+	if ($_POST["date"] != "") {
+		$date  = test_input($_POST["date"]);
+		$query = $query . " AND date = '$date'";
+	}
+	if ($_POST["pages"] != "") {
+		$pages = test_input($_POST["pages"]);
+		$query = $query . " AND pages = '$pages'";
+	}
+	if ($_POST["issueno"] != "") {
+		$issueno = $_POST["issueno"];
+		$query   = $query . " AND issueno = '$issueno'";
+	}
+	if ($_POST["volume"] != "") {
+		$volume = test_input($_POST["volume"]);
+		$query  = $query . " AND volume_no = '$volume'";
+	}
+	if ($_POST["citations"] != "") {
+		$citations = test_input($_POST["citations"]);
+		$query     = $query . " AND citations = '$citations'";
+	}
+	if ($_POST["department"] != "") { //Switch to dropdown maybe?
+		$department = test_input($_POST["department"]);
+		$query      = $query . " AND department = '$department'";
+	}
+	if ($_POST["fname"] != "") {
+		$fname = test_input($_POST["fname"]);
+		$query = $query . " AND filename = '$fname'";
+	}
+	if ($_POST["approved_by_mis"] != "") {
+		$approved_by_mis = test_input($_POST["approved_by_mis"]);
+		$query           = $query . " AND approved_by_mis = '$approved_by_mis'";
+	}
+	if ($_POST["submitted_by_mis"] != "") {
+		$submitted_by_mis = test_input($_POST["submitted_by_mis"]);
+		$query            = $query . " AND submitted_by_mis = '$submitted_by_mis'";
+	}
+	if (isset($_POST["funded_by"])) {
+		foreach ($_POST["funded_by"] as $fund) {
+			if ($fund == "isea")
+				$query = $query . " AND f_isea = 'T'";
+			
+			if ($fund == "tequip")
+				$query = $query . " AND f_tequip = 'T'";
+			
+			if ($fund == "coep")
+				$query = $query . " AND f_coep = 'T'";
+			
+			if ($fund == "rsa")
+				$query = $query . " AND f_rsa = 'T'";
+			
+			if ($fund == "aicte")
+				$query = $query . " AND f_aicte = 'T'";
+			
+			if ($fund == "others")
+				$query = $query . " AND f_others = 'T'";
+		}
+	}
+	if (isset($_POST["sponsored_by"])) {
+		foreach ($_POST["sponsored_by"] as $spons) {
+			if ($spons == "isea")
+				$query = $query . " AND t_isea = 'T'";
+			
+			if ($spons == "tequip")
+				$query = $query . " AND t_tequip = 'T'";
+			
+			if ($spons == "coep")
+				$query = $query . " AND t_coep = 'T'";
+			
+			if ($spons == "rsa")
+				$query = $query . " AND t_rsa = 'T'";
+			
+			if ($spons == "aicte")
+				$query = $query . " AND t_aicte = 'T'";
+			
+			if ($spons == "others")
+				$query = $query . " AND t_others = 'T'";
+			
+		}
+	}
+	
+	if (isset($_POST["national_journal_details"])) {
+		$natjournal = test_input($_POST["national_journal_details"]);
+		$query      = $query . " AND nat_journal = '$natjournal'";
+	}
+	
+	if (isset($_POST["international_journal_details"])) {
+		$intjournal = test_input($_POST["international_journal_details"]);
+		$query      = $query . " AND int_journal = '$intjournal'";
+	}
+	
+	if (isset($_POST["national_conference_details"])) {
+		$natconf = test_input($_POST["national_conference_details"]);
+		$query   = $query . " AND nat_conf = '$natconf'";
+	}
+	if (isset($_POST["international_conference_details"])) {
+		$intconf = test_input($_POST["international_conference_details"]);
+		$query   = $query . " AND int_conf = '$intconf'";
+	}
+	
+	$_SESSION["query"] = $query;
+}
+?>
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
