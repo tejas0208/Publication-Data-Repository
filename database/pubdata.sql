@@ -25,7 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `attended_by`
 --
-create database if not exists pubdata;
+drop database if exists pubdata;
+create database pubdata;
 use pubdata;
 
 CREATE TABLE `attended_by` (
@@ -388,7 +389,7 @@ ALTER TABLE `applications`
 COMMIT;
 
 -- Adding a missing column to the records table.
-ALTER TABLE `record` 
+ALTER TABLE `record`
   ADD COLUMN issueno varchar(45);
 COMMIT;
 
@@ -399,6 +400,6 @@ CREATE TABLE `application_id_max` (
 
 INSERT INTO `application_id_max`(`id`) VALUES(1);
 
-ALTER TABLE `applications` 
+ALTER TABLE `applications`
 	ADD COLUMN `date` date NOT NULL;
 COMMIT;
