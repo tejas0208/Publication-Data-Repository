@@ -17,7 +17,8 @@ if (isset($_POST["submit"])) {
 	
 	if ($_POST["title"] != "") {
 		$title = test_input($_POST["title"]);
-		$query = $query . " AND title = '$title'";
+		$query = $query . " AND title LIKE '%$title%'";
+		echo $query;
 	}
 	if ($_POST["date"] != "") {
 		$date  = test_input($_POST["date"]);
@@ -39,13 +40,13 @@ if (isset($_POST["submit"])) {
 		$citations = test_input($_POST["citations"]);
 		$query     = $query . " AND citations = '$citations'";
 	}
-	if ($_POST["department"] != "") { //Switch to dropdown maybe?
+	if ($_POST["department"] != "") { 
 		$department = test_input($_POST["department"]);
 		$query      = $query . " AND department = '$department'";
 	}
 	if ($_POST["fname"] != "") {
 		$fname = test_input($_POST["fname"]);
-		$query = $query . " AND filename = '$fname'";
+		$query = $query . " AND filename LIKE '%$fname%'";
 	}
 	if ($_POST["approved_by_mis"] != "") {
 		$approved_by_mis = test_input($_POST["approved_by_mis"]);
@@ -169,13 +170,14 @@ if (isset($_POST["submit"])) {
 							    	ob_end_clean();
 							    	ob_start();
 							    }
-							    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
+							    echo '<form method = "POST"><table style="color: black" class="table table-striped table-bordered table-condensed">';
 								echo "<tr>
 										<th>Title</th>
 										<th>Date</th>
 										<th>Approved By MIS</th>
 										<th>Submitted By MIS</th>
 										<th>Department</th>
+										<th>Select</th>
 									</tr><br>";
 								$files = array();
 								while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -190,10 +192,11 @@ if (isset($_POST["submit"])) {
 												<td>" . $row['approved_by_mis'] . "</td>
 												<td>" . $row['submitted_by_mis'] . "</td>
 												<td>" . $row['department'] . "</td>
+												<td><center><input type='checkbox'></center></td>
 											</tr>";
 									array_push($files, $row['filename']);
 								}
-							    echo '</table>';
+							    echo '</table></form>';
 							    if(isset($_POST["downpdf"]) || isset($_POST["downzip"])) {
 							    	$t = time();
 							    	$user = $_SESSION['username'];
