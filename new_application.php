@@ -7,12 +7,13 @@
 	include('session.php');
 	//var_dump($_POST);
 	//TODO avoid sql injection
-	$id = $_GET['id'];
+	if (isset($_GET['id'])) 
+		$id = $_GET['id'];
 	$initial_paper = $finacial_aid= "";
 	if(isset($_POST["submit"])) {
 		//initial paper
-		$initial_paper = test_input($_POST['initial_paper'])
-		$financial_aid = test_input($_POST['initial_paper'])
+		$initial_paper = test_input($_POST['initial_paper']);
+		$financial_aid = test_input($_POST['initial_paper']);
 
 		if($initial_paper != "" && $finacial_aid != "" ) {
 			$_SESSION['initial_paper'] = $initial_paper;
