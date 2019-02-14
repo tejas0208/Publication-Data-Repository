@@ -7,16 +7,17 @@
 	include('session.php');
 	//var_dump($_POST);
 	//TODO avoid sql injection
+
 	$id = $_GET['id'];
-	$initial_paper = $finacial_aid= "";
+	$initial_paper = $financial_aid= "";
 	if(isset($_POST["submit"])) {
 		//initial paper
-		$initial_paper = test_input($_POST['initial_paper'])
-		$financial_aid = test_input($_POST['initial_paper'])
+		$initial_paper = test_input($_POST['initial_paper']);
+		$financial_aid = test_input($_POST['financial_aid']);
 
-		if($initial_paper != "" && $finacial_aid != "" ) {
+		if($initial_paper != "" AND $financial_aid != "" ) {
 			$_SESSION['initial_paper'] = $initial_paper;
-			$_SESSION['finacial_aid'] = $finacial_aid;	//financial aid required
+			$_SESSION['financial_aid'] = $financial_aid;	//financial aid required
 			header("location:new_application_approver.php");
 		}
 		else {
@@ -65,20 +66,20 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
-		    	<form method="POST" action="new_application.php">
+		    	<form method="POST">
 					<div class="form-group">
-						<label for="title" class="control-label">Initial Paper</label>
+						<label for="initial_paper" class="control-label">Initial Paper</label>
 						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >
 					</div>
 
 					<div class="form-group"> <!-- Street 2 -->
-						<label for="pages" class="control-label">Financial Aid Required In Rupees</label>
-						<input type="text" class="form-control" id="finacial_aid" name="finacial_aid" placeholder="Financial Aid">
+						<label for="financial_aid" class="control-label">Financial Aid Required In Rupees</label>
+						<input type="text" class="form-control" id="financial_aid" name="financial_aid" placeholder="Financial Aid">
 					</div>
 
 
 					<div class="form-group"> <!-- Submit Button -->
-						<button class="btn btn-primary" name="submit">Next</button>
+						<button class="btn btn-primary" type="submit"  name="submit">Next</button>
 					</div>
 					<?php
 							$_SESSION['id'] = $GLOBALS['id'];
