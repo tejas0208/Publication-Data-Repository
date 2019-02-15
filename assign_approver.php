@@ -249,8 +249,7 @@
 		//TODO
 		//APPROVED STATUS
 		$level = $_SESSION['level'];
-		if($level != 'student') {
-			//$dep =
+		if($level != 'normal') {
 			$mis = $_SESSION['username'];
 			$query = "SELECT department FROM `users` WHERE username='" . $mis . "'";
 			$result = $db->run_query($query);
