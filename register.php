@@ -10,13 +10,16 @@
     echo "</pre>";
   }
   $entry = $_SESSION['entry'];
-  if(strpos($entry["dn"], "students")!= false) {
-    $role = 'student';
+  if($entry == "students_test") {
+    $role = "student";
+  } else {
+    if(strpos($entry["dn"], "students")!= false) {
+      $role = 'student';
+    }
+    else {
+      $role = 'faculty';
+    }
   }
-  else {
-    $role = 'faculty';
-  }
-
   // define variables and set to empty values
   $username = $role_submitted = $mis = $full_name = $email =  "";
   

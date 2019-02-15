@@ -184,7 +184,11 @@
 			$pdffilename = $_FILES["pdffile"]["name"];
 			$target_dir = "uploads" . DIRECTORY_SEPARATOR;
 			$destination_path = getcwd().DIRECTORY_SEPARATOR;
+
+			error_log($destination_path);
+
 			$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
+			error_log($targetfile);
 			$uploadOk = 1;
 			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 			$type = mime_content_type($_FILES["pdffile"]["tmp_name"]);
