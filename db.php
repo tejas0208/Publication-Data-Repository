@@ -3,8 +3,8 @@
 class DB {
 	private $conn;
 	private $server = "127.0.0.1";
-	private $username = "phpmyadmin";
-	private $pass = "some_pass";
+	private $username = "ved";
+	private $pass = "p@ssw0rd";
 	private $db_name = "pubdata";
 	function __construct() {
 		$this->connect();
