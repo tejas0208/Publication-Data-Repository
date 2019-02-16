@@ -74,8 +74,7 @@
                     $message = "Rejected";
                     $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "';";
                     $reason  = $db->run_query($query2);
-                    $reason  = mysqli_fetch_array($result)[0];
-                    error_log($reason);
+                    $reason  = mysqli_fetch_array($reason)[0];
                     
                 } else {
                     $color   = "black";
