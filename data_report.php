@@ -233,19 +233,28 @@ if (isset($_POST["submit"])) {
 									readfile("uploads/$name".".zip");
 								}
 								if(isset($_POST["downsel"])) {
-									$zip = new ZipArchive();
-									$zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
-									$selected = array();
+									$empty = 1;
 									for($i = 0; $i <= $sno; $i++)
-										if(isset($_POST["sel_$i"]))
-											array_push($selected, $files["$i"]);
-									foreach ($selected as $file) {
-								        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
-								    }
-								    $zip->close();
-								    header('Content-Type: application/zip');
-									header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
-									readfile("uploads/$name".".zip");
+										if(isset($_POST["sel_$i"])){
+											$empty = 0;
+											break;
+										}
+									if(!$empty) {
+										$zip = new ZipArchive();
+										$zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
+										$selected = array();
+										for($i = 0; $i <= $sno; $i++)
+											if(isset($_POST["sel_$i"])){
+												array_push($selected, $files["$i"]);
+											}
+										foreach ($selected as $file) {
+									        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
+									    }
+									    $zip->close();
+									    header('Content-Type: application/zip');
+										header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
+										readfile("uploads/$name".".zip");
+									}
 								}
 							}
 						}

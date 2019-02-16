@@ -6,7 +6,9 @@
   background: white;
   border-radius: 15px;
   color: black;
+  display: table;
 }
+
 
 .submissions, .pendingappr, .myappr, .pendingappl, .newappl, .myappl {
   width: 80%;
@@ -17,5 +19,5 @@
   background: white;
   border-radius: 15px;
   color: black;
-
+  display: table;
 }
