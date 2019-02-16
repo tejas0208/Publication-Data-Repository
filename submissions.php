@@ -72,9 +72,11 @@
                 } else if ($row['approved_status'] == 'F') {
                     $color   = "red";
                     $message = "Rejected";
-                    $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "'";
+                    $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "';";
                     $reason  = $db->run_query($query2);
-                    $reason  = mysqli_fetch_array($result);
+                    $reason  = mysqli_fetch_array($result)[0];
+                    error_log($reason);
+                    
                 } else {
                     $color   = "black";
                     $message = "Pending";
