@@ -31,7 +31,7 @@ if (mysqli_num_rows($result) != 0) {
             // The record is rejected, need to be added in the table
             // Check if there is a reason given
             $reason = test_input($_POST["rejection_comment"]);
-            if ($reason != "" || strlen($reason) > 1024) {
+            if ($reason != "" && strlen($reason) < 1024) {
                 $query         = "UPDATE record set approved_status = 'F' where idrecord = '$id'";
                 $result        = $db->run_query($query);
                 $query         = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
@@ -64,8 +64,10 @@ if (mysqli_num_rows($result) != 0) {
       Pending Approvals
     </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/menu.css">
-      <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="css/menu_small.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px)" href="css/menu.css">
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="css/register_small.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px)" href="css/register.css">
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/jquery.min.js"></script>
@@ -152,6 +154,5 @@ if (mysqli_num_rows($result) != 0) {
         ?>
       </div>
     </form>
-
   </body>
 </html>

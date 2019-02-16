@@ -1,5 +1,5 @@
 .register {
-  width: 60%;
+  width: 85%;
   margin: auto;
   margin-top: 5%;
   padding: 50px;
@@ -11,7 +11,8 @@
 .submissions, .pendingappr, .myappr, .pendingappl, .newappl, .myappl {
   width: 80%;
   margin: auto;
-  margin-top: 20%;
+  margin-top: 80%;
+  margin-bottom: 100%;
   padding: 20px;
   background: white;
   border-radius: 15px;
