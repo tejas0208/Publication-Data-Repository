@@ -23,8 +23,9 @@
 	$result          = mysqli_fetch_row($result);
 	$role            = $result[4];
 
-	if ($role == "faculty")
+	if ($role == "faculty"){
 		$is_faculty = 1;
+	}
 	else {
 		$dept_of_user = $result[8];
 		if ($role == "hod") {
@@ -63,13 +64,14 @@
 					} else {
 						$no_reason_flag = 1;
 					}
-
+					echo "<meta http-equiv='refresh' content='0'>";
 				}
 				if (isset($_POST[$A])) {
 					$status        = $required_status * 2;
 					$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
 					$result        = $db->run_query($query);
 					$accepted_flag = 1;
+					echo "<meta http-equiv='refresh' content='0'>";
 				}
 			}
 		}
