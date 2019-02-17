@@ -3,6 +3,14 @@
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
 	require_once "db.php";
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
 	//Flags
 	$is_faculty      = 0;
 	$required_status = 0;
@@ -10,7 +18,7 @@
 	$rejected_flag   = 0;
 	$accepted_flag   = 0;
 	$db              = new DB();
-	$query           = "SELECT *  from users where username = '" . $_SESSION['username'] . "'";
+	$query           = "SELECT * from users where username = '" . $_SESSION['username'] . "'";
 	$result          = $db->run_query($query);
 	$result          = mysqli_fetch_row($result);
 	$role            = $result[4];
@@ -30,46 +38,39 @@
 			$query = "select a.aid, a.idrecord, a.initial_paper, a.fund_required, r.date, r.title from applications a left join record r on a.idrecord = r.idrecord where a.approved_level = $required_status";
 		}
 		$result = $db->run_query($query);
-	}
 
-	function test_input($data) {
-		$data = trim($data);
-		$data = stripslashes($data);
-		$data = htmlspecialchars($data);
-		return $data;
-	}
+		if (mysqli_num_rows($result) != 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$id = $row['aid'];
+				$A  = "A" . $id;
+				$R  = "R" . $id;
+				if (isset($_POST[$R])) {
+					if ($required_status == 1)
+						$status = 3;
+					else if ($required_status == 2)
+						$status = 5;
+					else
+						$status = 9;
+					// The record is rejected, need to be added in the table
+					// Check if there is a reason given
+					$reason = test_input($_POST["rejection_comment"]);
+					if ($reason != "" && strlen($reason) < 1024) {
+						$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
+						$result        = $db->run_query($query);
+						$query         = "UPDATE applications set Comment = '" . $reason . "' where aid = '$id'";
+						$result        = $db->run_query($query);
+						$rejected_flag = 1;
+					} else {
+						$no_reason_flag = 1;
+					}
 
-	if (mysqli_num_rows($result) != 0) {
-		while ($row = mysqli_fetch_array($result)) {
-			$id = $row['aid'];
-			$A  = "A" . $id;
-			$R  = "R" . $id;
-			if (isset($_POST[$R])) {
-				if ($required_status == 1)
-					$status = 3;
-				else if ($required_status == 2)
-					$status = 5;
-				else
-					$status = 9;
-				// The record is rejected, need to be added in the table
-				// Check if there is a reason given
-				$reason = test_input($_POST["rejection_comment"]);
-				if ($reason != "" && strlen($reason) < 1024) {
+				}
+				if (isset($_POST[$A])) {
+					$status        = $required_status * 2;
 					$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
 					$result        = $db->run_query($query);
-					$query         = "UPDATE applications set Comment = '" . $reason . "' where aid = '$id'";
-					$result        = $db->run_query($query);
-					$rejected_flag = 1;
-				} else {
-					$no_reason_flag = 1;
+					$accepted_flag = 1;
 				}
-
-			}
-			if (isset($_POST[$A])) {
-				$status        = $required_status * 2;
-				$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
-				$result        = $db->run_query($query);
-				$accepted_flag = 1;
 			}
 		}
 	}
@@ -134,6 +135,7 @@
 					} else {
 					    	$i = 1;
 					    	$result = $db->run_query($query);
+					    	error_log($query);
 					    	if(mysqli_num_rows($result) == 0) {
 					    		echo "Nothing to show";
 					    	} else {
