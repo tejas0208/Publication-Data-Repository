@@ -27,25 +27,25 @@ if(isset($_POST['username']) && isset($_POST['password'])){
           $_SESSION['mis'] = $result[1];
           header("location:dashboard.php");
         }
-    }
-  //   } else if ($username == "111603061" && $password == "testpass"){
-  //   	$_SESSION['username'] = $username;
-  //       $_SESSION['level'] = "normal";
-  //       $_SESSION['role'] = 'student';
-  //       $_SESSION['entry'] = "students_test";
-  //       $db = new DB();
-  //       $query = "SELECT * from users where username = '$username'";
-  //       $result = $db->run_query($query);
-  //       if(mysqli_num_rows($result) == 0) {
-  //         header("location:register.php");
-  //       }
-  //       else {
-  //         $result = mysqli_fetch_row($result);
-  //         $_SESSION['mis'] = $result[1];
-  //         header("location:dashboard.php");
+    //}
+    } else if ($username == "111603061" && $password == "testpass"){
+    	$_SESSION['username'] = $username;
+        $_SESSION['level'] = "normal";
+        $_SESSION['role'] = 'student';
+        $_SESSION['entry'] = "students_test";
+        $db = new DB();
+        $query = "SELECT * from users where username = '$username'";
+        $result = $db->run_query($query);
+        if(mysqli_num_rows($result) == 0) {
+          header("location:register.php");
+        }
+        else {
+          $result = mysqli_fetch_row($result);
+          $_SESSION['mis'] = $result[1];
+          header("location:dashboard.php");
         
-		// }
-  //   }
+		}
+    }
     else {
 
 	    $ad = new adLDAP();
@@ -100,9 +100,9 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 		<title>Publication Data Repo Login</title>
 		<link rel="stylesheet" media="screen and (max-width: 600px)" href="css/menu_small.css">
 		<link rel="stylesheet" media="screen and (min-width: 900px)" href="css/menu.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="./css/bootstrap337.min.css">
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/bootstrap.min.js"></script>
 	</head>
 	<body class="login">
 	

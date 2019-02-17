@@ -56,7 +56,7 @@
 				$reason = test_input($_POST["rejection_comment"]);
 				if ($reason != "" && strlen($reason) < 1024) {
 					$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
-					$result        $db->run_query($query);
+					$result        = $db->run_query($query);
 					$query         = "UPDATE applications set Comment = '" . $reason . "' where aid = '$id'";
 					$result        = $db->run_query($query);
 					$rejected_flag = 1;

@@ -1,4 +1,5 @@
 <?php
+	$invalid_data = 0;
 	function test_input($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
@@ -7,9 +8,16 @@
 	include('session.php');
 	//var_dump($_POST);
 	//TODO avoid sql injection
+	if(!isset($_GET['id'])) {
+		header("location:application_base.php");
+	} else {
+		$_SESSION['id_of_application'] = $_GET['id'];
+	}
 
-	$id = $_GET['id'];
+	$id = $_SESSION['id_of_application'];
 	$initial_paper = $financial_aid= "";
+
+
 	if(isset($_POST["submit"])) {
 		//initial paper
 		$initial_paper = test_input($_POST['initial_paper']);
@@ -21,17 +29,12 @@
 			header("location:new_application_approver.php");
 		}
 		else {
-			echo '<div class="alert alert-danger alert-dismissible fade show">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<strong>Enter valid data</strong>
-		</div>';
+			$invalid_data = 1;
 		}
 
 	}
 
 ?>
-
-<?php if(!isset($_POST["submit"])) : ?>
 	<html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -69,6 +72,14 @@
     	<div class="wrapper">
 		    <div class="register">
 		    	<form method="POST">
+		    		<?php
+		    			if ($invalid_data == 1) {
+			    						echo '<div class="alert alert-danger alert-dismissible fade show">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Enter valid data</strong>
+			</div>';
+					}
+		    		?>
 					<div class="form-group">
 						<label for="initial_paper" class="control-label">Initial Paper</label>
 						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >
@@ -83,13 +94,8 @@
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" type="submit"  name="submit">Next</button>
 					</div>
-					<?php
-							$_SESSION['id'] = $GLOBALS['id'];
-					  ?>
 				</form>
 			</div>
 		</div>
     </body>
 </html>
-
-<?php endif; ?>

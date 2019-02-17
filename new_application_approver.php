@@ -1,6 +1,3 @@
-
-<?php if(!isset($_POST["submit"])) : ?>
-
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -43,7 +40,7 @@
 	//https://stackoverflow.com/questions/32405077/show-second-dropdown-options-based-on-first-dropdown-selection-jquery
 	
 	//returns the max id and updates the id in the database
-	if(isset($_SESSION['initial_paper']) and isset($_SESSION['finacial_aid']) and isset($_SESSION['id'])){
+	if(isset($_SESSION['initial_paper']) and isset($_SESSION['financial_aid']) and isset($_SESSION['id_of_application'])){
 		function get_max_application_id($dbclient) {
 			$query = 'SELECT * FROM `application_id_max` LIMIT 1';
 			$result = $dbclient->run_query($query);
@@ -69,31 +66,31 @@
 	*/
 			$db = new DB();
 
-			$id = $_SESSION['id'];
+			$id = $_SESSION['id_of_application'];
 			$initial_paper = $_SESSION['initial_paper'];
-			$finacial_aid = $_SESSION['finacial_aid'];
+			$financial_aid = $_SESSION['financial_aid'];
 			unset($_SESSION['initial_paper']);
-			unset($_SESSION['finacial_aid']);
-			unset($_SESSION['id']);
+			unset($_SESSION['financial_aid']);
+			unset($_SESSION['id_of_application']);
 			//fetch the row id
-			$aid = get_max_application_id($db);
 
+			$financial_aid = test_input($financial_aid);
+			$initial_paper = test_input($initial_paper);
+			$aid = get_max_application_id($db);
 			if($initial_paper == '')
 				$initial_paper = 'NULL';
 			else
 				$initial_paper = "'" . $initial_paper . "'";
 
-			if($finacial_aid == '')
-				$finacial_aid = 'NULL';
+			if($financial_aid == '')
+				$financial_aid = 'NULL';
 			else
-				$finacial_aid = "'" . $finacial_aid . "'";
+				$financial_aid = "'" . $financial_aid . "'";
 
-			$finacial_aid = test_input($finacial_aid);
-			$initial_paper = test_input($initial_paper);
 			$id = test_input($id);
 			$time = time();
 			$date = date("Y/m/d",$time);
-			$query = "INSERT INTO `applications` (`aid`,`idrecord`, `initial_paper`, `fund_required`, `approved_level`, `date`) VALUES (".$aid.",".$id.",". $initial_paper.",".$finacial_aid.", 1,'".$date."');";
+			$query = "INSERT INTO `applications` (`aid`,`idrecord`, `initial_paper`, `fund_required`, `approved_level`, `date`) VALUES (".$aid.",".$id.",". $initial_paper.",".$financial_aid.", 1,'".$date."');";
 			if($db->run_query($query)) {
 				
 				header("location:details.php?id=$id&app=1");
@@ -112,4 +109,3 @@
     	</div>	
 	</body>
 </html>
-<?php endif; ?>					

@@ -120,7 +120,8 @@ if (isset($_POST["submit"])) {
 	}
 	
 	$_SESSION["query"] = $query;
-}
+	error_log($query);
+}	
 ?>
 <html lang="en">
 	<head>
