@@ -72,7 +72,7 @@
 					$query         = "UPDATE applications set approved_level = '" . $status . "' where aid = '$id'";
 					$result        = $db->run_query($query);
 					$accepted_flag = 1;
-					echo "<meta http-equiv='refresh' content='2'>";
+					echo "<meta http-equiv='refresh' content='0'>";
 				}
 			}
 		}
