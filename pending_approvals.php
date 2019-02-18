@@ -1,7 +1,7 @@
 <?php
 include('session.php');
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
+// ini_set('error_reporting', E_ALL);
+// ini_set('display_errors', 1);
 require_once "db.php";
 $no_reason_flag = 0;
 $rejected_flag  = 0;
@@ -40,7 +40,7 @@ if (mysqli_num_rows($result) != 0) {
                 $query         = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
                 $result        = $db->run_query($query);
                 $rejected_flag = 1;
-                echo "<meta http-equiv='refresh' content='0'>";
+                // echo "<meta http-equiv='refresh' content='0'>";
             } else {
                 $no_reason_flag = 1;
             }
@@ -50,7 +50,7 @@ if (mysqli_num_rows($result) != 0) {
             $query         = "UPDATE record set approved_status = 'T' where idrecord = '$id'";
             $result        = $db->run_query($query);
             $accepted_flag = 1;
-            echo "<meta http-equiv='refresh' content='0'>";
+            // echo "<meta http-equiv='refresh' content='0'>";
         }
     }
 }
