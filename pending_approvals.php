@@ -28,16 +28,19 @@ if (mysqli_num_rows($result) != 0) {
         $A  = "A" . $id;
         $R  = "R" . $id;
         if (isset($_POST[$R])) {
+        	error_log(json_encode($_POST));
             // The record is rejected, need to be added in the table
             // Check if there is a reason given
-            error_log(json_encode($_POST));
-            $reason = test_input($_POST["rejection_comment"]);
+            $var_name_of_comment = "rcomment".$id;
+            error_log($var_name_of_comment);
+            $reason = test_input($_POST[$var_name_of_comment]);
             if ($reason != "" && strlen($reason) < 1024) {
                 $query         = "UPDATE record set approved_status = 'F' where idrecord = '$id'";
                 $result        = $db->run_query($query);
                 $query         = "INSERT INTO `rejection_record` (`idrecord`, `reason`) VALUES ('$id', '$reason')";
                 $result        = $db->run_query($query);
                 $rejected_flag = 1;
+                echo "<meta http-equiv='refresh' content='0'>";
             } else {
                 $no_reason_flag = 1;
             }
@@ -141,7 +144,7 @@ if (mysqli_num_rows($result) != 0) {
                       <td><u><a href = "details.php?id='.$rid.'" target="_blank">'.$title.'</a></u></td>
                       <td>'.$date.'</td>
                       <td>
-                        <input type="textarea" class="form-control" rows="5" name="rejection_comment" placeholder="max 1024 chars"/>
+                        <textarea class="form-control" rows="5" name="rcomment'.$rid.'" placeholder="max 1024 chars"></textarea>
                         <button class = "btn btn-success" name = "A'.$rid.'">Approve</a>
                         <button class = "btn btn-danger" name = "R'.$rid.'">Reject</a>
                       </td>
