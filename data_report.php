@@ -234,13 +234,6 @@ if (isset($_POST["submit"])) {
 									readfile("uploads/$name".".zip");
 								}
 								if(isset($_POST["downsel"])) {
-									$empty = 1;
-									for($i = 0; $i <= $sno; $i++)
-										if(isset($_POST["sel_$i"])){
-											$empty = 0;
-											break;
-										}
-									if(!$empty) {
 										$zip = new ZipArchive();
 										$zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
 										$selected = array();
@@ -255,7 +248,6 @@ if (isset($_POST["submit"])) {
 									    header('Content-Type: application/zip');
 										header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
 										readfile("uploads/$name".".zip");
-									}
 								}
 							}
 						}
@@ -283,7 +275,7 @@ if (isset($_POST["submit"])) {
 					</div>
 					<div class="form-group">
 						<label for="date" class="control-label">Date</label>
-						<input type="text" class="form-control" id="date" name="date"
+						<input type="date" class="form-control" id="date" name="date"
 						<?php
 							if(isset($_POST["date"]))
 								echo 'value="'.$_POST["date"].'"';

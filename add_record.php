@@ -307,7 +307,7 @@
 
 					<div class="form-group"> <!-- Street 1 -->
 						<label for="date" class="control-label">Date</label>
-						<input type="text" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
+						<input type="date" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
 					</div>
 
 					<div class="form-group"> <!-- Street 2 -->
