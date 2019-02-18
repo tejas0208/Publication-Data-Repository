@@ -18,7 +18,9 @@
 --
 -- Table structure for table `application_id_max`
 --
-
+drop database if exists pubdata;
+create database pubdata;
+use pubdata;
 DROP TABLE IF EXISTS `application_id_max`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
