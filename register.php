@@ -70,8 +70,10 @@
   <head>
     <title>Registration</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/register.css">
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="css/menu_small.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px)" href="css/menu.css">
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href="css/register_small.css">
+    <link rel="stylesheet" media="screen and (min-width: 900px)" href="css/register.css">
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/register.js"></script>
