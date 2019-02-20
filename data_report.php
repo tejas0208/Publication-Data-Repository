@@ -111,23 +111,35 @@ if (isset($_POST["submit"])) {
 		}
 	}
 	
-	if (isset($_POST["national_journal_details"])) {
-		$natjournal = test_input($_POST["national_journal_details"]);
-		$query      = $query . " AND nat_journal = '$natjournal'";
+	if(isset($_POST["journal_details"]) AND in_array("national", $_POST["journal_details"])) {
+		$natjournal 	= test_input($_POST["journal_details"]);		//DOES NOT WORK
+		if($natjournal == "")
+			$query 		= $query . "AND nat_journal IS NOT NULL";
+		else
+			$query      = $query . " AND nat_journal = '$natjournal'";
 	}
 	
-	if (isset($_POST["international_journal_details"])) {
-		$intjournal = test_input($_POST["international_journal_details"]);
-		$query      = $query . " AND int_journal = '$intjournal'";
+	if(isset($_POST["journal_details"]) AND in_array("international", $_POST["journal_details"])) {
+		$intjournal = test_input($_POST["journal_details"]);			//DOES NOT WORK
+		if($intjournal == "")
+			$query 		= $query . "AND int_journal IS NOT NULL";
+		else
+			$query      = $query . " AND int_journal = '$intjournal'";
 	}
 	
-	if (isset($_POST["national_conference_details"])) {
-		$natconf = test_input($_POST["national_conference_details"]);
-		$query   = $query . " AND nat_conf = '$natconf'";
+	if(isset($_POST["conference_details"]) AND in_array("national", $_POST["conference_details"])) {
+		$natconf = test_input($_POST["conference_details"]);			//DOES NOT WORK
+		if($natconf == "")
+			$query 		= $query . "AND nat_conf IS NOT NULL";
+		else
+			$query      = $query . " AND nat_conf = '$nat_conf'";
 	}
-	if (isset($_POST["international_conference_details"])) {
-		$intconf = test_input($_POST["international_conference_details"]);
-		$query   = $query . " AND int_conf = '$intconf'";
+	if(isset($_POST["conference_details"]) AND in_array("international", $_POST["conference_details"])) {
+		$intconf = test_input($_POST["conference_details"]);			//DOES NOT WORK
+		if($intconf == "")
+			$query 		= $query . "AND int_conf IS NOT NULL";
+		else
+			$query      = $query . " AND int_conf = '$int_conf'";
 	}
 	
 	$_SESSION["query"] = $query;
@@ -335,6 +347,7 @@ if (isset($_POST["submit"])) {
 					<div class="form-group">
 						<label for="department" class="control-label">Select Department of Approver</label>
 			      		<select class="form-control" id="department" name="department">
+			      			<option disabled selected value>Departments</option>
 			      			<option
 			      			<?php
 							if(isset($_POST["department"]) AND $_POST["department"] == "Applied Science")
@@ -396,12 +409,6 @@ if (isset($_POST["submit"])) {
 								echo 'selected';
 							?> value = "Production Engineering and Industrial Management">Department of Production Engineering and Industrial Management</option>
 			      		</select>
-						<!--<label for="citations" class="control-label">Department</label>
-						<input type="text" class="form-control" id="department" name="department"
-						<?php
-							if(isset($_POST["department"]))
-								echo 'value="'.$_POST["department"].'"';
-						?> placeholder="Department">-->
 					</div>
 					<div class="form-group">
 						<label for="funded_by" class="control-label">Funded By</label>
