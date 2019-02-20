@@ -20,9 +20,20 @@ if (isset($_POST["submit"])) {
 		$query = $query . " AND title LIKE '%$title%'";
 		echo $query;
 	}
-	if ($_POST["date"] != "") {
-		$date  = test_input($_POST["date"]);
-		$query = $query . " AND date = '$date'";
+	if ($_POST["sdate"] != "" || $_POST["edate"] != "") {
+		if($_POST["edate"] == "") {
+			$sdate = test_input($_POST["sdate"]);
+			$query = $query . " AND date = '$sdate'";
+		}
+		else if($_POST["sdate"] == "") {
+			$edate = test_input($_POST["edate"]);
+			$query = $query . " AND date = '$edate'";
+		}
+		else {
+			$sdate = test_input($_POST["sdate"]);
+			$edate = test_input($_POST["edate"]);
+			$query = $query . " AND date BETWEEN '$sdate' AND '$edate'";
+		}
 	}
 	if ($_POST["pages"] != "") {
 		$pages = test_input($_POST["pages"]);
@@ -274,11 +285,19 @@ if (isset($_POST["submit"])) {
 						?> placeholder="Enter Title">
 					</div>
 					<div class="form-group">
-						<label for="date" class="control-label">Date</label>
-						<input type="date" class="form-control" id="date" name="date"
+						<label for="sdate" class="control-label">Start Date</label>
+						<input type="date" class="form-control" id="sdate" name="sdate"
 						<?php
-							if(isset($_POST["date"]))
-								echo 'value="'.$_POST["date"].'"';
+							if(isset($_POST["sdate"]))
+								echo 'value="'.$_POST["sdate"].'"';
+						?> placeholder="yyyy/mm/dd">
+					</div>
+					<div class="form-group">
+						<label for="edate" class="control-label">End Date</label>
+						<input type="date" class="form-control" id="edate" name="edate"
+						<?php
+							if(isset($_POST["edate"]))
+								echo 'value="'.$_POST["edate"].'"';
 						?> placeholder="yyyy/mm/dd">
 					</div>
 					<div class="form-group">
