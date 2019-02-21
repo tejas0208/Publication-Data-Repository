@@ -112,7 +112,7 @@ if (isset($_POST["submit"])) {
 	}
 	
 	if(isset($_POST["journal_details"]) AND in_array("national", $_POST["journal_details"])) {
-		$natjournal 	= test_input($_POST["journal_details"]);		//DOES NOT WORK
+		$natjournal 	= test_input($_POST["national_journal_name"]);		//DOES NOT WORK
 		if($natjournal == "")
 			$query 		= $query . "AND nat_journal IS NOT NULL";
 		else
@@ -120,7 +120,7 @@ if (isset($_POST["submit"])) {
 	}
 	
 	if(isset($_POST["journal_details"]) AND in_array("international", $_POST["journal_details"])) {
-		$intjournal = test_input($_POST["journal_details"]);			//DOES NOT WORK
+		$intjournal = test_input($_POST["international_journal_name"]);			//DOES NOT WORK
 		if($intjournal == "")
 			$query 		= $query . "AND int_journal IS NOT NULL";
 		else
@@ -128,14 +128,14 @@ if (isset($_POST["submit"])) {
 	}
 	
 	if(isset($_POST["conference_details"]) AND in_array("national", $_POST["conference_details"])) {
-		$natconf = test_input($_POST["conference_details"]);			//DOES NOT WORK
+		$natconf = test_input($_POST["national_conference_name"]);			//DOES NOT WORK
 		if($natconf == "")
 			$query 		= $query . "AND nat_conf IS NOT NULL";
 		else
 			$query      = $query . " AND nat_conf = '$nat_conf'";
 	}
 	if(isset($_POST["conference_details"]) AND in_array("international", $_POST["conference_details"])) {
-		$intconf = test_input($_POST["conference_details"]);			//DOES NOT WORK
+		$intconf = test_input($_POST["international_conference_name"]);			//DOES NOT WORK
 		if($intconf == "")
 			$query 		= $query . "AND int_conf IS NOT NULL";
 		else
