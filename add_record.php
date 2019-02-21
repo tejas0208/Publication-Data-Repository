@@ -1,8 +1,6 @@
 <?php
 
 	include('session.php');
-	//var_dump($_POST);
-
 	//TODO avoid sql injection
 	$title = $num_pages = $issueno = $volume = "";
 	$citations = $date = "";
@@ -18,11 +16,7 @@
 		if(isset($_POST['title'])) {
 			$title = $_POST['title'];
 			//TODO ensure that title is unique
-			echo $title;
 
-		}else {
-			echo "Please Enter title";
-			return;
 		}
 
 		if(isset($_POST['date'])) {
@@ -32,29 +26,21 @@
 		//pages
 		if(isset($_POST['pages'])) {
 			$num_pages = $_POST['pages'];
-		}else {
-			echo "";
 		}
 
 		//issueno
 		if(isset($_POST['issueno'])) {
 			$issueno = $_POST['issueno'];
-		}else {
-			echo "";
 		}
 
 		//volume
 		if(isset($_POST['volume'])) {
 			$volume = $_POST['volume'];
-		}else {
-			echo "";
 		}
 
 		//citations
 		if(isset($_POST['citations'])) {
 			$citations = $_POST['citations'];
-		}else {
-			echo "";
 		}
 
 		//journal_details
@@ -78,8 +64,6 @@
 					echo "Please enter journal name";
 				}
 			}
-		} else {
-			echo "";
 		}
 
 		//conference
@@ -106,8 +90,6 @@
 				}
 			}
 			}
-		} else {
-			echo "";
 		}
 
 		//funded by
@@ -133,7 +115,7 @@
 				$f_others = "T";
 			}
 		}else {
-			echo "NO funded by";
+			header("location:add_record.php?sfun=1");
 		}
 
 		//sponsored by
@@ -159,7 +141,7 @@
 				$t_others = "T";
 			}
 		}else {
-			echo "";
+			header("location:add_record.php?sfun=1");
 		}
 
 		//get list of faculty mis
@@ -184,8 +166,6 @@
 			$pdffilename = $_FILES["pdffile"]["name"];
 			$target_dir = "uploads" . DIRECTORY_SEPARATOR;
 			$destination_path = getcwd().DIRECTORY_SEPARATOR;
-
-
 			$target_file = $destination_path . $target_dir . basename($_FILES["pdffile"]["name"]);
 			$uploadOk = 1;
 			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -195,13 +175,13 @@
 			if($type == "application/pdf") {
 		        $uploadOk = 1;
 		    } else {
-		        echo "File is not an pdf.";
+		        header("location:add_record.php?typerr=1");
 		        $uploadOk = 0;
 		    }
 		    echo $type;
 		    // Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-			    echo "Sorry, your file was not uploaded. Please try again";
+			    header("location:add_record.php?typerr=1");
 			    return;
 
 			// if everything is ok, try to upload file
@@ -209,7 +189,7 @@
 			    if (move_uploaded_file($_FILES["pdffile"]["tmp_name"], $target_file)) {
 
 			    } else {
-			        echo "Sorry, there was an error uploading your file.";
+			        header("location:add_record.php?uperr=1");
 			        return;
 			    }
 			}
@@ -218,7 +198,6 @@
 			echo "Please Upload file";
 			return;
 		}
-
 		//add all the variables to session
 
 		$_SESSION['title'] = $title;
@@ -299,20 +278,34 @@
     	<div class="wrapper">
 		    <div class="register">
 					Note: Co-authors should be registered on this portal to add them by MIS<br /><br />
+				<?php
+					if(isset($_GET["sfun"]))
+						echo '<div id="genMsg" class="alert alert-danger">
+								Select at least one each in Sponsored by and Funded by
+							</div>';
+					if(isset($_GET["typerr"]))
+						echo '<div id="genMsg" class="alert alert-danger">
+								Invalid file type
+							</div>';
+					if(isset($_GET["uperr"]))
+						echo '<div id="genMsg" class="alert alert-danger">
+								Error uploading file
+							</div>';
+				?>
 		    	<form method="POST" enctype="multipart/form-data">
 					<div class="form-group">
-						<label for="title" class="control-label">Title</label>
+						<label for="title" class="control-label">Title*</label>
 						<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
 					</div>
 
 					<div class="form-group"> <!-- Street 1 -->
-						<label for="date" class="control-label">Date</label>
-						<input type="date" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd">
+						<label for="date" class="control-label">Date*</label>
+						<input type="date" class="form-control" id="date" name="date" placeholder="yyyy/mm/dd" required>
 					</div>
 
 					<div class="form-group"> <!-- Street 2 -->
 						<label for="pages" class="control-label">Pages</label>
-						<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages">
+						<input type="text" class="form-control" id="pages" name="pages" placeholder="No. of pages"	>
 					</div>
 
 					<div class="form-group"> <!-- City-->
@@ -349,7 +342,7 @@
 					</div>
 
 					<div class="form-group">
-						<label for="funded_by" class="control-label">Funded By</label>
+						<label for="funded_by" class="control-label">Funded By*</label>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "funded_by" name = "funded_by[]" value="isea"> ISEA</label>
 						</div>
@@ -371,7 +364,7 @@
 					</div>
 
 					<div class="form-group">
-						<label for="sponsored_by" class="control-label">Sponsored By</label>
+						<label for="sponsored_by" class="control-label">Sponsored By*</label>
 						<div class="checkbox">
 							<label><input type="checkbox" id = "sponsored_by" name="sponsored_by[]" value="isea"> ISEA</label>
 						</div>
