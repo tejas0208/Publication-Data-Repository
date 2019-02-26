@@ -51,7 +51,7 @@ if (isset($_POST["submit"])) {
 		$citations = test_input($_POST["citations"]);
 		$query     = $query . " AND citations = '$citations'";
 	}
-	if ($_POST["department"] != "") { 
+	if (isset($_POST["department"]) AND $_POST["department"] != "") { 
 		$department = test_input($_POST["department"]);
 		$query      = $query . " AND department = '$department'";
 	}
@@ -63,9 +63,31 @@ if (isset($_POST["submit"])) {
 		$approved_by_mis = test_input($_POST["approved_by_mis"]);
 		$query           = $query . " AND approved_by_mis = '$approved_by_mis'";
 	}
+	if ($_POST["approved_by_name"] != "") {
+		$approved_by_name = test_input($_POST["approved_by_name"]);
+		$midquery = "SELECT mis FROM users WHERE name LIKE '%$approved_by_name%'";
+		$abMIS = $db->run_query($midquery);
+		$rowCount = $abMIS->num_rows;
+		if($rowCount) {
+			$row = mysqli_fetch_array($abMIS, MYSQLI_ASSOC);
+			$abMIS = $row["mis"];
+			$query           = $query . " AND approved_by_mis = '$abMIS'";
+		}
+	}
 	if ($_POST["submitted_by_mis"] != "") {
 		$submitted_by_mis = test_input($_POST["submitted_by_mis"]);
 		$query            = $query . " AND submitted_by_mis = '$submitted_by_mis'";
+	}
+	if ($_POST["submitted_by_name"] != "") {
+		$submitted_by_name = test_input($_POST["submitted_by_name"]);
+		$midquery = "SELECT mis FROM users WHERE name LIKE '%$submitted_by_name%'";
+		$sbMIS = $db->run_query($midquery);
+		$rowCount = $sbMIS->num_rows;
+		if($rowCount) {
+			$row = mysqli_fetch_array($sbMIS, MYSQLI_ASSOC);
+			$sbMIS = $row["mis"];
+			$query           = $query . " AND submitted_by_mis = '$sbMIS'";
+		}
 	}
 	if (isset($_POST["funded_by"])) {
 		foreach ($_POST["funded_by"] as $fund) {
@@ -543,7 +565,7 @@ if (isset($_POST["submit"])) {
 						?> placeholder="File Name">
 					</div>
 					<div class="form-group">
-						<label for="title" class="control-label">Approved By</label>
+						<label for="title" class="control-label">Approved By (MIS)</label>
 						<input type="text" class="form-control" id="approved_by_mis" name="approved_by_mis"
 						<?php
 							if(isset($_POST["approved_by_mis"]))
@@ -551,12 +573,28 @@ if (isset($_POST["submit"])) {
 						?> placeholder="MIS">
 					</div>
 					<div class="form-group">
-						<label for="title" class="control-label">Submitted By</label>
+						<label for="title" class="control-label">Approved By (Name)</label>
+						<input type="text" class="form-control" id="approved_by_name" name="approved_by_name"
+						<?php
+							if(isset($_POST["approved_by_name"]))
+								echo 'value="'.$_POST["approved_by_name"].'"';
+						?> placeholder="Name">
+					</div>
+					<div class="form-group">
+						<label for="title" class="control-label">Submitted By (MIS)</label>
 						<input type="text" class="form-control" id="submitted_by_mis" name="submitted_by_mis"
 						<?php
 							if(isset($_POST["submitted_by_mis"]))
 								echo 'value="'.$_POST["submitted_by_mis"].'"';
 						?> placeholder="MIS">
+					</div>
+					<div class="form-group">
+						<label for="title" class="control-label">Submitted By (Name)</label>
+						<input type="text" class="form-control" id="submitted_by_name" name="submitted_by_name"
+						<?php
+							if(isset($_POST["submitted_by_name"]))
+								echo 'value="'.$_POST["submitted_by_name"].'"';
+						?> placeholder="Name">
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
