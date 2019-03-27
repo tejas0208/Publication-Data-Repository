@@ -178,7 +178,6 @@
 		        header("location:add_record.php?typerr=1");
 		        $uploadOk = 0;
 		    }
-		    echo $type;
 		    // Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
 			    header("location:add_record.php?typerr=1");

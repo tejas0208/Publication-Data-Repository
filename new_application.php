@@ -19,19 +19,28 @@
 
 
 	if(isset($_POST["submit"])) {
-		//initial paper
-		$initial_paper = test_input($_POST['initial_paper']);
 		$financial_aid = test_input($_POST['financial_aid']);
-
-		if($initial_paper != "" AND $financial_aid != "" ) {
-			$_SESSION['initial_paper'] = $initial_paper;
-			$_SESSION['financial_aid'] = $financial_aid;	//financial aid required
-			header("location:new_application_approver.php");
+		if(isset($_FILES["appfile"]["name"])) {
+			$pdffilename = $_FILES["appfile"]["name"];
+			$target_dir = "AppProof" . DIRECTORY_SEPARATOR;
+			$destination_path = getcwd().DIRECTORY_SEPARATOR;
+			$target_file = $destination_path . $target_dir . basename($_FILES["appfile"]["name"]);
+			$uploadOk = 1;
+			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			$type = mime_content_type($_FILES["appfile"]["tmp_name"]);
+			if($type != "application/pdf") {
+		        $invalid_data = 1;
+		    }
+		    else {
+				if (move_uploaded_file($_FILES["appfile"]["tmp_name"], $target_file) AND $financial_aid != "" ) {
+					$_SESSION['financial_aid'] = $financial_aid;
+					header("location:new_application_approver.php");
+				}
+				else {
+					$invalid_data = 1;
+				}
+			}
 		}
-		else {
-			$invalid_data = 1;
-		}
-
 	}
 
 ?>
@@ -71,7 +80,7 @@
     	</div>
     	<div class="wrapper">
 		    <div class="register">
-		    	<form method="POST">
+		    	<form method="POST" enctype="multipart/form-data">
 		    		<?php
 		    			if ($invalid_data == 1) {
 			    						echo '<div class="alert alert-danger alert-dismissible fade show">
@@ -81,16 +90,13 @@
 					}
 		    		?>
 					<div class="form-group">
-						<label for="initial_paper" class="control-label">Initial Paper</label>
-						<input type="text" class="form-control" id="initial_paper" name="initial_paper" placeholder="Enter Initial Paper" >
+						<label for="fileupload">Proof</label><br>
+						<input id="fileupload" type="file" name="appfile">
 					</div>
-
 					<div class="form-group"> <!-- Street 2 -->
 						<label for="financial_aid" class="control-label">Financial Aid Required In Rupees</label>
 						<input type="text" class="form-control" id="financial_aid" name="financial_aid" placeholder="Financial Aid">
 					</div>
-
-
 					<div class="form-group"> <!-- Submit Button -->
 						<button class="btn btn-primary" type="submit"  name="submit">Next</button>
 					</div>
