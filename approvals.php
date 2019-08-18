@@ -81,7 +81,8 @@
                         $message = "Rejected";
                         $query2  = "SELECT reason from rejection_record where idrecord = '" . $id . "'";
                         $reason  = $db->run_query($query2);
-                        $reason  = mysqli_fetch_array($result);
+                        $reason  = mysqli_fetch_array($reason);
+                        $reason = $reason[0];
                     }
                     echo '
                             <tr>
@@ -89,7 +90,7 @@
                                 <td><u><a href = "details.php?id=' . $id . '">' . $title . '</a></u></td>
                                 <td>' . $date . '</td>
                                 <td style="color:' . $color . ';">' . $message . '</td>
-                                <td>' . $reason . '</td>
+                                <td>' . $reason. '</td>
                             </tr>
                         ';
                     $i++;
