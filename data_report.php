@@ -189,6 +189,8 @@ if (isset($_POST["submit"])) {
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
 		<script src="js/helpers.js"></script>
+		<script src="js/FileSaver.js"></script>
+		<script src="js/tableexport.js"></script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -205,7 +207,7 @@ if (isset($_POST["submit"])) {
     	<div class="wrapper">
 		    <div class="register">
 		    	<?php
-						if(isset($_POST["submit"]) || isset($_POST["downpdf"]) || isset($_POST["downzip"]) || isset($_POST["downsel"])) {
+						if(isset($_POST["submit"])) {
 						    $result = $db->run_query($_SESSION["query"]);
 						    $rowCount = $result->num_rows;
 						    if(!$rowCount) {
@@ -215,93 +217,46 @@ if (isset($_POST["submit"])) {
 						    else {
 						    	$flag = 1;
 						    	$sno = 0;
-							    if(isset($_POST["downpdf"]) || isset($_POST["downzip"]) || isset($_POST["downsel"])){
-							    	ob_end_clean();
-							    	ob_start();
-							    }
-							    else
-							    	echo '<form method = "POST">';
-							    echo '<table style="color: black" class="table table-striped table-bordered table-condensed">';
+								echo '<form method = "POST">';
+								echo "<b>Hits: " . $rowCount . '</b>';
+							    echo '<table id="Result-'. $_POST["title"]. date('Y') .'" style="color: black" class="table table-striped table-bordered table-condensed">';
 								echo "<tr>
 										<th>Title</th>
 										<th>Date</th>
 										<th>Approved By MIS</th>
 										<th>Submitted By MIS</th>
-										<th>Department</th>";
-								if(!(isset($_POST["downpdf"]) || isset($_POST["downzip"]) || isset($_POST["downsel"])))
-								 	echo "<th>Select</th>";
-								 echo "</tr><br>";
+										<th>Department</th>
+										<th>Select</th>
+									</tr><br>";
 								$files = array();
 								while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 									echo "<tr>
 											<td>";
-									if(!isset($_POST["downpdf"]))
 										echo "<a href='details.php?id=".$row['idrecord']."'' target='_blank'>". $row['title']. "</a>";
-									else
-										echo $row['title'];
 									echo "</td>
 												<td>" . $row['date'] . "</td>
 												<td>" . $row['approved_by_mis'] . "</td>
 												<td>" . $row['submitted_by_mis'] . "</td>
 												<td>" . $row['department'] . "</td>";
-									if(!(isset($_POST["downpdf"]) || isset($_POST["downzip"]))) {
 										echo "<td><center><input type='checkbox' name = 'sel_$sno' id = 'sel_$sno'></center></td>";
 										$sno++;
-									}
 									echo "</tr>";
-									array_push($files, $row['filename']);
 								}
 							    echo '</table>';
-							    $t = time();
-							    $user = $_SESSION['username'];
-							    $name = "search_"."$user"."_"."$t";
-							    if(isset($_POST["downpdf"]) || isset($_POST["downzip"])) {
-								    $table = ob_get_clean();
-								    include 'TCPDF/tcpdf.php';
-								    $pdf = new TCPDF;
-									$pdf->AddPage();
-									$pdf->writeHTML("$table");
-								}
-								if(isset($_POST["downpdf"]))
-									$pdf->Output("$name".".pdf", "D");
-								if(isset($_POST["downzip"]))
-									$pdf->Output(__DIR__ . "/PDFs/$name".".pdf", "F");
-								if(isset($_POST["downzip"])) {
-									$zip = new ZipArchive();
-								    $zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
-								    foreach ($files as $file) {
-								        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
-								    }
-								    $zip->addFromString(basename("PDFs/".$name.".pdf"),  file_get_contents("PDFs/".$name .".pdf"));
-								    $zip->close();
-								    header('Content-Type: application/zip');
-									header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
-									readfile("uploads/$name".".zip");
-								}
-								if(isset($_POST["downsel"])) {
-										$zip = new ZipArchive();
-										$zip->open("uploads/$name".".zip",  ZipArchive::CREATE);
-										$selected = array();
-										for($i = 0; $i <= $sno; $i++)
-											if(isset($_POST["sel_$i"])){
-												array_push($selected, $files["$i"]);
-											}
-										foreach ($selected as $file) {
-									        $zip->addFromString(basename("uploads/".$file),  file_get_contents("uploads/".$file));
-									    }
-									    $zip->close();
-									    header('Content-Type: application/zip');
-										header('Content-Disposition: attachment; filename="'.$name.".zip".'"');
-										readfile("uploads/$name".".zip");
-								}
 							}
 						}
+						echo '<script> TableExport(document.getElementsByTagName("table")); </script>';
+					// echo '<script> TableExport(document.getElementsByTagName("table"), {
+					// 	bootstrap: true,
+					// 	ignoreCols: 5,
+					// 	position: "bottom"
+					// }); </script>';
 				if(!$flag)
 					echo '<form method = "POST">';
 				?>
 					<div class="form-group">
 						<input type="submit" class="hidden" id="submit" name="submit" value="submit">
-						<?php
+						<!-- <?php
 							if($flag)
 								echo '<div class="form-group">
 							<input type="submit" class="btn btn-primary" style="float: left" id="downzip" name="downzip" value="Download Reports">';
@@ -310,7 +265,7 @@ if (isset($_POST["submit"])) {
 							if($flag)
 								echo '<input type="submit" class="btn btn-primary" style="float: right" id="downpdf" name="downpdf" value="Download Search Results">
 							</div>';
-				?>
+				?> -->
 						<br><br><br><label for="title" class="control-label">Title</label>
 						<input type="text" class="form-control" id="title" name="title"
 						<?php
