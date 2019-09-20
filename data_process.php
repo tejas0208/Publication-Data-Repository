@@ -59,7 +59,7 @@ function test_input($data) {
 	}
 	if ($_POST["approved_by_mis"] != "") {
 		$approved_by_mis = test_input($_POST["approved_by_mis"]);
-		$query           = $query . " AND approved_by_mis = '$approved_by_mis'";
+		$query = $query . " AND approved_by_mis = '$approved_by_mis'";
 	}
 	if ($_POST["approved_by_name"] != "") {
 		$approved_by_name = test_input($_POST["approved_by_name"]);
@@ -69,7 +69,7 @@ function test_input($data) {
 		if($rowCount) {
 			$row = mysqli_fetch_array($abMIS, MYSQLI_ASSOC);
 			$abMIS = $row["mis"];
-			$query           = $query . " AND approved_by_mis = '$abMIS'";
+			$query = $query . " AND approved_by_mis = '$abMIS'";
 		}
 	}
 	if ($_POST["submitted_by_mis"] != "") {
@@ -84,7 +84,7 @@ function test_input($data) {
 		if($rowCount) {
 			$row = mysqli_fetch_array($sbMIS, MYSQLI_ASSOC);
 			$sbMIS = $row["mis"];
-			$query           = $query . " AND submitted_by_mis = '$sbMIS'";
+			$query = $query . " AND submitted_by_mis = '$sbMIS'";
 		}
 	}
 	if (isset($_POST["funded_by"])) {
@@ -200,10 +200,9 @@ function test_input($data) {
         }
         echo '</table>';
     }
-echo '<script> TableExport(document.getElementsByTagName("table")); </script>';
-// echo '<script> TableExport(document.getElementsByTagName("table"), {
-// 	bootstrap: true,
-// 	ignoreCols: 5,
-// 	position: "bottom"
-// }); </script>';
+// echo '<script> TableExport(document.getElementsByTagName("table")); </script>';
+echo '<script> TableExport(document.getElementsByTagName("table"), {
+	ignoreCols: 5,
+	position: "bottom"
+}); </script>';
 ?>
