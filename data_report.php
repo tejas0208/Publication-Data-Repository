@@ -25,9 +25,11 @@ require_once "db.php";
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-1.12.0.min.js"></script>
 		<script src="js/helpers.js"></script>
-		<script src="js/FileSaver.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/w/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/rr-1.2.4/sc-2.0.0/sl-1.3.0/datatables.min.css"/>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/w/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/rr-1.2.4/sc-2.0.0/sl-1.3.0/datatables.min.js"></script>
 		<script src="js/data_report.js"></script>
-		<script src="js/tableexport.js"></script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -43,6 +45,8 @@ require_once "db.php";
     	</div>
     	<div class="wrapper">
 		    <div class="register">
+			<!-- <div id="output">
+			</div>
 				<form id="formdata" method = "POST">
 					<div class="form-group">
 						<input type="submit" class="hidden" id="submit" name="submit" value="submit">
@@ -174,12 +178,75 @@ require_once "db.php";
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" id="submit" name="submit" value="Search">
 					</div>
-			</form>
-			<div id="output">
-		</div>
+			</form> -->
+			<?php
+				require_once "db.php";
+				$db   = new DB();
+				$query = "SELECT * FROM record WHERE approved_status = 'T'";
+				$result = $db->run_query($query);
+				$rowCount = $result->num_rows;
+				echo '<form method = "POST">';
+				echo '<table id="result" style="color: black" class="table table-striped table-bordered table-condensed">';
+				echo "<thead>
+						<tr>
+							<th>Title</th>
+							<th>Date</th>
+							<th>Submitted By MIS</th>
+							<th>Department</th>
+							<th>Funded By</th>
+							<th>Sponsored By</th>
+							<th>National Conf</th>
+							<th>International Conf</th>
+							<th>National Journal</th>
+							<th>International Journal</th>
+						</tr>
+					</thead>
+					<tbody>";
+				while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+					echo "<tr>
+								<td>";
+							echo "<a href='details.php?id=".$row['idrecord']."'' target='_blank'>". $row['title']. "</a>";
+						echo "</td>
+									<td> " . $row['date'] . "</td>
+									<td> " . $row['submitted_by_mis'] . "</td>
+									<td> " . $row['department'] . "</td>
+									<td> ";
+									if($row["f_tequip"] == "T")
+										echo "Tequip ";
+									if($row["f_rsa"] == "T")
+										echo "RSA ";
+									if($row["f_isea"] == "T")
+										echo "ISEA ";
+									if($row["f_aicte"] == "T")
+										echo "AICTE ";
+									if($row["f_coep"] == "T")
+										echo "COEP ";
+									if($row["f_others"] == "T")
+										echo "Others ";
+							echo "</td>
+									<td> ";
+									if($row["t_tequip"] == "T")
+										echo "Tequip ";
+									if($row["t_rsa"] == "T")
+										echo "RSA ";
+									if($row["t_isea"] == "T")
+										echo "ISEA ";
+									if($row["t_aicte"] == "T")
+										echo "AICTE ";
+									if($row["t_coep"] == "T")
+										echo "COEP ";
+									if($row["t_others"] == "T")
+										echo "Others ";
+							echo "</td>
+									<td> " . $row['nat_conf'] . "</td>
+									<td> " . $row['int_conf'] . "</td>
+									<td> " . $row['nat_journal'] . "</td>
+									<td> " . $row['int_journal'] . "</td></tr>";
+				}
+				echo '</tbody>
+					</table>';
+			?>
 			</div>
 		</div>
-		</div>
-	</div>
 	</body>
 </html>
