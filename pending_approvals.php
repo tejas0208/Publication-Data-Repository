@@ -76,6 +76,11 @@ if (mysqli_num_rows($result) != 0) {
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/w/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/rr-1.2.4/sc-2.0.0/sl-1.3.0/datatables.min.css"/>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/w/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/rr-1.2.4/sc-2.0.0/sl-1.3.0/datatables.min.js"></script>
+    <script src="js/data_table.js"></script>
   </head>
   <body>
     <div class="navbar">
@@ -123,7 +128,7 @@ if (mysqli_num_rows($result) != 0) {
           if(mysqli_num_rows($result) == 0) {
             echo "Nothing to show";
           } else {
-              echo '<table class="table table-striped table-bordered table-condensed">
+              echo '<table id="result" class="table table-striped table-bordered table-condensed">
                     <thead>
                       <tr>
                         <th>Sr.No.</th>

@@ -40,7 +40,8 @@
 	//https://stackoverflow.com/questions/32405077/show-second-dropdown-options-based-on-first-dropdown-selection-jquery
 	
 	//returns the max id and updates the id in the database
-	if(isset($_SESSION['initial_paper']) and isset($_SESSION['financial_aid']) and isset($_SESSION['id_of_application'])){
+
+	if(isset($_SESSION['financial_aid']) and isset($_SESSION['id_of_application'])){
 		function get_max_application_id($dbclient) {
 			$query = 'SELECT * FROM `application_id_max` LIMIT 1';
 			$result = $dbclient->run_query($query);
